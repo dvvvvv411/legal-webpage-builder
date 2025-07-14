@@ -42,6 +42,9 @@ All colors MUST be HSL.
     --text-muted: 220 15% 45%;
     --divider: 220 15% 75%;
     --orange-banner: 25 95% 53%;
+    --orange-button: 25 95% 53%;
+    --orange-button-hover: 25 95% 48%;
+    --rating-bg-light: 220 25% 92%;
 
     --radius: 0.5rem;
 

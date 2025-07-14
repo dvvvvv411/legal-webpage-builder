@@ -28,8 +28,8 @@ const RatingSummary = () => {
         {/* Mobile Rating Display */}
         <div className="mb-6 md:hidden">
           <div className="flex items-center gap-4 p-0">
-            <div className="bg-blue-600 rounded-full w-16 h-16 flex items-center justify-center">
-              <span className="text-2xl font-bold text-white">4,9</span>
+            <div className="bg-rating-bg-light rounded-full w-16 h-16 flex items-center justify-center">
+              <span className="text-2xl font-bold text-blue-700">4,9</span>
             </div>
             <div className="flex flex-col justify-center">
               <span className="font-bold text-neutral-700">Sehr gut</span>
@@ -47,7 +47,7 @@ const RatingSummary = () => {
 
         <div className="flex gap-10">
           {/* Desktop Rating Display */}
-          <div className="w-[255px] hidden mr-10 py-6 bg-neutral-50 rounded md:grid place-items-center">
+          <div className="w-[255px] hidden mr-10 py-6 bg-rating-bg-light rounded md:grid place-items-center">
             <div className="text-blue-700 font-bold text-4xl mb-0">4,9</div>
             <div className="my-1 flex text-amber-400 mb-4">
               {[...Array(5)].map((_, i) => (
@@ -90,10 +90,10 @@ const RatingSummary = () => {
         </div>
 
         <Button 
-          variant="secondary" 
-          className="w-full mt-5 2xl:hidden bg-blue-600 hover:bg-blue-700 text-white"
+          variant="outline" 
+          className="w-full mt-5 2xl:hidden bg-orange-button hover:bg-orange-button-hover text-white border-orange-button hover:border-orange-button-hover"
         >
-          Kanzlei bewerten
+          Bewertung abgeben
         </Button>
       </div>
     </section>
