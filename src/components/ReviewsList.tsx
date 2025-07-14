@@ -33,24 +33,54 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const reviewsPerPage = 10;
 
+  // Helper function to format initials
+  const formatInitialsForAvatar = (initials: string) => {
+    return initials.replace(/\./g, '').replace(/\s+/g, '');
+  };
+
+  const formatInitialsForText = (initials: string) => {
+    return initials;
+  };
+
+  // Helper function to format date and time
+  const formatDateTime = (reviewDate: string | null, reviewTime: string | null) => {
+    if (!reviewDate) {
+      return new Date().toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }) + ' Uhr';
+    }
+
+    const date = new Date(reviewDate);
+    const formattedDate = date.toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+
+    if (reviewTime) {
+      const [hours, minutes] = reviewTime.split(':');
+      return `${formattedDate} um ${hours}:${minutes} Uhr`;
+    }
+
+    return `${formattedDate} um 00:00 Uhr`;
+  };
+
   // Convert reviews to display format and calculate practice areas
   const convertedReviews = reviews.map((review, index) => ({
     id: index + 1,
-    author: review.initials,
-    initials: review.initials,
+    author: formatInitialsForText(review.initials),
+    initials: formatInitialsForAvatar(review.initials),
     rating: parseInt(review.rating),
-    date: new Date(review.created_at).toLocaleDateString('de-DE', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    }) + ' Uhr',
-    title: review.title,
+    date: formatDateTime(review.review_date, review.review_time),
+    title: review.title + (lawFirm ? ` für ${lawFirm.name}` : ''),
     category: legalAreas.find(area => area.id === review.legal_area_id)?.name || 'Allgemeine Rechtsberatung',
     text: review.content,
     lawyer: review.scope,
-    bgColor: review.avatar_color || 'bg-blue-500'
+    bgColor: review.avatar_color || '#6B7280'
   }));
 
   // Calculate practice areas from actual reviews
@@ -432,12 +462,15 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
           >
             <div className="sm:flex sm:items-center">
               <div className="flex items-center mb-2 sm:mb-0">
-                {/* Initials Badge */}
-                <div className="mr-3.5">
-                  <div className={`${review.bgColor} text-white rounded-full avatar-enhanced flex items-center justify-center text-lg font-normal`}>
-                    {review.initials}
-                  </div>
-                </div>
+                 {/* Initials Badge */}
+                 <div className="mr-3.5">
+                   <div 
+                     className="text-white rounded-full avatar-enhanced flex items-center justify-center text-lg font-normal"
+                     style={{ backgroundColor: review.bgColor }}
+                   >
+                     {review.initials}
+                   </div>
+                 </div>
                 
                 {/* Stars */}
                 <div className="flex text-amber-400 mr-3.5">
