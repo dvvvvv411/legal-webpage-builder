@@ -126,32 +126,25 @@ const Nachricht = () => {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       maxLength={maxLength}
-                      className="w-full px-4 py-3 border-0 rounded-md focus:outline-none resize-vertical bg-card-input-bg placeholder-placeholder-text min-h-[120px]"
+                      className="w-full px-4 py-3 pb-8 border-0 rounded-md focus:outline-none resize-vertical bg-card-input-bg placeholder-placeholder-text min-h-[120px]"
                       style={{
                         '--placeholder-color': 'hsl(var(--placeholder-text))',
                         width: '120%',
                         maxWidth: '120%'
                       } as React.CSSProperties}
                     />
-                    <div className="absolute bottom-3 right-3 cursor-nw-resize">
-                      <div className="flex flex-col gap-1 rotate-45">
-                        <div className="w-4 h-0.5 bg-gray-400 rounded transform -rotate-45"></div>
-                        <div className="w-4 h-0.5 bg-gray-400 rounded transform -rotate-45"></div>
-                        <div className="w-4 h-0.5 bg-gray-400 rounded transform -rotate-45"></div>
-                      </div>
+                    <div className="absolute bottom-2 right-3 text-sm text-gray-500">
+                      <span className={message.length === 0 ? "text-red-500" : ""}>
+                        {message.length}
+                      </span>
+                      /{maxLength}
                     </div>
-                  </div>
-                  <div className="text-sm text-gray-500 mt-1 text-right">
-                    <span className={message.length === 0 ? "text-red-500" : ""}>
-                      {message.length}
-                    </span>
-                    /{maxLength}
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="md:flex md:justify-between mt-3">
+              <div className="md:flex md:justify-between mt-3" style={{ width: '120%', maxWidth: '120%' }}>
                 <Button
                   variant="ghost"
                   onClick={handleBack}
