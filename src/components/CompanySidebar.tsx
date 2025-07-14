@@ -24,11 +24,11 @@ const CompanySidebar = () => {
               </a>
             </div>
             <div className="flex flex-col justify-center">
-              <p className="text-xs text-neutral-600">Kanzlei</p>
+              <p className="text-base text-neutral-600">Kanzlei</p>
               <a 
                 href="https://www.anwalt.de/steinbock-partner" 
                 title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater" 
-                className="text-pretty font-bold text-blue-600 hover:text-blue-700 text-lg"
+                className="text-pretty font-bold text-blue-600 hover:text-blue-700 text-xl"
               >
                 Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
               </a>
@@ -96,9 +96,9 @@ const CompanySidebar = () => {
           </button>
           
           {isOnlineConsultationOpen && (
-            <div className="px-4 pb-4 text-neutral-500 text-sm">
-              Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater bietet Online-Rechtsberatung an.
-            </div>
+             <div className="px-4 pb-4 text-neutral-500 text-lg">
+               Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater bietet Online-Rechtsberatung an.
+             </div>
           )}
         </div>
       </div>

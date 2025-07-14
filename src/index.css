@@ -113,8 +113,18 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    font-size: 110%; /* 10% larger for better readability */
+    font-size: 121%; /* 21% larger for better readability (110% * 1.1) */
   }
+
+  /* Enhanced text sizes for better readability */
+  .text-xs { font-size: 0.825rem; /* 13.2px instead of 12px */ }
+  .text-sm { font-size: 0.962rem; /* 15.4px instead of 14px */ }
+  .text-base { font-size: 1.1rem; /* 17.6px instead of 16px */ }
+  .text-lg { font-size: 1.32rem; /* 21.12px instead of 18px */ }
+  .text-xl { font-size: 1.375rem; /* 22px instead of 20px */ }
+  .text-2xl { font-size: 1.65rem; /* 26.4px instead of 24px */ }
+  .text-3xl { font-size: 2.09rem; /* 33.44px instead of 30px */ }
+  .text-4xl { font-size: 2.53rem; /* 40.48px instead of 36px */ }
 
   /* Scale all interactive elements 10% larger for better accessibility */
   .scale-110 {

@@ -15,7 +15,7 @@ const Header = () => {
       {/* Orange Banner */}
       <div className="bg-orange-banner text-white py-2">
         <div className="container mx-auto px-4 text-center">
-          <a href="/mitmachen" className="text-white hover:underline text-sm font-medium">
+          <a href="/mitmachen" className="text-white hover:underline text-base font-medium">
             Als Anwalt noch nicht auf anwalt.de? Jetzt mitmachen!
           </a>
         </div>
@@ -47,7 +47,7 @@ const Header = () => {
                   )}
                   <a 
                     href={item.href}
-                    className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                    className="text-gray-700 hover:text-blue-600 font-medium transition-colors text-lg"
                   >
                     {item.name}
                   </a>
@@ -59,7 +59,7 @@ const Header = () => {
             <div className="hidden md:flex items-center space-x-4">
               <a 
                 href="/mitmachen" 
-                className="text-orange-600 hover:text-orange-700 font-medium transition-colors"
+                className="text-orange-600 hover:text-orange-700 font-medium transition-colors text-lg"
               >
                 Sie sind Anwalt?
               </a>
@@ -93,7 +93,7 @@ const Header = () => {
                         <a 
                           key={item.name}
                           href={item.href}
-                          className="block py-2 text-gray-700 hover:text-blue-600 font-medium"
+                          className="block py-2 text-gray-700 hover:text-blue-600 font-medium text-lg"
                         >
                           {item.name}
                         </a>
@@ -102,7 +102,7 @@ const Header = () => {
                       <div className="border-t pt-4 mt-4">
                         <a 
                           href="/mitmachen" 
-                          className="block py-2 text-orange-600 font-medium"
+                          className="block py-2 text-orange-600 font-medium text-lg"
                         >
                           Sie sind Anwalt?
                         </a>

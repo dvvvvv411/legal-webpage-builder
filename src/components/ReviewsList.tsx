@@ -192,13 +192,13 @@ const ReviewsList = () => {
     <section className="rounded-enhanced bg-white p-enhanced border">
       {/* Header */}
       <div className="sticky top-0 pt-4 -mt-4 mb-3 bg-white z-10 border-b border-neutral-200 flex flex-col sm:flex-row">
-        <h2 className="mb-2 flex items-center gap-2 text-lg font-semibold pb-3 flex-auto pe-4">
+        <h2 className="mb-2 flex items-center gap-2 text-2xl font-semibold pb-3 flex-auto pe-4">
           Bewertungen 
-          <Badge variant="secondary" className="rounded-full border border-neutral-200 bg-page-background text-neutral-700 text-sm py-0.5 px-2.5 -ml-0.5 font-normal">
+          <Badge variant="secondary" className="rounded-full border border-neutral-200 bg-page-background text-neutral-700 text-lg py-0.5 px-2.5 -ml-0.5 font-normal">
             609
           </Badge>
         </h2>
-        <div className="relative text-neutral-700 font-semibold text-sm flex-none mb-3">
+        <div className="relative text-neutral-700 font-semibold text-lg flex-none mb-3">
           <Button variant="outline" className="flex items-center gap-1 px-3 py-2 bg-white border border-neutral-300 rounded-md shadow-sm">
             <Filter className="w-4 h-4" />
             <span>Rechtsgebiete</span>
@@ -217,7 +217,7 @@ const ReviewsList = () => {
               <div className="flex items-center mb-2 sm:mb-0">
                 {/* Initials Badge */}
                 <div className="mr-3.5">
-                  <div className={`${review.bgColor} text-white rounded-full avatar-enhanced flex items-center justify-center text-sm font-semibold`}>
+                  <div className={`${review.bgColor} text-white rounded-full avatar-enhanced flex items-center justify-center text-lg font-semibold`}>
                     {review.initials}
                   </div>
                 </div>
@@ -229,7 +229,7 @@ const ReviewsList = () => {
               </div>
               
               {/* Date and Lawyer Info */}
-              <p className="text-neutral-500 text-sm mr-3.5">
+              <p className="text-neutral-500 text-lg mr-3.5">
                 von {review.author} am {review.date}
                 {review.lawyer && (
                   <span>
@@ -245,7 +245,7 @@ const ReviewsList = () => {
             {/* Review Content */}
             <div className="lg:pl-14 mt-1">
               <div>
-                <span className="inline-block mr-3 text-slate-900 text-base font-semibold leading-normal mb-1.5">
+                <span className="inline-block mr-3 text-slate-900 text-xl font-semibold leading-normal mb-1.5">
                   {review.title}
                 </span>
                 <div className="inline-flex mb-2">
@@ -254,7 +254,7 @@ const ReviewsList = () => {
                   </Badge>
                 </div>
               </div>
-              <div className="text-slate-700 text-base font-normal leading-normal">
+              <div className="text-slate-700 text-xl font-normal leading-normal">
                 {review.text}
               </div>
             </div>
