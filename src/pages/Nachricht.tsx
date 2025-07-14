@@ -69,7 +69,7 @@ const Nachricht = () => {
       <div className="flex-1 overflow-y-auto max-w-[1920px] w-full m-auto px-4 md:px-0 flex">
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] 2xl:grid-cols-[auto_1fr_auto] justify-center xl:!justify-between w-full min-h-full">
           {/* Left Spacer */}
-          <div className="xl:w-[440px] hidden 2xl:block"></div>
+          <div className="xl:w-[580px] hidden 2xl:block"></div>
 
           {/* Center Content */}
           <div className="w-[480px] max-w-full mx-auto">
@@ -172,7 +172,7 @@ const Nachricht = () => {
           </div>
 
           {/* Right Sidebar */}
-          <div className="xl:w-[440px] hidden xl:block">
+          <div className="xl:w-[580px] hidden xl:block">
             <div className="bg-card-input-bg px-12 py-10 h-full">
               <div className="mb-6 text-sm text-neutral-700">Ihre Kanzlei</div>
               
