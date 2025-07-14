@@ -90,8 +90,8 @@ const RatingSummary = () => {
         </div>
 
         <Button 
-          variant="outline" 
-          className="w-full mt-5 2xl:hidden bg-orange-button hover:bg-orange-button-hover text-white border-orange-button hover:border-orange-button-hover"
+          variant="orange-outline" 
+          className="w-full mt-5 2xl:hidden"
         >
           Bewertung abgeben
         </Button>
