@@ -13,7 +13,7 @@ const RatingSummary = () => {
   return (
     <section className="mb-4 rounded-enhanced bg-white p-enhanced shadow-sm border">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row justify-between gap-y-4 lg:gap-x-8 pb-4 border-b border-[#e95d0f] mb-4 pe-4">
+      <div className="flex flex-col lg:flex-row justify-between gap-y-4 lg:gap-x-8 pb-4 border-b border-neutral-200 mb-4 pe-4">
         <h1 className="text-xl font-bold mb-0 flex-1 min-w-0">
           Bewertungen von Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
         </h1>
