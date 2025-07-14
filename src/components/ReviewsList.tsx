@@ -284,7 +284,7 @@ const ReviewsList = () => {
         <div className="relative font-semibold text-xl flex-none mb-3" style={{ color: '#334155' }} ref={dropdownRef}>
           <Button 
             variant="outline" 
-            className="flex items-center gap-1 px-3 py-2 bg-white border border-neutral-300 rounded-md shadow-sm" 
+            className="flex items-center gap-1 px-3 py-2 bg-white border border-neutral-300 rounded-md shadow-sm hover:bg-white hover:border-neutral-300" 
             style={{ color: '#334155' }}
             onClick={handleDropdownToggle}
           >
@@ -296,7 +296,7 @@ const ReviewsList = () => {
 
           {/* Dropdown */}
           {isDropdownOpen && (
-            <div className="fixed md:absolute top-0 md:top-full right-0 md:right-0 w-screen md:w-[371px] max-h-dvh z-[1040] flex flex-col gap-4 md:rounded-[5px] bg-white p-4 shadow-2xl border">
+            <div className="fixed md:absolute top-0 md:top-full right-0 md:right-0 w-screen md:w-[390px] max-h-dvh z-[1040] flex flex-col gap-4 md:rounded-[5px] bg-white p-4 shadow-2xl border">
               {/* Header */}
               <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
                 <p className="text-base font-semibold text-neutral-700">Rechtsgebiete</p>
