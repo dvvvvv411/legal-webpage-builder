@@ -149,7 +149,7 @@ const BewertungSchreiben = () => {
                           <ChevronDown size={16} />
                         </button>
                         {isDropdownOpen && (
-                          <div className="absolute z-10 w-full mt-1 bg-white border border-neutral-400 rounded max-h-52 overflow-y-auto">
+                          <div className="absolute z-50 w-full mt-1 bg-white border border-neutral-400 rounded max-h-52 overflow-y-auto shadow-lg">
                             <ul className="list-none p-0">
                               {[
                                 "Allgemeine Rechtsberatung", "Allgemeines Vertragsrecht", "Arbeitsrecht", "Arzthaftungsrecht",
