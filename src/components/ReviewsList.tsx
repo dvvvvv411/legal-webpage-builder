@@ -198,9 +198,11 @@ const ReviewsList = () => {
             609
           </Badge>
         </h2>
-        <div className="relative text-neutral-700 font-semibold text-lg flex-none mb-3">
-          <Button variant="outline" className="flex items-center gap-1 px-3 py-2 bg-white border border-neutral-300 rounded-md shadow-sm">
-            <Filter className="w-4 h-4" />
+        <div className="relative font-semibold text-xl flex-none mb-3" style={{ color: '#334155' }}>
+          <Button variant="outline" className="flex items-center gap-1 px-3 py-2 bg-white border border-neutral-300 rounded-md shadow-sm" style={{ color: '#334155' }}>
+            <svg className="w-4 h-4" viewBox="0 0 448 512" fill="currentColor">
+              <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32H352c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM288 416c0 17.7-14.3 32-32 32H192c-17.7 0-32-14.3-32-32s14.3-32 32-32h64c17.7 0 32 14.3 32 32z"/>
+            </svg>
             <span>Rechtsgebiete</span>
           </Button>
         </div>
