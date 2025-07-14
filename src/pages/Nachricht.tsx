@@ -36,8 +36,8 @@ const Nachricht = () => {
             />
           </a>
           <div className="flex items-center">
-            <Lock className="text-neutral-500" size={16} />
-            <span className="text-neutral-500 ml-2 sm:inline hidden text-sm">
+            <Lock className="fill-current" style={{ color: '#64748b' }} size={16} />
+            <span className="ml-2 sm:inline hidden" style={{ color: '#64748b', fontSize: '1.05em' }}>
               Gesicherte Verbindung
             </span>
           </div>
@@ -49,17 +49,17 @@ const Nachricht = () => {
         <nav aria-label="Breadcrumbs" className="bg-white border-b border-neutral-200 py-3">
           <ol className="flex items-center justify-center gap-4 max-w-4xl mx-auto px-4">
             <li className="flex items-center">
-              <span className="text-black text-sm font-medium">
+              <span className="text-black font-medium" style={{ fontSize: '1.05em' }}>
                 Rechtsanliegen schildern
               </span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li className="flex items-center">
-              <span className="text-neutral-500 text-sm">Kontaktinfo</span>
+              <span className="text-neutral-500" style={{ fontSize: '1.05em' }}>Kontaktinfo</span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li>
-              <span className="text-neutral-500 text-sm">Bestätigen</span>
+              <span className="text-neutral-500" style={{ fontSize: '1.05em' }}>Bestätigen</span>
             </li>
           </ol>
         </nav>
@@ -93,7 +93,11 @@ const Nachricht = () => {
                         type="radio"
                         checked={concern === "personal"}
                         onChange={(e) => setConcern(e.target.value)}
-                        className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                        className="w-4 h-4 bg-gray-100 border-gray-300 focus:ring-2"
+                        style={{ 
+                          accentColor: 'rgb(97, 131, 228)',
+                          '--tw-ring-color': 'rgb(97, 131, 228)'
+                        } as React.CSSProperties}
                       />
                       <label htmlFor="personal" className="ml-2 text-neutral-900">
                         Privat
@@ -107,7 +111,11 @@ const Nachricht = () => {
                         type="radio"
                         checked={concern === "commercial"}
                         onChange={(e) => setConcern(e.target.value)}
-                        className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                        className="w-4 h-4 bg-gray-100 border-gray-300 focus:ring-2"
+                        style={{ 
+                          accentColor: 'rgb(97, 131, 228)',
+                          '--tw-ring-color': 'rgb(97, 131, 228)'
+                        } as React.CSSProperties}
                       />
                       <label htmlFor="commercial" className="ml-2 text-neutral-900">
                         Geschäftlich
@@ -147,8 +155,12 @@ const Nachricht = () => {
                   variant="ghost"
                   onClick={handleBack}
                   className="md:flex hidden items-center"
+                  style={{ 
+                    color: '#1d4ed8',
+                    fontSize: '1.1em'
+                  }}
                 >
-                  <ChevronLeft className="mr-1.5" size={16} />
+                  <ChevronLeft className="mr-1.5" style={{ color: '#1d4ed8' }} size={18} />
                   Zurück
                 </Button>
                 <Button
