@@ -65,7 +65,7 @@ const Header = () => {
                 Sie sind Anwalt?
               </a>
               <div className="flex items-center space-x-1">
-                <Menu className="w-16 h-16 text-gray-600 cursor-pointer" />
+                <Menu className="w-8 h-8 text-gray-600 cursor-pointer" />
                 <Avatar className="w-8 h-8">
                   <AvatarFallback className="bg-gray-400">
                     <User className="w-5 h-5 text-white fill-white" />
@@ -78,7 +78,7 @@ const Header = () => {
             <div className="md:hidden">
               <Sheet>
                 <SheetTrigger asChild>
-                  <Menu className="w-16 h-16 text-gray-600 cursor-pointer" />
+                  <Menu className="w-8 h-8 text-gray-600 cursor-pointer" />
                 </SheetTrigger>
                 <SheetContent side="right" className="w-80">
                   <div className="flex flex-col py-6">
