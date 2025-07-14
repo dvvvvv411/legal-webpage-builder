@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Menu, User } from "lucide-react";
 
 const Header = () => {
@@ -65,11 +66,13 @@ const Header = () => {
               </a>
               <div className="flex items-center space-x-1">
                 <Button variant="ghost" size="sm">
-                  <Menu className="w-8 h-8 text-gray-600" />
+                  <Menu className="w-16 h-16 text-gray-600" />
                 </Button>
-                <div className="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center">
-                  <User className="w-5 h-5 text-white fill-current" />
-                </div>
+                <Avatar className="w-8 h-8">
+                  <AvatarFallback className="bg-gray-400">
+                    <User className="w-5 h-5 text-white" />
+                  </AvatarFallback>
+                </Avatar>
               </div>
             </div>
 
@@ -78,7 +81,7 @@ const Header = () => {
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="sm">
-                    <Menu className="w-8 h-8 text-gray-600" />
+                    <Menu className="w-16 h-16 text-gray-600" />
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-80">
