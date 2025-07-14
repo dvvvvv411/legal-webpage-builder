@@ -571,8 +571,8 @@ const BewertungSchreiben = () => {
                 <div className="mb-3 flex gap-4 xl:items-center">
                   <figure>
                     <img
-                      alt="Bild von Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater"
-                      src="https://www.anwalt.de/cdn-cgi/image/format=auto,fit=scale-down,width=80,height=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg"
+                      alt={`Bild von ${displayName}`}
+                      src={displayLogo}
                       className="rounded-xl"
                       height="80"
                       width="80"
@@ -580,10 +580,10 @@ const BewertungSchreiben = () => {
                   </figure>
                   <div>
                     <span
-                      title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater"
+                      title={displayName}
                       className="text-black text-lg font-semibold"
                     >
-                      Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
+                      {displayName}
                     </span>
                   </div>
                 </div>
@@ -594,19 +594,9 @@ const BewertungSchreiben = () => {
                     Rechtsgebiete:
                   </p>
                   <div className="flex flex-wrap gap-2 text-legal-text" style={{ fontSize: '1em' }}>
-                    {[
-                      "Arbeitsrecht", "Steuerrecht", "Verkehrsrecht", "Medizinrecht",
-                      "Handelsrecht & Gesellschaftsrecht", "Baurecht & Architektenrecht",
-                      "Mietrecht & Wohnungseigentumsrecht", "Insolvenzrecht & Sanierungsrecht",
-                      "Strafrecht", "Versicherungsrecht", "Zivilrecht",
-                      "Schadensersatzrecht & Schmerzensgeldrecht", "Forderungseinzug & Inkassorecht",
-                      "Allgemeines Vertragsrecht", "Grundstücksrecht & Immobilienrecht",
-                      "Arzthaftungsrecht", "Maklerrecht", "Erbrecht", "Wirtschaftsrecht",
-                      "Gewerblicher Rechtsschutz", "Datenschutzrecht", "Ordnungswidrigkeitenrecht",
-                      "Zwangsvollstreckungsrecht"
-                    ].map((area, index, array) => (
-                      <span key={area} className="inline-flex items-center">
-                        {area}
+                    {legalAreas.map((area, index, array) => (
+                      <span key={area.id} className="inline-flex items-center">
+                        {area.name}
                         {index < array.length - 1 && (
                           <span className="mx-1 w-1 h-1 bg-neutral-300 rounded-full"></span>
                         )}
