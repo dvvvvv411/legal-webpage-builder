@@ -42,46 +42,61 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
     return initials;
   };
 
-  // Helper function to format date and time
-  const formatDateTime = (reviewDate: string | null, reviewTime: string | null) => {
+  // Helper function to format date and time with law firm
+  const formatDateTime = (reviewDate: string | null, reviewTime: string | null, author: string, lawyer: string | null) => {
+    let baseDate;
     if (!reviewDate) {
-      return new Date().toLocaleDateString('de-DE', {
+      baseDate = new Date().toLocaleDateString('de-DE', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit'
       }) + ' Uhr';
+    } else {
+      const date = new Date(reviewDate);
+      const formattedDate = date.toLocaleDateString('de-DE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+
+      if (reviewTime) {
+        const [hours, minutes] = reviewTime.split(':');
+        baseDate = `${formattedDate} um ${hours}:${minutes} Uhr`;
+      } else {
+        baseDate = `${formattedDate} um 00:00 Uhr`;
+      }
     }
 
-    const date = new Date(reviewDate);
-    const formattedDate = date.toLocaleDateString('de-DE', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
-
-    if (reviewTime) {
-      const [hours, minutes] = reviewTime.split(':');
-      return `${formattedDate} um ${hours}:${minutes} Uhr`;
+    // Format the complete date string with law firm name
+    if (lawyer && lawFirm) {
+      return `von ${author} am ${baseDate} für ${lawyer} bei ${lawFirm.name}`;
+    } else if (lawFirm) {
+      return `von ${author} am ${baseDate} für ${lawFirm.name}`;
+    } else {
+      return `von ${author} am ${baseDate}`;
     }
-
-    return `${formattedDate} um 00:00 Uhr`;
   };
 
   // Convert reviews to display format and calculate practice areas
-  const convertedReviews = reviews.map((review, index) => ({
-    id: index + 1,
-    author: formatInitialsForText(review.initials),
-    initials: formatInitialsForAvatar(review.initials),
-    rating: parseInt(review.rating),
-    date: formatDateTime(review.review_date, review.review_time),
-    title: review.title + (lawFirm ? ` für ${lawFirm.name}` : ''),
-    category: legalAreas.find(area => area.id === review.legal_area_id)?.name || 'Allgemeine Rechtsberatung',
-    text: review.content,
-    lawyer: review.scope,
-    bgColor: review.avatar_color || '#6B7280'
-  }));
+  const convertedReviews = reviews.map((review, index) => {
+    const author = formatInitialsForText(review.initials);
+    const lawyer = review.scope;
+    
+    return {
+      id: index + 1,
+      author,
+      initials: formatInitialsForAvatar(review.initials),
+      rating: parseInt(review.rating),
+      date: formatDateTime(review.review_date, review.review_time, author, lawyer),
+      title: review.title,
+      category: legalAreas.find(area => area.id === review.legal_area_id)?.name || 'Allgemeine Rechtsberatung',
+      text: review.content,
+      lawyer,
+      bgColor: review.avatar_color || '#6B7280'
+    };
+  });
 
   // Calculate practice areas from actual reviews
   const practiceAreaCounts = convertedReviews.reduce((acc, review) => {
@@ -480,15 +495,7 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
               
               {/* Date and Lawyer Info */}
               <p className="text-neutral-500 text-lg mr-3.5">
-                von {review.author} am {review.date}
-                {review.lawyer && (
-                  <span>
-                    {" "}für{" "}
-                    <span className="text-neutral-500">
-                      {review.lawyer}
-                    </span>
-                  </span>
-                )}
+                {review.date}
               </p>
             </div>
             
