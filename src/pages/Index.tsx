@@ -18,10 +18,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-page-background">
-      <Header />
-      <Breadcrumb items={breadcrumbItems} />
+      <div className="transform scale-110 origin-top">
+        <Header />
+      </div>
+      <div className="transform scale-110 origin-top">
+        <Breadcrumb items={breadcrumbItems} />
+      </div>
       
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12 transform scale-110 origin-top">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left column - 2/3 width */}
           <div className="lg:col-span-2 space-y-6">
