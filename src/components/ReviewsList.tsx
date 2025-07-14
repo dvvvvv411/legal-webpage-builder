@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { Star, Filter, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Filter, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 

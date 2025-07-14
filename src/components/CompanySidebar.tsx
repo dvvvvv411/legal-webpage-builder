@@ -1,4 +1,5 @@
-import { Star, Phone, Video, ChevronDown } from "lucide-react";
+import { Phone, Video, ChevronDown } from "lucide-react";
+import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 

@@ -1,4 +1,5 @@
-import { Star, ThumbsUp } from "lucide-react";
+import { ThumbsUp } from "lucide-react";
+import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
 
 const RatingSummary = () => {
