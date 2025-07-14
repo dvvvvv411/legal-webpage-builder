@@ -44,7 +44,7 @@ const Header = () => {
               {navItems.map((item, index) => (
                 <div key={item.name} className="flex items-center">
                   {item.divider && (
-                    <div className="h-6 w-px mx-4" style={{ backgroundColor: '#333333' }} />
+                    <div className="h-6 w-[3px] mr-8 ml-0" style={{ backgroundColor: '#333333' }} />
                   )}
                   <a 
                     href={item.href}
