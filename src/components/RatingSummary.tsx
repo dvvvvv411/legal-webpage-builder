@@ -18,7 +18,7 @@ const RatingSummary = () => {
           Bewertungen von Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
         </h1>
         <div>
-          <a href="/pdf/anwalt.de_bewertungsrichtlinien.pdf" className="inline-block whitespace-nowrap font-semibold text-sm">
+          <a href="/pdf/anwalt.de_bewertungsrichtlinien.pdf" className="inline-block whitespace-nowrap font-semibold text-sm text-blue-600 hover:text-blue-700">
             So funktionieren Bewertungen
           </a>
         </div>
@@ -29,7 +29,7 @@ const RatingSummary = () => {
         <div className="mb-6 md:hidden">
           <div className="flex items-center gap-4 p-0">
             <div className="bg-rating-bg-light rounded-full w-16 h-16 flex items-center justify-center">
-              <span className="text-2xl font-bold text-blue-700">4,9</span>
+              <span className="text-2xl font-bold text-slate-900">4,9</span>
             </div>
             <div className="flex flex-col justify-center">
               <span className="font-bold text-neutral-700">Sehr gut</span>
@@ -48,7 +48,7 @@ const RatingSummary = () => {
         <div className="flex gap-10">
           {/* Desktop Rating Display */}
           <div className="w-[255px] hidden mr-10 py-6 bg-rating-bg-light rounded md:grid place-items-center">
-            <div className="text-blue-700 font-bold text-4xl mb-0">4,9</div>
+            <div className="text-slate-900 font-bold text-4xl mb-0">4,9</div>
             <div className="my-1 flex text-amber-400 mb-4">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="h-5 w-5 fill-current" />
