@@ -222,7 +222,7 @@ const Nachricht = () => {
                             <SelectValue placeholder="Select a legal area" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="">Not specified</SelectItem>
+                            <SelectItem value="not-specified">Not specified</SelectItem>
                             {legalAreas && legalAreas.length > 0 ? (
                               legalAreas.map((area) => (
                                 <SelectItem key={area.id} value={area.id}>
@@ -230,7 +230,7 @@ const Nachricht = () => {
                                 </SelectItem>
                               ))
                             ) : (
-                              <SelectItem value="" disabled>
+                              <SelectItem value="not-specified" disabled>
                                 No legal areas available
                               </SelectItem>
                             )}
