@@ -308,10 +308,10 @@ const Nachricht = () => {
                       Nachricht erfolgreich versendet
                     </h1>
                     <p className="mb-3 text-neutral-600">
-                      Ihre Nachricht wurde erfolgreich an <span className="font-semibold">{email}</span> gesendet.
+                      Ihre Nachricht wurde erfolgreich versendet.
                     </p>
                     <p className="mb-3 text-neutral-600">
-                      Steinbock & Partner Rechtsanwaltskanzlei wird sich in Kürze bei Ihnen melden.
+                      Steinbock & Partner Rechtsanwaltskanzlei wird sich in Kürze bei der angegebenen E-Mail-Adresse <span className="font-semibold">{email}</span> melden.
                     </p>
                   </div>
                 </>
