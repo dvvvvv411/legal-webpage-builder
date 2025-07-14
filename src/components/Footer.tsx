@@ -5,9 +5,9 @@ const Footer = () => {
     <footer 
       id="footer" 
       data-test-id="footer" 
-      className="flex justify-center px-10 py-12 lg:px-16 xl:px-4 2xl:px-0 border-t border-t-neutral-200 border-solid"
+      className="bg-white border-t border-t-neutral-200 border-solid"
     >
-      <div className="bg-white xl:w-[1200px]">
+      <div className="container mx-auto px-enhanced py-12">
         <div className="flex justify-between md:items-center lg:mb-12 flex-col md:flex-row mb-8">
           <a href="https://www.anwalt.de/" className="group flex h-[40px] w-[210px] mb-8 md:mb-0">
             <span className="sr-only">Anwalt suchen und finden bei anwalt.de</span>
