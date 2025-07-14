@@ -65,16 +65,16 @@ const BewertungSchreiben = () => {
           <ol className="flex items-center justify-center gap-4 max-w-4xl mx-auto px-4">
             <li className="flex items-center">
               <span className={step === 1 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>
-                Bewertung schreiben
+                Kanzlei bewerten
               </span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li className="flex items-center">
-              <span className={step === 2 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>Kontaktinfo</span>
+              <span className={step === 2 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>Bewertung vervollständigen</span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li>
-              <span className={step === 3 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>Bestätigen</span>
+              <span className={step === 3 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>Bewertung bestätigen</span>
             </li>
           </ol>
         </nav>
