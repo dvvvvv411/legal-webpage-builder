@@ -63,9 +63,14 @@ const Header = () => {
               >
                 Sie sind Anwalt?
               </a>
-              <Button variant="ghost" size="sm">
-                <Menu className="icon-enhanced" />
-              </Button>
+              <div className="flex items-center space-x-3">
+                <Button variant="ghost" size="sm">
+                  <Menu className="w-7 h-7" />
+                </Button>
+                <Button variant="ghost" size="sm">
+                  <User className="w-6 h-6" />
+                </Button>
+              </div>
             </div>
 
             {/* Mobile Menu */}
@@ -73,7 +78,7 @@ const Header = () => {
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="sm">
-                    <Menu className="icon-enhanced" />
+                    <Menu className="w-7 h-7" />
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-80">
