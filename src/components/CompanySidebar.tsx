@@ -48,7 +48,7 @@ const CompanySidebar = () => {
 
         {/* Action Buttons */}
         <div className="px-4 py-4 border-t border-neutral-200 flex flex-col gap-2.5">
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full">
+          <Button variant="orange" className="w-full">
             Anliegen schildern
           </Button>
           
@@ -57,7 +57,7 @@ const CompanySidebar = () => {
               <Phone className="h-4 w-4" />
               <span className="sr-only">Anrufen</span>
             </Button>
-            <Button variant="orange" className="flex-1">
+            <Button variant="orange-outline" className="flex-1">
               Bewertung abgeben
             </Button>
           </div>
