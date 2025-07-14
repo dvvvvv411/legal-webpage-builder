@@ -59,7 +59,6 @@ export default {
 				'text-muted': 'hsl(var(--text-muted))',
 				divider: 'hsl(var(--divider))',
 				'orange-banner': 'hsl(var(--orange-banner))',
-				'orange-hover': 'hsl(var(--orange-hover))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
