@@ -172,8 +172,8 @@ const Nachricht = () => {
           </div>
 
           {/* Right Sidebar */}
-          <div className="xl:w-[440px] hidden xl:block">
-            <div className="bg-card-input-bg px-12 py-10 h-full">
+          <div className="xl:w-[480px] hidden xl:block">
+            <div className="bg-card-input-bg px-10 py-10 h-full">
               <div className="mb-6 text-sm text-neutral-700">Ihre Kanzlei</div>
               
               <div className="mb-3 flex gap-4 xl:items-center">
