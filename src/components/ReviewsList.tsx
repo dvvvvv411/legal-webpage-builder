@@ -266,24 +266,28 @@ const ReviewsList = () => {
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-2 mt-6">
           <Button
-            variant="outline"
+            variant="ghost"
             size="sm"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="p-2"
+            className="p-2 text-pagination-active hover:bg-transparent hover:text-pagination-active/80 disabled:text-neutral-400"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
           
           {[...Array(totalPages)].map((_, i) => {
             const pageNumber = i + 1;
+            const isActive = currentPage === pageNumber;
             return (
               <Button
                 key={pageNumber}
-                variant="outline"
+                variant={isActive ? "default" : "ghost"}
                 size="sm"
                 onClick={() => handlePageChange(pageNumber)}
-                className={currentPage === pageNumber ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90" : ""}
+                className={isActive 
+                  ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90" 
+                  : "text-pagination-active hover:bg-transparent hover:text-pagination-active/80"
+                }
               >
                 {pageNumber}
               </Button>
@@ -291,11 +295,11 @@ const ReviewsList = () => {
           })}
           
           <Button
-            variant="outline"
+            variant="ghost"
             size="sm"
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="p-2"
+            className="p-2 text-pagination-active hover:bg-transparent hover:text-pagination-active/80 disabled:text-neutral-400"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
