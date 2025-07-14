@@ -8,11 +8,13 @@ export interface Review {
   id: string;
   law_firm_id: string;
   legal_area_id?: string;
+  lawyer_id?: string;
   initials: string;
   rating: ReviewRating;
   title: string;
   content: string;
-  scope?: string;
+  review_date?: string;
+  review_time?: string;
   avatar_color: string;
   created_at: string;
   updated_at: string;
@@ -26,6 +28,10 @@ export interface ReviewWithDetails extends Review {
   legal_area?: {
     name: string;
   };
+  lawyer?: {
+    name: string;
+    title?: string;
+  };
 }
 
 export const useReviews = () => {
@@ -37,7 +43,8 @@ export const useReviews = () => {
         .select(`
           *,
           law_firm:law_firms(name, slug),
-          legal_area:legal_areas(name)
+          legal_area:legal_areas(name),
+          lawyer:lawyers(name, title)
         `)
         .order("created_at", { ascending: false });
       

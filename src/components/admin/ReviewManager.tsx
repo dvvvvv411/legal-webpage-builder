@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useReviews, useCreateReview, useUpdateReview, useDeleteReview, ReviewWithDetails, ReviewRating } from "@/hooks/use-reviews";
 import { useLawFirms } from "@/hooks/use-law-firms";
 import { useLegalAreas } from "@/hooks/use-legal-areas";
+import { useLawyers } from "@/hooks/use-lawyers";
 
 const ReviewManager = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -20,17 +21,21 @@ const ReviewManager = () => {
   const [formData, setFormData] = useState({
     law_firm_id: "",
     legal_area_id: "",
+    lawyer_id: "",
+    review_type: "law_firm" as "law_firm" | "lawyer",
     initials: "",
     rating: "5" as ReviewRating,
     title: "",
     content: "",
-    scope: "",
+    review_date: "",
+    review_time: "",
     avatar_color: "#6B7280",
   });
 
   const { data: reviews, isLoading } = useReviews();
   const { data: lawFirms } = useLawFirms();
   const { data: legalAreas } = useLegalAreas();
+  const { data: lawyers } = useLawyers();
   const createReview = useCreateReview();
   const updateReview = useUpdateReview();
   const deleteReview = useDeleteReview();
@@ -41,7 +46,13 @@ const ReviewManager = () => {
     const reviewData = {
       ...formData,
       legal_area_id: formData.legal_area_id === "none" || !formData.legal_area_id ? undefined : formData.legal_area_id,
+      lawyer_id: formData.review_type === "lawyer" && formData.lawyer_id ? formData.lawyer_id : undefined,
+      review_date: formData.review_date || undefined,
+      review_time: formData.review_time || undefined,
     };
+    
+    // Remove form-specific fields before submitting
+    const { review_type, ...submitData } = reviewData;
     
     if (selectedReview) {
       await updateReview.mutateAsync({
@@ -57,11 +68,14 @@ const ReviewManager = () => {
     setFormData({
       law_firm_id: "",
       legal_area_id: "",
+      lawyer_id: "",
+      review_type: "law_firm" as "law_firm" | "lawyer",
       initials: "",
       rating: "5" as ReviewRating,
       title: "",
       content: "",
-      scope: "",
+      review_date: "",
+      review_time: "",
       avatar_color: "#6B7280",
     });
     setSelectedReview(null);
@@ -72,11 +86,14 @@ const ReviewManager = () => {
     setFormData({
       law_firm_id: review.law_firm_id,
       legal_area_id: review.legal_area_id || "none",
+      lawyer_id: review.lawyer_id || "",
+      review_type: review.lawyer_id ? "lawyer" : "law_firm",
       initials: review.initials,
       rating: review.rating,
       title: review.title,
       content: review.content,
-      scope: review.scope || "",
+      review_date: review.review_date || "",
+      review_time: review.review_time || "",
       avatar_color: review.avatar_color,
     });
     setIsEditDialogOpen(true);
@@ -190,12 +207,62 @@ const ReviewManager = () => {
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="scope">Scope</Label>
-        <Input
-          id="scope"
-          value={formData.scope}
-          onChange={(e) => setFormData(prev => ({ ...prev, scope: e.target.value }))}
-        />
+        <Label htmlFor="review_type">Review Type *</Label>
+        <Select
+          value={formData.review_type}
+          onValueChange={(value) => setFormData(prev => ({ ...prev, review_type: value as "law_firm" | "lawyer", lawyer_id: "" }))}
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="law_firm">Law Firm</SelectItem>
+            <SelectItem value="lawyer">Specific Lawyer</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      
+      {formData.review_type === "lawyer" && (
+        <div className="space-y-2">
+          <Label htmlFor="lawyer_id">Lawyer *</Label>
+          <Select
+            value={formData.lawyer_id}
+            onValueChange={(value) => setFormData(prev => ({ ...prev, lawyer_id: value }))}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a lawyer" />
+            </SelectTrigger>
+            <SelectContent>
+              {lawyers?.filter(lawyer => lawyer.law_firm_id === formData.law_firm_id).map((lawyer) => (
+                <SelectItem key={lawyer.id} value={lawyer.id}>
+                  {lawyer.name} {lawyer.title && `(${lawyer.title})`}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+      
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="review_date">Review Date</Label>
+          <Input
+            id="review_date"
+            type="date"
+            value={formData.review_date}
+            onChange={(e) => setFormData(prev => ({ ...prev, review_date: e.target.value }))}
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="review_time">Review Time</Label>
+          <Input
+            id="review_time"
+            type="time"
+            value={formData.review_time}
+            onChange={(e) => setFormData(prev => ({ ...prev, review_time: e.target.value }))}
+          />
+        </div>
       </div>
       
       <div className="space-y-2">

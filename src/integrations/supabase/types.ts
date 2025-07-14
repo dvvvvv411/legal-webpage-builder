@@ -186,8 +186,11 @@ export type Database = {
           id: string
           initials: string
           law_firm_id: string
+          lawyer_id: string | null
           legal_area_id: string | null
           rating: Database["public"]["Enums"]["review_rating"]
+          review_date: string | null
+          review_time: string | null
           scope: string | null
           title: string
           updated_at: string
@@ -199,8 +202,11 @@ export type Database = {
           id?: string
           initials: string
           law_firm_id: string
+          lawyer_id?: string | null
           legal_area_id?: string | null
           rating: Database["public"]["Enums"]["review_rating"]
+          review_date?: string | null
+          review_time?: string | null
           scope?: string | null
           title: string
           updated_at?: string
@@ -212,8 +218,11 @@ export type Database = {
           id?: string
           initials?: string
           law_firm_id?: string
+          lawyer_id?: string | null
           legal_area_id?: string | null
           rating?: Database["public"]["Enums"]["review_rating"]
+          review_date?: string | null
+          review_time?: string | null
           scope?: string | null
           title?: string
           updated_at?: string
@@ -224,6 +233,13 @@ export type Database = {
             columns: ["law_firm_id"]
             isOneToOne: false
             referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_lawyer_id_fkey"
+            columns: ["lawyer_id"]
+            isOneToOne: false
+            referencedRelation: "lawyers"
             referencedColumns: ["id"]
           },
           {

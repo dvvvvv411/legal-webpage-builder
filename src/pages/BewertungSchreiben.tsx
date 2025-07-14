@@ -29,7 +29,6 @@ const BewertungSchreiben = () => {
     title: "",
     content: "",
     legal_area_id: "",
-    scope: "",
   });
 
   const { data: lawFirm, isLoading: firmLoading } = useLawFirmBySlug(slug || "");
@@ -49,7 +48,6 @@ const BewertungSchreiben = () => {
         rating: formData.rating,
         title: formData.title,
         content: formData.content,
-        scope: formData.scope || undefined,
         avatar_color: generateRandomColor(),
       });
 
@@ -151,27 +149,16 @@ const BewertungSchreiben = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="initials">Your Initials *</Label>
-                    <Input
-                      id="initials"
-                      value={formData.initials}
-                      onChange={(e) => setFormData({ ...formData, initials: e.target.value })}
-                      placeholder="e.g., J.D."
-                      maxLength={10}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="scope">Case Type</Label>
-                    <Input
-                      id="scope"
-                      value={formData.scope}
-                      onChange={(e) => setFormData({ ...formData, scope: e.target.value })}
-                      placeholder="e.g., Divorce, Contract Review"
-                    />
-                  </div>
+                <div>
+                  <Label htmlFor="initials">Your Initials *</Label>
+                  <Input
+                    id="initials"
+                    value={formData.initials}
+                    onChange={(e) => setFormData({ ...formData, initials: e.target.value })}
+                    placeholder="e.g., J.D."
+                    maxLength={10}
+                    required
+                  />
                 </div>
 
                 <div>
