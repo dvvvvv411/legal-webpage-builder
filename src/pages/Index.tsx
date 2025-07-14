@@ -3,6 +3,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import RatingSummary from "@/components/RatingSummary";
 import ReviewsList from "@/components/ReviewsList";
 import CompanySidebar from "@/components/CompanySidebar";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   const breadcrumbItems = [
@@ -35,6 +36,8 @@ const Index = () => {
           </div>
         </div>
       </main>
+      
+      <Footer />
     </div>
   );
 };
