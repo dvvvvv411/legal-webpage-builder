@@ -6,17 +6,30 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const Nachricht = () => {
+  const [step, setStep] = useState(1);
   const [concern, setConcern] = useState("personal");
   const [message, setMessage] = useState("");
+  const [gender, setGender] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [hasInsurance, setHasInsurance] = useState(false);
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate(-1);
+    if (step === 1) {
+      navigate(-1);
+    } else {
+      setStep(1);
+    }
   };
 
   const handleNext = () => {
-    // Hier würde die nächste Seite der Nachrichtenstrecke implementiert
-    console.log("Weiter zur nächsten Seite");
+    if (step === 1) {
+      setStep(2);
+    } else {
+      console.log("Form submitted");
+    }
   };
 
   const maxLength = 3000;
@@ -49,13 +62,13 @@ const Nachricht = () => {
         <nav aria-label="Breadcrumbs" className="bg-white border-b border-neutral-200 py-3">
           <ol className="flex items-center justify-center gap-4 max-w-4xl mx-auto px-4">
             <li className="flex items-center">
-              <span className="text-black text-sm font-medium">
+              <span className={step === 1 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>
                 Rechtsanliegen schildern
               </span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li className="flex items-center">
-              <span className="text-neutral-500 text-sm">Kontaktinfo</span>
+              <span className={step === 2 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>Kontaktinfo</span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li>
@@ -74,72 +87,218 @@ const Nachricht = () => {
           {/* Center Content */}
           <div className="w-[480px] max-w-full mx-auto">
             <div className="my-12">
-              <h1 className="text-2xl font-semibold mb-6 leading-8">
-                Nachricht an Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
-              </h1>
+              {step === 1 ? (
+                <>
+                  <h1 className="text-2xl font-semibold mb-6 leading-8">
+                    Nachricht an Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
+                  </h1>
 
-              <div className="mb-9">
-                {/* Radio Button Group */}
-                <fieldset className="mb-6">
-                  <legend className="text-neutral-700 text-base mb-5">
-                    Ist Ihr Anliegen privat oder geschäftlich?
-                  </legend>
-                  <div className="flex gap-6">
-                    <div className="flex items-center">
-                      <input
-                        id="personal"
-                        name="concern"
-                        value="personal"
-                        type="radio"
-                        checked={concern === "personal"}
-                        onChange={(e) => setConcern(e.target.value)}
-                        className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                  <div className="mb-9">
+                    {/* Radio Button Group */}
+                    <fieldset className="mb-6">
+                      <legend className="text-neutral-700 text-base mb-5">
+                        Ist Ihr Anliegen privat oder geschäftlich?
+                      </legend>
+                      <div className="flex gap-6">
+                        <div className="flex items-center">
+                          <input
+                            id="personal"
+                            name="concern"
+                            value="personal"
+                            type="radio"
+                            checked={concern === "personal"}
+                            onChange={(e) => setConcern(e.target.value)}
+                            className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                          />
+                          <label htmlFor="personal" className="ml-2 text-neutral-900">
+                            Privat
+                          </label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            id="commercial"
+                            name="concern"
+                            value="commercial"
+                            type="radio"
+                            checked={concern === "commercial"}
+                            onChange={(e) => setConcern(e.target.value)}
+                            className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                          />
+                          <label htmlFor="commercial" className="ml-2 text-neutral-900">
+                            Geschäftlich
+                          </label>
+                        </div>
+                      </div>
+                    </fieldset>
+
+                    {/* Message Textarea */}
+                    <div className="mb-2">
+                      <textarea
+                        id="message"
+                        rows={4}
+                        placeholder="Bitte beschreiben Sie Ihr Anliegen möglichst genau"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        maxLength={maxLength}
+                        className="w-full px-4 py-3 border-0 rounded-md focus:outline-none resize-vertical bg-card-input-bg placeholder-placeholder-text min-h-[120px]"
+                        style={{
+                          '--placeholder-color': 'hsl(var(--placeholder-text))',
+                          width: '120%',
+                          maxWidth: '120%'
+                        } as React.CSSProperties}
                       />
-                      <label htmlFor="personal" className="ml-2 text-neutral-900">
-                        Privat
-                      </label>
                     </div>
-                    <div className="flex items-center">
-                      <input
-                        id="commercial"
-                        name="concern"
-                        value="commercial"
-                        type="radio"
-                        checked={concern === "commercial"}
-                        onChange={(e) => setConcern(e.target.value)}
-                        className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
-                      />
-                      <label htmlFor="commercial" className="ml-2 text-neutral-900">
-                        Geschäftlich
-                      </label>
+                    <div className="text-sm text-gray-500 mb-3 text-right" style={{ width: '120%', maxWidth: '120%' }}>
+                      <span className={message.length === 0 ? "text-red-500" : ""}>
+                        {message.length}
+                      </span>
+                      /{maxLength}
                     </div>
                   </div>
-                </fieldset>
+                </>
+              ) : (
+                <>
+                  <h1 className="text-2xl font-semibold mb-8 leading-8">
+                    Kontaktinfo für die Antwort
+                  </h1>
 
-                {/* Message Textarea */}
-                <div className="mb-2">
-                  <textarea
-                    id="message"
-                    rows={4}
-                    placeholder="Bitte beschreiben Sie Ihr Anliegen möglichst genau"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    maxLength={maxLength}
-                    className="w-full px-4 py-3 border-0 rounded-md focus:outline-none resize-vertical bg-card-input-bg placeholder-placeholder-text min-h-[120px]"
-                    style={{
-                      '--placeholder-color': 'hsl(var(--placeholder-text))',
-                      width: '120%',
-                      maxWidth: '120%'
-                    } as React.CSSProperties}
-                  />
-                </div>
-                <div className="text-sm text-gray-500 mb-3 text-right" style={{ width: '120%', maxWidth: '120%' }}>
-                  <span className={message.length === 0 ? "text-red-500" : ""}>
-                    {message.length}
-                  </span>
-                  /{maxLength}
-                </div>
-              </div>
+                  <div>
+                    {/* Gender Selection */}
+                    <fieldset className="flex gap-4 mb-8">
+                      <legend className="sr-only">Wie lautet Ihre Anrede?</legend>
+                      <div className="flex items-center">
+                        <input
+                          id="male"
+                          name="gender"
+                          value="1"
+                          type="radio"
+                          checked={gender === "1"}
+                          onChange={(e) => setGender(e.target.value)}
+                          className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                        />
+                        <label htmlFor="male" className="ml-2 text-neutral-900">Herr</label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          id="female"
+                          name="gender"
+                          value="2"
+                          type="radio"
+                          checked={gender === "2"}
+                          onChange={(e) => setGender(e.target.value)}
+                          className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                        />
+                        <label htmlFor="female" className="ml-2 text-neutral-900">Frau</label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          id="undefined"
+                          name="gender"
+                          value="3"
+                          type="radio"
+                          checked={gender === "3"}
+                          onChange={(e) => setGender(e.target.value)}
+                          className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                        />
+                        <label htmlFor="undefined" className="ml-2 text-neutral-900">Keine Angabe</label>
+                      </div>
+                    </fieldset>
+
+                    {/* Name Fields */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
+                      <div className="relative mb-3">
+                        <input
+                          id="firstname"
+                          type="text"
+                          value={firstname}
+                          onChange={(e) => setFirstname(e.target.value)}
+                          className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg placeholder-placeholder-text peer"
+                          placeholder=" "
+                        />
+                        <label
+                          htmlFor="firstname"
+                          className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-card-input-bg px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                        >
+                          Vorname
+                        </label>
+                      </div>
+                      <div className="relative mb-3">
+                        <input
+                          id="lastname"
+                          type="text"
+                          value={lastname}
+                          onChange={(e) => setLastname(e.target.value)}
+                          className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg placeholder-placeholder-text peer"
+                          placeholder=" "
+                        />
+                        <label
+                          htmlFor="lastname"
+                          className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-card-input-bg px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                        >
+                          Nachname
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Email Field */}
+                    <div className="relative mb-3">
+                      <input
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg placeholder-placeholder-text peer"
+                        placeholder=" "
+                      />
+                      <label
+                        htmlFor="email"
+                        className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-card-input-bg px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                      >
+                        E-Mail
+                      </label>
+                    </div>
+
+                    {/* Insurance Checkbox */}
+                    <div className="mb-5 mt-6">
+                      <div className="mb-4">
+                        <div className="flex items-center">
+                          <input
+                            id="insurance"
+                            name="insurance"
+                            type="checkbox"
+                            checked={hasInsurance}
+                            onChange={(e) => setHasInsurance(e.target.checked)}
+                            className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 rounded focus:ring-radio-blue focus:ring-2"
+                          />
+                          <label htmlFor="insurance" className="ml-2 text-neutral-900">
+                            Ich habe eine Rechtsschutzversicherung (optional)
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Terms and Privacy */}
+                    <p className="text-neutral-700 text-base mb-9">
+                      Mit Klick auf „Absenden" akzeptieren Sie die{" "}
+                      <a
+                        target="_blank"
+                        href="/pdf/Nutzungsbedingungen_Nutzer_anwalt.de.pdf"
+                        className="underline"
+                      >
+                        Nutzungsbedingungen.
+                      </a>{" "}
+                      Hinweise zum Datenschutz finden Sie in unserer{" "}
+                      <a
+                        target="_blank"
+                        href="/pdf/DSE_anwalt.de.pdf"
+                        className="underline"
+                      >
+                        Datenschutzerklärung.
+                      </a>
+                    </p>
+                  </div>
+                </>
+              )}
 
               {/* Action Buttons */}
               <div className="md:flex md:justify-between mt-3" style={{ width: '120%', maxWidth: '120%' }}>
@@ -156,7 +315,7 @@ const Nachricht = () => {
                   onClick={handleNext}
                   className="md:w-auto w-full bg-orange-primary hover:bg-orange-primary/90"
                 >
-                  Weiter
+                  {step === 1 ? "Weiter" : "Absenden"}
                   <ChevronRight className="ml-1.5" size={16} />
                 </Button>
               </div>
