@@ -13,11 +13,11 @@ const RatingSummary = () => {
   return (
     <section className="mb-4 rounded-enhanced bg-white p-enhanced shadow-sm border">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between gap-y-1 pb-4 border-b mb-4 pe-4">
-        <h1 className="text-xl font-bold mb-0">
+      <div className="flex flex-col lg:flex-row justify-between gap-y-4 lg:gap-x-8 pb-4 border-b mb-4 pe-4">
+        <h1 className="text-xl font-bold mb-0 flex-1 min-w-0">
           Bewertungen von Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
         </h1>
-        <div>
+        <div className="flex-shrink-0">
           <a href="/pdf/anwalt.de_bewertungsrichtlinien.pdf" className="inline-block whitespace-nowrap font-semibold text-lg text-blue-600 hover:text-blue-700">
             So funktionieren Bewertungen
           </a>
@@ -54,10 +54,10 @@ const RatingSummary = () => {
                 <Star key={i} className="icon-enhanced fill-current" />
               ))}
             </div>
-            <div className="px-4 py-1.5 bg-blue-50 rounded-full border border-blue-100 flex items-center gap-2">
-              <div className="text-blue-700 text-lg">Sehr gut</div>
-              <ThumbsUp className="w-4 h-4 text-blue-700" />
-            </div>
+             <div className="px-4 py-1.5 bg-sehr-gut-bg rounded-full border border-sehr-gut-bg flex items-center gap-2">
+               <div className="text-sehr-gut-text text-lg">Sehr gut</div>
+               <ThumbsUp className="w-4 h-4 text-sehr-gut-text" />
+             </div>
           </div>
 
           {/* Rating Breakdown */}
