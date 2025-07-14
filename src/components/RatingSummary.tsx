@@ -54,7 +54,7 @@ const RatingSummary = () => {
                 <Star key={i} className="icon-enhanced fill-current" />
               ))}
             </div>
-             <div className="px-4 py-1.5 bg-sehr-gut-bg rounded-full border border-sehr-gut-bg flex items-center gap-2">
+             <div className="px-4 py-1.5 bg-sehr-gut-bg rounded-full border border-sehr-gut-text flex items-center gap-2">
                <div className="text-sehr-gut-text text-lg">Sehr gut</div>
                <ThumbsUp className="w-4 h-4 text-sehr-gut-text" />
              </div>
