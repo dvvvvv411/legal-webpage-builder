@@ -1,7 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, ChevronDown, LockKeyhole, Scale, Star, Mail, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+
+interface LawFirm {
+  id: string;
+  name: string;
+  description: string | null;
+  logo_url: string | null;
+  phone: string | null;
+  slug: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface LegalArea {
+  id: string;
+  name: string;
+  slug: string;
+}
 
 const BewertungSchreiben = () => {
   const [step, setStep] = useState(1);
@@ -14,11 +33,96 @@ const BewertungSchreiben = () => {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [selectedLegalArea, setSelectedLegalArea] = useState("Allgemeine Rechtsberatung");
+  const [selectedLegalArea, setSelectedLegalArea] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [titleTouched, setTitleTouched] = useState(false);
   const [textTouched, setTextTouched] = useState(false);
+  const [lawFirm, setLawFirm] = useState<LawFirm | null>(null);
+  const [legalAreas, setLegalAreas] = useState<LegalArea[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (slug) {
+      fetchLawFirmData();
+    } else {
+      // Use static data for /vorlage route
+      setLawFirm({
+        id: 'static',
+        name: 'Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater',
+        description: null,
+        logo_url: 'https://www.anwalt.de/cdn-cgi/image/format=auto,fit=scale-down,width=80,height=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg',
+        phone: null,
+        slug: 'static',
+        created_at: '',
+        updated_at: ''
+      });
+      setLegalAreas([
+        { id: '1', name: 'Allgemeine Rechtsberatung', slug: 'allgemeine-rechtsberatung' },
+        { id: '2', name: 'Verkehrsrecht', slug: 'verkehrsrecht' },
+        { id: '3', name: 'Arbeitsrecht', slug: 'arbeitsrecht' }
+      ]);
+      setSelectedLegalArea('Allgemeine Rechtsberatung');
+      setLoading(false);
+    }
+  }, [slug]);
+
+  const fetchLawFirmData = async () => {
+    try {
+      const { data: firmData, error: firmError } = await supabase
+        .from('law_firms')
+        .select('*')
+        .eq('slug', slug)
+        .single();
+
+      if (firmError) {
+        if (firmError.code === 'PGRST116') {
+          navigate('/');
+          return;
+        }
+        throw firmError;
+      }
+
+      setLawFirm(firmData);
+
+      // Fetch legal areas for this law firm
+      const { data: areasData, error: areasError } = await supabase
+        .from('law_firm_legal_areas')
+        .select(`
+          legal_area:legal_areas(
+            id,
+            name,
+            slug
+          )
+        `)
+        .eq('law_firm_id', firmData.id);
+
+      if (areasError) {
+        console.error('Error fetching legal areas:', areasError);
+      } else {
+        const areas = areasData.map(item => item.legal_area).filter(Boolean);
+        setLegalAreas(areas);
+        if (areas.length > 0) {
+          setSelectedLegalArea(areas[0].name);
+        }
+      }
+    } catch (error: any) {
+      console.error('Error fetching law firm data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load law firm data",
+        variant: "destructive"
+      });
+      navigate('/');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const displayName = lawFirm?.name || "Law Firm";
+  const displayLogo = lawFirm?.logo_url || "https://www.anwalt.de/cdn-cgi/image/format=auto,fit=scale-down,width=80,height=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg";
 
   const handleBack = () => {
     if (step === 1) {
@@ -112,7 +216,7 @@ const BewertungSchreiben = () => {
               {step === 1 ? (
                 <>
                   <h1 className="text-2xl font-bold mb-6 leading-8">
-                    Bewerten Sie Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
+                    Bewerten Sie {displayName}
                   </h1>
 
                   <div className="mb-9">
@@ -167,26 +271,17 @@ const BewertungSchreiben = () => {
                         {isDropdownOpen && (
                           <div className="absolute z-50 w-full mt-1 bg-white border border-neutral-400 rounded max-h-52 overflow-y-auto shadow-lg">
                             <ul className="list-none p-0">
-                              {[
-                                "Allgemeine Rechtsberatung", "Allgemeines Vertragsrecht", "Arbeitsrecht", "Arzthaftungsrecht",
-                                "Baurecht & Architektenrecht", "Datenschutzrecht", "Erbrecht", "Familienrecht",
-                                "Forderungseinzug & Inkassorecht", "Gewerblicher Rechtsschutz", "Grundstücksrecht & Immobilienrecht",
-                                "Handelsrecht & Gesellschaftsrecht", "Insolvenzrecht & Sanierungsrecht", "Maklerrecht",
-                                "Markenrecht", "Medizinrecht", "Mietrecht & Wohnungseigentumsrecht", "Ordnungswidrigkeitenrecht",
-                                "Schadensersatzrecht & Schmerzensgeldrecht", "Sozialrecht", "Sportrecht", "Steuerrecht",
-                                "Strafrecht", "Urheberrecht & Medienrecht", "Vereinsrecht & Verbandsrecht", "Verkehrsrecht",
-                                "Versicherungsrecht", "Verwaltungsrecht", "Wirtschaftsrecht", "Zivilrecht", "Zwangsvollstreckungsrecht"
-                              ].map((area) => (
-                                <li key={area}>
+                              {legalAreas.map((area) => (
+                                <li key={area.id}>
                                   <button
                                     type="button"
                                     onClick={() => {
-                                      setSelectedLegalArea(area);
+                                      setSelectedLegalArea(area.name);
                                       setIsDropdownOpen(false);
                                     }}
                                     className="w-full text-left px-4 py-2 hover:bg-gray-100"
                                   >
-                                    {area}
+                                    {area.name}
                                   </button>
                                 </li>
                               ))}
@@ -281,7 +376,7 @@ const BewertungSchreiben = () => {
               ) : step === 2 ? (
                 <>
                   <h1 className="text-2xl font-semibold mb-4 leading-8">
-                    Ihre Kontaktdaten für Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
+                    Ihre Kontaktdaten für {displayName}
                   </h1>
                   
                   <p className="text-neutral-600 mb-8">

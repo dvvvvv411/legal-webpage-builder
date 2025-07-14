@@ -1,9 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, LockKeyhole, Scale, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
+interface LawFirm {
+  id: string;
+  name: string;
+  description: string | null;
+  logo_url: string | null;
+  phone: string | null;
+  slug: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface LegalArea {
+  id: string;
+  name: string;
+  slug: string;
+}
 
 const Nachricht = () => {
   const [step, setStep] = useState(1);
@@ -14,7 +33,83 @@ const Nachricht = () => {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [hasInsurance, setHasInsurance] = useState(false);
+  const [lawFirm, setLawFirm] = useState<LawFirm | null>(null);
+  const [legalAreas, setLegalAreas] = useState<LegalArea[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (slug) {
+      fetchLawFirmData();
+    } else {
+      // Use static data for /vorlage route
+      setLawFirm({
+        id: 'static',
+        name: 'Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater',
+        description: null,
+        logo_url: 'https://www.anwalt.de/cdn-cgi/image/format=auto,fit=scale-down,width=80,height=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg',
+        phone: null,
+        slug: 'static',
+        created_at: '',
+        updated_at: ''
+      });
+      setLoading(false);
+    }
+  }, [slug]);
+
+  const fetchLawFirmData = async () => {
+    try {
+      const { data: firmData, error: firmError } = await supabase
+        .from('law_firms')
+        .select('*')
+        .eq('slug', slug)
+        .single();
+
+      if (firmError) {
+        if (firmError.code === 'PGRST116') {
+          navigate('/');
+          return;
+        }
+        throw firmError;
+      }
+
+      setLawFirm(firmData);
+
+      // Fetch legal areas for this law firm
+      const { data: areasData, error: areasError } = await supabase
+        .from('law_firm_legal_areas')
+        .select(`
+          legal_area:legal_areas(
+            id,
+            name,
+            slug
+          )
+        `)
+        .eq('law_firm_id', firmData.id);
+
+      if (areasError) {
+        console.error('Error fetching legal areas:', areasError);
+      } else {
+        const areas = areasData.map(item => item.legal_area).filter(Boolean);
+        setLegalAreas(areas);
+      }
+    } catch (error: any) {
+      console.error('Error fetching law firm data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load law firm data",
+        variant: "destructive"
+      });
+      navigate('/');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const displayName = lawFirm?.name || "Law Firm";
+  const displayLogo = lawFirm?.logo_url || "https://www.anwalt.de/cdn-cgi/image/format=auto,fit=scale-down,width=80,height=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg";
 
   const handleBack = () => {
     if (step === 1) {
@@ -108,7 +203,7 @@ const Nachricht = () => {
               {step === 1 ? (
                 <>
                   <h1 className="text-2xl font-semibold mb-6 leading-8">
-                    Nachricht an Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
+                    Nachricht an {displayName}
                   </h1>
 
                   <div className="mb-9">
@@ -327,7 +422,7 @@ const Nachricht = () => {
                       Ihre Nachricht wurde erfolgreich versendet.
                     </p>
                     <p className="mb-3 text-neutral-600">
-                      Steinbock & Partner Rechtsanwaltskanzlei wird sich in Kürze bei der angegebenen E-Mail-Adresse <span className="font-semibold">{email}</span> melden.
+                      {displayName} wird sich in Kürze bei der angegebenen E-Mail-Adresse <span className="font-semibold">{email}</span> melden.
                     </p>
                   </div>
                 </>
@@ -365,8 +460,8 @@ const Nachricht = () => {
               <div className="mb-3 flex gap-4 xl:items-center">
                 <figure>
                   <img
-                    alt="Bild von Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater"
-                    src="https://www.anwalt.de/cdn-cgi/image/format=auto,fit=scale-down,width=80,height=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg"
+                    alt={`Bild von ${displayName}`}
+                    src={displayLogo}
                     className="rounded-xl"
                     height="80"
                     width="80"
@@ -374,10 +469,10 @@ const Nachricht = () => {
                 </figure>
                 <div>
                   <span
-                    title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater"
+                    title={displayName}
                     className="text-black text-lg font-semibold"
                   >
-                    Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
+                    {displayName}
                   </span>
                 </div>
               </div>
