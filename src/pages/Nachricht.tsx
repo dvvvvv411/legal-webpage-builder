@@ -66,8 +66,8 @@ const Nachricht = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-auto overflow-y-auto max-w-[1920px] w-full m-auto px-4 md:px-0 flex-grow flex">
-        <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] 2xl:grid-cols-[auto_1fr_auto] justify-center xl:!justify-between gap-3 h-full flex-grow">
+      <div className="flex-1 overflow-y-auto max-w-[1920px] w-full m-auto px-4 md:px-0 flex">
+        <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] 2xl:grid-cols-[auto_1fr_auto] justify-center xl:!justify-between w-full min-h-full">
           {/* Left Spacer */}
           <div className="xl:w-[440px] hidden 2xl:block"></div>
 
@@ -161,7 +161,7 @@ const Nachricht = () => {
 
           {/* Right Sidebar */}
           <div className="xl:w-[440px] hidden xl:block">
-            <div className="bg-card-input-bg border border-neutral-200 rounded-lg p-6 h-full">
+            <div className="bg-card-input-bg p-6 h-full">
               <div className="mb-6 text-sm text-neutral-700">Ihre Kanzlei</div>
               
               <div className="mb-3 flex gap-4 xl:items-center">
@@ -225,37 +225,6 @@ const Nachricht = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Footer */}
-      <div className="border-t border-neutral-300 mt-auto">
-        <ul className="flex flex-wrap justify-center py-5 md:flex-nowrap">
-          <li className="md:mx-5 w-1/3 text-center mb-1 md:w-auto">
-            <a className="text-neutral-700 hover:text-neutral-900 text-sm" target="_blank" href="/impressum">
-              Impressum
-            </a>
-          </li>
-          <li className="md:mx-5 w-1/3 text-center mb-1 md:w-auto">
-            <a className="text-neutral-700 hover:text-neutral-900 text-sm" target="_blank" href="/pdf/DSE_anwalt.de.pdf">
-              Datenschutz
-            </a>
-          </li>
-          <li className="md:mx-5 w-1/3 text-center mb-1 md:w-auto">
-            <a className="text-neutral-700 hover:text-neutral-900 text-sm" href="javascript:void(0)">
-              Cookies
-            </a>
-          </li>
-          <li className="md:mx-5 w-1/2 md:w-auto pr-4 md:pr-0 text-right md:text-center">
-            <a className="text-neutral-700 hover:text-neutral-900 text-sm" href="/pdf/barrierefreiheitserklaerung_anwalt.de.pdf">
-              Barrierefreiheit
-            </a>
-          </li>
-          <li className="md:mx-5 w-1/2 md:w-auto pl-4 md:pl-0 text-left md:text-center">
-            <a className="text-neutral-700 hover:text-neutral-900 text-sm" target="_blank" href="/unternehmen/kontakt.php">
-              Kontakt
-            </a>
-          </li>
-        </ul>
       </div>
     </div>
   );
