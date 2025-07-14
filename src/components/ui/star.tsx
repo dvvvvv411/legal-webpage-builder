@@ -11,7 +11,7 @@ const Star = React.forwardRef<SVGSVGElement, StarProps>(
     return (
       <svg
         ref={ref}
-        className={cn("h-5 w-auto fill-current", className)}
+        className={cn("h-[1.375rem] w-auto fill-current", className)}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 42 42"
         {...props}

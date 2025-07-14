@@ -264,23 +264,23 @@ const Footer = () => {
                 <div className="flex gap-1.5">
                   <span className="text-lg font-bold text-neutral-900">4.6</span>
                   <div className="my-1 flex text-amber-400">
-                    <svg className="h-5 w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+                    <svg className="h-[1.375rem] w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
                       <path d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
                       <path d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
                     </svg>
-                    <svg className="h-5 w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+                    <svg className="h-[1.375rem] w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
                       <path d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
                       <path d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
                     </svg>
-                    <svg className="h-5 w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+                    <svg className="h-[1.375rem] w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
                       <path d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
                       <path d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
                     </svg>
-                    <svg className="h-5 w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+                    <svg className="h-[1.375rem] w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
                       <path d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
                       <path d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
                     </svg>
-                    <svg className="h-5 w-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+                    <svg className="h-[1.375rem] w-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
                       <path className="fill-current" d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
                       <path className="fill-current text-neutral-300" d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
                     </svg>
