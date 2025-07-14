@@ -264,7 +264,7 @@ const ReviewsList = () => {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-3 mt-6">
+        <div className="flex justify-center items-center gap-1 mt-6">
           <Button
             variant="ghost"
             size="lg"
@@ -285,7 +285,7 @@ const ReviewsList = () => {
                 size="lg"
                 onClick={() => handlePageChange(pageNumber)}
                 className={isActive 
-                  ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90 h-12 w-12 text-base" 
+                  ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90 h-12 w-12 text-base rounded-sm" 
                   : "text-pagination-active hover:bg-transparent hover:text-pagination-active/80 h-12 w-12 text-base"
                 }
               >
