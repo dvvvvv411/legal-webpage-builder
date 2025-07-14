@@ -391,7 +391,7 @@ const ReviewsList = () => {
               <div className="flex items-center mb-2 sm:mb-0">
                 {/* Initials Badge */}
                 <div className="mr-3.5">
-                  <div className={`${review.bgColor} text-white rounded-full avatar-enhanced flex items-center justify-center text-lg font-semibold`}>
+                  <div className={`${review.bgColor} text-white rounded-full avatar-enhanced flex items-center justify-center text-lg font-normal`}>
                     {review.initials}
                   </div>
                 </div>
@@ -423,7 +423,7 @@ const ReviewsList = () => {
                   {review.title}
                 </span>
                 <div className="inline-flex mb-2">
-                  <Badge variant="secondary" className="bg-white border border-neutral-200 text-neutral-700">
+                  <Badge variant="secondary" className="bg-white border border-neutral-200 text-neutral-700 text-base px-3 py-1.5 font-light">
                     {review.category}
                   </Badge>
                 </div>
