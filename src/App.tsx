@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/use-auth";
 import Index from "./pages/Index";
 import Vorlage from "./pages/Vorlage";
+import LawFirm from "./pages/LawFirm";
 import Nachricht from "./pages/Nachricht";
 import BewertungSchreiben from "./pages/BewertungSchreiben";
 import Auth from "./pages/Auth";
@@ -26,6 +27,9 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/vorlage" element={<Vorlage />} />
+            <Route path="/law-firm/:slug" element={<LawFirm />} />
+            <Route path="/law-firm/:slug/nachricht" element={<Nachricht />} />
+            <Route path="/law-firm/:slug/bewertung/schreiben" element={<BewertungSchreiben />} />
             <Route path="/vorlage/nachricht" element={<Nachricht />} />
             <Route path="/vorlage/bewertung/schreiben" element={<BewertungSchreiben />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

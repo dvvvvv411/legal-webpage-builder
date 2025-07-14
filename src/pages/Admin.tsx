@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Settings, Users, FileText, Shield } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Loader2 } from 'lucide-react';
+import { LawFirmManager } from '@/components/admin/LawFirmManager';
+import { ReviewManager } from '@/components/admin/ReviewManager';
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -53,93 +55,18 @@ const Admin = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                Benutzer
-              </CardTitle>
-              <CardDescription>
-                Benutzerverwaltung und -statistiken
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full" disabled>
-                Bald verfügbar
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Bewertungen
-              </CardTitle>
-              <CardDescription>
-                Bewertungen verwalten und moderieren
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full" disabled>
-                Bald verfügbar
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
-                Sicherheit
-              </CardTitle>
-              <CardDescription>
-                Sicherheitseinstellungen und Logs
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full" disabled>
-                Bald verfügbar
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings className="h-5 w-5" />
-                Einstellungen
-              </CardTitle>
-              <CardDescription>
-                Systemeinstellungen und Konfiguration
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full" disabled>
-                Bald verfügbar
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle>Willkommen im Admin-Bereich</CardTitle>
-            <CardDescription>
-              Hier können Sie in Zukunft alle Aspekte Ihres Anwalt Portals verwalten.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-sm text-muted-foreground space-y-2">
-              <p>• Benutzer verwalten und Rollen zuweisen</p>
-              <p>• Bewertungen moderieren und bearbeiten</p>
-              <p>• Systemeinstellungen konfigurieren</p>
-              <p>• Sicherheitseinstellungen überwachen</p>
-              <p>• Berichte und Statistiken einsehen</p>
-            </div>
-          </CardContent>
-        </Card>
+        <Tabs defaultValue="law-firms" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="law-firms">Law Firms</TabsTrigger>
+            <TabsTrigger value="reviews">Reviews</TabsTrigger>
+          </TabsList>
+          <TabsContent value="law-firms" className="mt-6">
+            <LawFirmManager />
+          </TabsContent>
+          <TabsContent value="reviews" className="mt-6">
+            <ReviewManager />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
