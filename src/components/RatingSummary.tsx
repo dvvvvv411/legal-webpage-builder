@@ -96,7 +96,7 @@ const RatingSummary = () => {
           className="w-full mt-5 2xl:hidden text-xl"
           asChild
         >
-          <Link to="/bewertung/schreiben">Bewertung abgeben</Link>
+          <Link to="/vorlage/bewertung/schreiben">Bewertung abgeben</Link>
         </Button>
       </div>
     </section>

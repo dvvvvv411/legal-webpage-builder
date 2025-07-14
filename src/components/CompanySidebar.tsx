@@ -55,7 +55,7 @@ const CompanySidebar = () => {
           <Button 
             variant="orange" 
             className="w-full text-lg py-6 rounded-lg"
-            onClick={() => navigate("/nachricht")}
+            onClick={() => navigate("/vorlage/nachricht")}
           >
             Anliegen schildern
           </Button>
@@ -65,7 +65,11 @@ const CompanySidebar = () => {
               <Phone className="w-4 h-4" />
               <span className="sr-only">Anrufen</span>
             </Button>
-            <Button variant="orange-outline-no-hover" className="flex-1 text-lg py-6 rounded-lg">
+            <Button 
+              variant="orange-outline-no-hover" 
+              className="flex-1 text-lg py-6 rounded-lg"
+              onClick={() => navigate("/vorlage/bewertung/schreiben")}
+            >
               Bewertung abgeben
             </Button>
           </div>
