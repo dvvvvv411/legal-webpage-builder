@@ -65,7 +65,7 @@ const Header = () => {
                 Sie sind Anwalt?
               </a>
               <div className="flex items-center space-x-1">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="p-0">
                   <Menu className="w-8 h-8 text-gray-600" />
                 </Button>
                 <Avatar className="w-8 h-8">
@@ -80,7 +80,7 @@ const Header = () => {
             <div className="md:hidden">
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" className="p-0">
                     <Menu className="w-8 h-8 text-gray-600" />
                   </Button>
                 </SheetTrigger>
