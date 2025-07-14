@@ -47,7 +47,7 @@ All colors MUST be HSL.
     --rating-bg-light: 210 40% 97%;
     --page-background: 210 40% 97%;
     --pagination-active: 226 68% 64%;
-    --sehr-gut-bg: 220 55% 94.5%; /* rgb(232 237 251) */
+    --sehr-gut-bg: 224 55% 95%; /* rgb(232 237 251) */
     --sehr-gut-text: 221 68% 28.8%; /* rgb(17 47 130) */
 
     --radius: 0.5rem;
