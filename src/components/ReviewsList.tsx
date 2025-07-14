@@ -273,7 +273,7 @@ const ReviewsList = () => {
   };
 
   return (
-    <section className="rounded-enhanced bg-white p-enhanced border">
+    <section className="rounded-enhanced bg-white p-enhanced">
       {/* Header */}
       <div className="sticky top-0 pt-4 -mt-4 mb-3 bg-white z-10 border-b border-neutral-200 flex flex-col sm:flex-row">
         <h2 className="mb-2 flex items-center gap-2 text-2xl font-semibold pb-3 flex-auto pe-4">
