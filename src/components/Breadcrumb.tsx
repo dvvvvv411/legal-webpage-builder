@@ -10,8 +10,8 @@ interface BreadcrumbProps {
 
 const Breadcrumb = ({ items }: BreadcrumbProps) => {
   return (
-    <div className="bg-gray-50 border-b border-gray-200">
-      <div className="container mx-auto px-4 py-2">
+    <div className="py-2">
+      <div className="container mx-auto px-4">
         <ol className="flex flex-wrap gap-2">
           {items.map((item, index) => (
             <li key={index} className="flex gap-2 text-xs text-neutral-600">
