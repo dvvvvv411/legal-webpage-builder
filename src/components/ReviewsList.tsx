@@ -194,7 +194,9 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
     });
     
     if (timeString) {
-      return `${formattedDate} um ${timeString} Uhr`;
+      // Remove seconds from time format (XX:XX:XX -> XX:XX)
+      const timeWithoutSeconds = timeString.slice(0, 5);
+      return `${formattedDate} um ${timeWithoutSeconds} Uhr`;
     }
     
     return formattedDate;
@@ -345,11 +347,18 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
               {/* Date and Lawyer Info */}
               <p className="text-neutral-500 text-lg mr-3.5">
                 am {formatDate(review.review_date, review.review_time)}
-                {review.lawyer && (
+                {review.lawyer ? (
                   <span>
                     {" "}für{" "}
                     <span className="text-neutral-500">
                       {review.lawyer.name}
+                    </span>
+                  </span>
+                ) : (
+                  <span>
+                    {" "}für{" "}
+                    <span className="text-neutral-500">
+                      {lawFirm?.name || "Anwaltskanzlei"}
                     </span>
                   </span>
                 )}
