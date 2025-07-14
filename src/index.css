@@ -44,7 +44,8 @@ All colors MUST be HSL.
     --orange-banner: 25 95% 53%;
     --orange-button: 25 95% 53%;
     --orange-button-hover: 25 95% 48%;
-    --rating-bg-light: 220 25% 92%;
+    --rating-bg-light: 210 40% 97%;
+    --page-background: 210 40% 97%;
 
     --radius: 0.5rem;
 
