@@ -423,7 +423,7 @@ const ReviewsList = () => {
                   {review.title}
                 </span>
                 <div className="inline-flex mb-2">
-                  <Badge variant="secondary" className="bg-white border border-neutral-200 text-neutral-700 font-light text-base">
+                  <Badge variant="secondary" className="bg-white border border-neutral-200 font-light text-base" style={{ color: 'rgb(51, 65, 85)' }}>
                     {review.category}
                   </Badge>
                 </div>
