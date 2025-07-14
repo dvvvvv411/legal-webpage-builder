@@ -70,6 +70,8 @@ export default {
 				'card-input-bg': 'hsl(var(--card-input-bg))',
 				'orange-primary': 'hsl(var(--orange-primary))',
 				'legal-text': 'hsl(var(--legal-text))',
+				'radio-blue': 'hsl(var(--radio-blue))',
+				'placeholder-text': 'hsl(var(--placeholder-text))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

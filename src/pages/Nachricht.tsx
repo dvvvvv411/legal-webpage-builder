@@ -93,7 +93,7 @@ const Nachricht = () => {
                         type="radio"
                         checked={concern === "personal"}
                         onChange={(e) => setConcern(e.target.value)}
-                        className="w-4 h-4 text-primary bg-gray-100 border-gray-300 focus:ring-primary focus:ring-2"
+                        className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
                       />
                       <label htmlFor="personal" className="ml-2 text-neutral-900">
                         Privat
@@ -107,7 +107,7 @@ const Nachricht = () => {
                         type="radio"
                         checked={concern === "commercial"}
                         onChange={(e) => setConcern(e.target.value)}
-                        className="w-4 h-4 text-primary bg-gray-100 border-gray-300 focus:ring-primary focus:ring-2"
+                        className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
                       />
                       <label htmlFor="commercial" className="ml-2 text-neutral-900">
                         Geschäftlich
@@ -126,14 +126,23 @@ const Nachricht = () => {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       maxLength={maxLength}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none bg-card-input-bg"
+                      className="w-full px-3 py-2 border-0 rounded-md focus:outline-none resize-none bg-card-input-bg placeholder-placeholder-text"
+                      style={{
+                        '--placeholder-color': 'hsl(var(--placeholder-text))'
+                      } as React.CSSProperties}
                     />
-                    <span className="absolute bottom-2 right-2 text-sm text-gray-500">
-                      <span className={message.length === 0 ? "text-red-500" : ""}>
-                        {message.length}
-                      </span>
-                      /{maxLength}
+                    <div className="absolute bottom-2 right-2 flex items-center gap-1">
+                      <div className="flex flex-col gap-0.5">
+                        <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
+                        <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-500 mt-1 text-right">
+                    <span className={message.length === 0 ? "text-red-500" : ""}>
+                      {message.length}
                     </span>
+                    /{maxLength}
                   </div>
                 </div>
               </div>

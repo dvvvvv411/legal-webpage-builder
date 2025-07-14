@@ -55,6 +55,8 @@ All colors MUST be HSL.
     --card-input-bg: 210 17% 97%; /* rgb(244 247 250) */
     --orange-primary: 21 90% 49%; /* rgb(233 93 15) */
     --legal-text: 220 25% 27%; /* rgb(51 65 85) */
+    --radio-blue: 225 74% 64%; /* rgb(97 131 228) */
+    --placeholder-text: 215 20% 47%; /* rgb(100 116 139) */
 
     --radius: 0.5rem;
 
