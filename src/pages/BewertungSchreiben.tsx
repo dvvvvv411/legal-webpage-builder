@@ -32,9 +32,7 @@ const BewertungSchreiben = () => {
   });
 
   const { data: lawFirm, isLoading: firmLoading, error: firmError } = useLawFirmBySlug(slug || "");
-  
-  // Use law firm's specific legal areas instead of all legal areas
-  const legalAreas = lawFirm?.legal_areas || [];
+  const { data: legalAreas, isLoading: legalAreasLoading, error: legalAreasError } = useLegalAreas();
   
   console.log("BewertungSchreiben page - slug:", slug);
   console.log("BewertungSchreiben page - lawFirm:", lawFirm);
@@ -72,7 +70,7 @@ const BewertungSchreiben = () => {
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  if (firmLoading) {
+  if (firmLoading || legalAreasLoading) {
     return (
       <div className="min-h-screen bg-page-background">
         <Header />
@@ -86,16 +84,16 @@ const BewertungSchreiben = () => {
     );
   }
 
-  if (firmError) {
-    console.error("Error loading law firm:", firmError);
+  if (firmError || legalAreasError) {
+    console.error("Error loading data:", firmError || legalAreasError);
     return (
       <div className="min-h-screen bg-page-background">
         <Header />
         <div className="container mx-auto px-enhanced py-12">
           <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Error Loading Law Firm</h1>
+            <h1 className="text-2xl font-bold mb-4">Error Loading Data</h1>
             <p className="text-muted-foreground mb-4">
-              There was an error loading the law firm information.
+              There was an error loading the required information.
             </p>
             <Button onClick={() => navigate("/")}>Return Home</Button>
           </div>
@@ -200,7 +198,7 @@ const BewertungSchreiben = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="">Not specified</SelectItem>
-                      {legalAreas.length > 0 ? (
+                      {legalAreas && legalAreas.length > 0 ? (
                         legalAreas.map((area) => (
                           <SelectItem key={area.id} value={area.id}>
                             {area.name}
