@@ -194,7 +194,7 @@ const ReviewsList = () => {
       <div className="sticky top-0 pt-4 -mt-4 mb-3 bg-white z-10 border-b border-neutral-200 flex flex-col sm:flex-row">
         <h2 className="mb-2 flex items-center gap-2 text-lg font-semibold pb-3 flex-auto pe-4">
           Bewertungen 
-          <Badge variant="secondary" className="rounded-full border border-neutral-200 bg-neutral-50 text-neutral-700 text-sm py-0.5 px-2.5 -ml-0.5 font-normal">
+          <Badge variant="secondary" className="rounded-full border border-neutral-200 bg-page-background text-neutral-700 text-sm py-0.5 px-2.5 -ml-0.5 font-normal">
             609
           </Badge>
         </h2>
@@ -211,7 +211,7 @@ const ReviewsList = () => {
         {currentReviews.map((review) => (
           <div 
             key={review.id}
-            className="w-full p-5 bg-neutral-50 rounded-lg border border-neutral-100"
+            className="w-full p-5 bg-page-background rounded-lg border border-neutral-100"
           >
             <div className="sm:flex sm:items-center">
               <div className="flex items-center mb-2 sm:mb-0">
