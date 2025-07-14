@@ -57,11 +57,11 @@ const ReviewManager = () => {
     if (selectedReview) {
       await updateReview.mutateAsync({
         id: selectedReview.id,
-        ...reviewData,
+        ...submitData,
       });
       setIsEditDialogOpen(false);
     } else {
-      await createReview.mutateAsync(reviewData);
+      await createReview.mutateAsync(submitData);
       setIsCreateDialogOpen(false);
     }
     
