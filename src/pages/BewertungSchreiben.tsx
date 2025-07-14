@@ -117,7 +117,7 @@ const BewertungSchreiben = () => {
                           >
                             <Star
                               size={39}
-                              strokeWidth={0.5}
+                              strokeWidth={0.2}
                               className={`${
                                 star <= (hoverRating || rating)
                                   ? "fill-amber-400 text-amber-400"
@@ -243,12 +243,6 @@ const BewertungSchreiben = () => {
                       {textTouched && !reviewText.trim() && (
                         <p className="text-red-500 text-sm mt-1">Diese Angabe ist erforderlich.</p>
                       )}
-                    </div>
-                    <div className="text-sm text-gray-500 mb-3 text-right">
-                      <span className={reviewText.length === 0 ? "text-red-500" : ""}>
-                        {reviewText.length}
-                      </span>
-                      /{maxLength}
                     </div>
                   </div>
                 </>
