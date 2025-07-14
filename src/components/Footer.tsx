@@ -252,37 +252,44 @@ const Footer = () => {
             </svg>
             
             <div className="inline-flex items-center gap-4 mt-6">
-              <svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" aria-hidden="true">
                 <rect x="0.818359" y="0.105469" width="55" height="56" fill="url(#pattern0)"></rect>
                 <defs>
                   <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
                     <use xlinkHref="#image0_4418_10983" transform="matrix(0.00195312 0 0 0.00191825 0 -0.000662667)"></use>
                   </pattern>
+                  <image id="image0_4418_10983" width="512" height="522" xlinkHref="data:image/png;base64,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" />
                 </defs>
               </svg>
-              
-              <div className="flex">
-                <svg className="h-5 w-auto fill-current text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
-                  <path d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
-                  <path d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
-                </svg>
-                <svg className="h-5 w-auto fill-current text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
-                  <path d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
-                  <path d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
-                </svg>
-                <svg className="h-5 w-auto fill-current text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
-                  <path d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
-                  <path d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
-                </svg>
-                <svg className="h-5 w-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
-                  <path className="fill-current text-amber-400" d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
-                  <path className="fill-current text-neutral-300" d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
-                </svg>
+              <div className="grid justify-items-start">
+                <div className="text-xs text-neutral-900">Google Bewertungen</div>
+                <div className="flex gap-1.5">
+                  <span className="text-lg font-bold text-neutral-900">4.6</span>
+                  <div className="my-1 flex text-neutral-300">
+                    <svg className="anw-rating h-5 w-auto filled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+                      <path className="half-star-1" d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
+                      <path className="half-star-2" d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
+                    </svg>
+                    <svg className="anw-rating h-5 w-auto filled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+                      <path className="half-star-1" d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
+                      <path className="half-star-2" d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
+                    </svg>
+                    <svg className="anw-rating h-5 w-auto filled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+                      <path className="half-star-1" d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
+                      <path className="half-star-2" d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
+                    </svg>
+                    <svg className="anw-rating h-5 w-auto filled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+                      <path className="half-star-1" d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
+                      <path className="half-star-2" d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
+                    </svg>
+                    <svg className="anw-rating h-5 w-auto half" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
+                      <path className="half-star-1" d="M8.65653 37.9894L21 29.925V0L15.754 13.7795L1.02783 14.5106L12.5118 23.758L8.65653 37.9894Z"></path>
+                      <path className="half-star-2" d="M33.3435 37.9894L21 29.925V0L26.246 13.7795L40.9722 14.5106L29.4882 23.758L33.3435 37.9894Z"></path>
+                    </svg>
+                  </div>
+                </div>
+                <div className="text-xs font-semibold text-neutral-900">Basierend auf 349 Bewertungen</div>
               </div>
-            </div>
-            
-            <div className="text-xs font-semibold text-neutral-900">
-              Basierend auf 349 Bewertungen
             </div>
           </div>
         </div>
