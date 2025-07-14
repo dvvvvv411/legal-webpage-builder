@@ -17,6 +17,19 @@ const Vorlage = () => {
     }
   ];
 
+  // Default data for static template
+  const defaultRatingData = [
+    { stars: 5, count: 586, percentage: 96.22 },
+    { stars: 4, count: 17, percentage: 2.79 },
+    { stars: 3, count: 0, percentage: 0 },
+    { stars: 2, count: 1, percentage: 0.16 },
+    { stars: 1, count: 5, percentage: 0.82 }
+  ];
+
+  const defaultReviews = []; // Empty array for static template
+  const defaultTotalReviews = 609;
+  const defaultAverageRating = 4.9;
+
   return (
     <div className="min-h-screen bg-page-background">
       <Header />
@@ -26,13 +39,20 @@ const Vorlage = () => {
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-enhanced">
            {/* Left column - 2/3 width */}
            <div className="lg:col-span-2 space-y-enhanced">
-            <RatingSummary />
-            <ReviewsList />
+            <RatingSummary 
+              ratingData={defaultRatingData}
+              totalReviews={defaultTotalReviews}
+              averageRating={defaultAverageRating}
+            />
+            <ReviewsList reviews={defaultReviews} />
           </div>
           
           {/* Right column - 1/3 width */}
           <div className="lg:col-span-1">
-            <CompanySidebar />
+            <CompanySidebar 
+              totalReviews={defaultTotalReviews}
+              averageRating={defaultAverageRating}
+            />
           </div>
         </div>
       </main>

@@ -37,15 +37,14 @@ interface LawFirm {
 
 interface ReviewsListProps {
   lawFirm?: LawFirm;
+  reviews: Review[];
 }
 
-const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
+const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [tempSelectedFilters, setTempSelectedFilters] = useState<string[]>([]);
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const reviewsPerPage = 10;
 
@@ -78,42 +77,6 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
     { name: "Insolvenzrecht & Sanierungsrecht", count: 1 },
     { name: "Wettbewerbsrecht", count: 1 }
   ];
-
-  // Fetch reviews from database
-  useEffect(() => {
-    if (lawFirm) {
-      fetchReviews();
-    }
-  }, [lawFirm]);
-
-  const fetchReviews = async () => {
-    if (!lawFirm) return;
-
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('reviews')
-        .select(`
-          *,
-          law_firm:law_firms(name),
-          lawyer:lawyers(name),
-          legal_area:legal_areas(name)
-        `)
-        .eq('law_firm_id', lawFirm.id)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching reviews:', error);
-        return;
-      }
-
-      setReviews(data || []);
-    } catch (error) {
-      console.error('Error processing reviews:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Click outside handler
   useEffect(() => {
@@ -202,13 +165,6 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
     return formattedDate;
   };
 
-  if (loading) {
-    return (
-      <section className="rounded-enhanced bg-white p-enhanced">
-        <div className="text-center py-8">Bewertungen werden geladen...</div>
-      </section>
-    );
-  }
 
   return (
     <section className="rounded-enhanced bg-white p-enhanced">

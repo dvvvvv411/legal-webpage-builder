@@ -1,9 +1,8 @@
 import { Phone, Video, ChevronDown } from "lucide-react";
 import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface LawFirm {
   id: string;
@@ -18,47 +17,14 @@ interface LawFirm {
 
 interface CompanySidebarProps {
   lawFirm?: LawFirm;
+  totalReviews: number;
+  averageRating: number;
 }
 
-const CompanySidebar = ({ lawFirm }: CompanySidebarProps) => {
+const CompanySidebar = ({ lawFirm, totalReviews, averageRating }: CompanySidebarProps) => {
   const [showFullNumber, setShowFullNumber] = useState(false);
   const [isOnlineConsultationOpen, setIsOnlineConsultationOpen] = useState(false);
-  const [totalReviews, setTotalReviews] = useState(609);
-  const [averageRating, setAverageRating] = useState(4.9);
-  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (lawFirm) {
-      fetchRatingData();
-    }
-  }, [lawFirm]);
-
-  const fetchRatingData = async () => {
-    if (!lawFirm) return;
-
-    try {
-      const { data: reviews, error } = await supabase
-        .from('reviews')
-        .select('rating')
-        .eq('law_firm_id', lawFirm.id);
-
-      if (error) {
-        console.error('Error fetching ratings:', error);
-        return;
-      }
-
-      if (reviews && reviews.length > 0) {
-        const totalSum = reviews.reduce((sum, review) => sum + parseInt(review.rating), 0);
-        const avgRating = totalSum / reviews.length;
-        
-        setTotalReviews(reviews.length);
-        setAverageRating(Math.round(avgRating * 10) / 10);
-      }
-    } catch (error) {
-      console.error('Error processing rating data:', error);
-    }
-  };
 
   // Use lawFirm data or fallback to static data
   const displayName = lawFirm?.name || "Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater";
