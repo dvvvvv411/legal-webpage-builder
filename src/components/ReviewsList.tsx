@@ -265,13 +265,13 @@ const ReviewsList = () => {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-1 mt-6">
-          <Button
-            variant="ghost"
-            size="lg"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="p-3 text-pagination-active hover:bg-transparent hover:text-pagination-active/80 disabled:text-neutral-400"
-          >
+            <Button
+              variant="ghost"
+              size="lg"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="p-3 text-pagination-active hover:bg-pagination-active/10 hover:text-pagination-active disabled:text-neutral-400"
+            >
             <ChevronLeft className="h-6 w-6" />
           </Button>
           
@@ -286,7 +286,7 @@ const ReviewsList = () => {
                 onClick={() => handlePageChange(pageNumber)}
                 className={isActive 
                   ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90 h-11 w-11 text-sm rounded-sm p-0" 
-                  : "hover:bg-transparent hover:text-[rgb(29,78,216)]/80 h-11 w-11 text-sm p-0"
+                  : "hover:bg-pagination-active/10 hover:text-[rgb(29,78,216)] h-11 w-11 text-sm p-0"
                 }
                 style={!isActive ? { color: 'rgb(29, 78, 216)' } : {}}
               >
@@ -300,7 +300,7 @@ const ReviewsList = () => {
             size="lg"
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="p-3 text-pagination-active hover:bg-transparent hover:text-pagination-active/80 disabled:text-neutral-400"
+            className="p-3 text-pagination-active hover:bg-pagination-active/10 hover:text-pagination-active disabled:text-neutral-400"
           >
             <ChevronRight className="h-6 w-6" />
           </Button>
