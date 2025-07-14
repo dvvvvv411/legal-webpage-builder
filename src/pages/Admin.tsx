@@ -5,9 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, Settings, Users, FileText, Shield, Building2, MessageSquare, Scale, TrendingUp } from 'lucide-react';
+import { Loader2, Settings, Users, FileText, Shield, Building2, MessageSquare, Scale, TrendingUp, User } from 'lucide-react';
 import LawFirmManager from '@/components/admin/LawFirmManager';
 import ReviewManager from '@/components/admin/ReviewManager';
+import LawyerManager from '@/components/admin/LawyerManager';
+import LegalAreaManager from '@/components/admin/LegalAreaManager';
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -57,8 +59,9 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="law-firms" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="law-firms">Kanzleien</TabsTrigger>
+            <TabsTrigger value="lawyers">Anwälte</TabsTrigger>
             <TabsTrigger value="reviews">Bewertungen</TabsTrigger>
             <TabsTrigger value="legal-areas">Rechtsgebiete</TabsTrigger>
             <TabsTrigger value="analytics">Statistiken</TabsTrigger>
@@ -68,27 +71,16 @@ const Admin = () => {
             <LawFirmManager />
           </TabsContent>
           
+          <TabsContent value="lawyers" className="mt-6">
+            <LawyerManager />
+          </TabsContent>
+          
           <TabsContent value="reviews" className="mt-6">
             <ReviewManager />
           </TabsContent>
           
           <TabsContent value="legal-areas" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Scale className="h-5 w-5" />
-                  Rechtsgebiete
-                </CardTitle>
-                <CardDescription>
-                  Verwaltung der Rechtsgebiete
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground">Rechtsgebiete-Verwaltung kommt bald</p>
-                </div>
-              </CardContent>
-            </Card>
+            <LegalAreaManager />
           </TabsContent>
           
           <TabsContent value="analytics" className="mt-6">
