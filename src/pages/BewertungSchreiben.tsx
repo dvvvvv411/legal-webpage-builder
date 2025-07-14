@@ -16,6 +16,8 @@ const BewertungSchreiben = () => {
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [selectedLegalArea, setSelectedLegalArea] = useState("Allgemeine Rechtsberatung");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [titleTouched, setTitleTouched] = useState(false);
+  const [textTouched, setTextTouched] = useState(false);
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -180,33 +182,67 @@ const BewertungSchreiben = () => {
 
                     {/* Review Title */}
                     <div className="mb-6">
-                      <input
-                        id="reviewTitle"
-                        type="text"
-                        placeholder="Überschrift Ihrer Bewertung"
-                        value={reviewTitle}
-                        onChange={(e) => setReviewTitle(e.target.value)}
-                        className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg placeholder-placeholder-text"
-                        style={{
-                          '--placeholder-color': 'hsl(var(--placeholder-text))',
-                        } as React.CSSProperties}
-                      />
+                      <div className="relative">
+                        <input
+                          id="reviewTitle"
+                          type="text"
+                          value={reviewTitle}
+                          onChange={(e) => setReviewTitle(e.target.value)}
+                          onBlur={() => setTitleTouched(true)}
+                          className={`w-full px-4 py-3 border-0 rounded-md focus:outline-none peer ${
+                            titleTouched && !reviewTitle.trim() 
+                              ? 'bg-red-50 text-red-900 ring-1 ring-red-500' 
+                              : 'bg-card-input-bg'
+                          }`}
+                          placeholder=" "
+                        />
+                        <label
+                          htmlFor="reviewTitle"
+                          className={`absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1 ${
+                            titleTouched && !reviewTitle.trim()
+                              ? 'text-red-500 bg-red-50'
+                              : 'text-gray-500 bg-card-input-bg'
+                          }`}
+                        >
+                          Überschrift Ihrer Bewertung
+                        </label>
+                      </div>
+                      {titleTouched && !reviewTitle.trim() && (
+                        <p className="text-red-500 text-sm mt-1">Diese Angabe ist erforderlich.</p>
+                      )}
                     </div>
 
                     {/* Review Text */}
                     <div className="mb-2">
-                      <textarea
-                        id="reviewText"
-                        rows={6}
-                        placeholder="Beschreiben Sie Ihre Erfahrung"
-                        value={reviewText}
-                        onChange={(e) => setReviewText(e.target.value)}
-                        maxLength={maxLength}
-                        className="w-full px-4 py-3 border-0 rounded-md focus:outline-none resize-vertical bg-card-input-bg placeholder-placeholder-text min-h-[150px]"
-                        style={{
-                          '--placeholder-color': 'hsl(var(--placeholder-text))',
-                        } as React.CSSProperties}
-                      />
+                      <div className="relative">
+                        <textarea
+                          id="reviewText"
+                          rows={6}
+                          value={reviewText}
+                          onChange={(e) => setReviewText(e.target.value)}
+                          onBlur={() => setTextTouched(true)}
+                          maxLength={maxLength}
+                          className={`w-full px-4 py-3 border-0 rounded-md focus:outline-none resize-vertical min-h-[150px] peer ${
+                            textTouched && !reviewText.trim()
+                              ? 'bg-red-50 text-red-900 ring-1 ring-red-500'
+                              : 'bg-card-input-bg'
+                          }`}
+                          placeholder=" "
+                        />
+                        <label
+                          htmlFor="reviewText"
+                          className={`absolute text-sm duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1 ${
+                            textTouched && !reviewText.trim()
+                              ? 'text-red-500 bg-red-50'
+                              : 'text-gray-500 bg-card-input-bg'
+                          }`}
+                        >
+                          Beschreiben Sie Ihre Erfahrung
+                        </label>
+                      </div>
+                      {textTouched && !reviewText.trim() && (
+                        <p className="text-red-500 text-sm mt-1">Diese Angabe ist erforderlich.</p>
+                      )}
                     </div>
                     <div className="text-sm text-gray-500 mb-3 text-right">
                       <span className={reviewText.length === 0 ? "text-red-500" : ""}>
