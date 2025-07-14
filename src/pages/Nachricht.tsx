@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, LockKeyhole, Scale } from "lucide-react";
+import { ChevronLeft, ChevronRight, LockKeyhole, Scale, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
@@ -19,16 +19,18 @@ const Nachricht = () => {
   const handleBack = () => {
     if (step === 1) {
       navigate(-1);
-    } else {
+    } else if (step === 2) {
       setStep(1);
+    } else if (step === 3) {
+      setStep(2);
     }
   };
 
   const handleNext = () => {
     if (step === 1) {
       setStep(2);
-    } else {
-      console.log("Form submitted");
+    } else if (step === 2) {
+      setStep(3);
     }
   };
 
@@ -72,7 +74,7 @@ const Nachricht = () => {
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li>
-              <span className="text-neutral-500 text-sm">Bestätigen</span>
+              <span className={step === 3 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>Bestätigen</span>
             </li>
           </ol>
         </nav>
@@ -156,7 +158,7 @@ const Nachricht = () => {
                     </div>
                   </div>
                 </>
-              ) : (
+              ) : step === 2 ? (
                 <>
                   <h1 className="text-2xl font-semibold mb-8 leading-8">
                     Kontaktinfo für die Antwort
@@ -298,27 +300,44 @@ const Nachricht = () => {
                     </p>
                   </div>
                 </>
+              ) : (
+                <>
+                  <div className="my-12">
+                    <Mail className="text-[32px] mb-5 relative left-[1px] text-neutral-900" size={32} />
+                    <h1 className="text-2xl font-semibold mb-6 leading-8" data-testid="confirmation-heading">
+                      Nachricht erfolgreich versendet
+                    </h1>
+                    <p className="mb-3 text-neutral-600">
+                      Ihre Nachricht wurde erfolgreich an <span className="font-semibold">{email}</span> gesendet.
+                    </p>
+                    <p className="mb-3 text-neutral-600">
+                      Steinbock & Partner Rechtsanwaltskanzlei wird sich in Kürze bei Ihnen melden.
+                    </p>
+                  </div>
+                </>
               )}
 
               {/* Action Buttons */}
-              <div className="md:flex md:justify-between mt-3" style={{ width: '120%', maxWidth: '120%' }}>
-                <Button
-                  variant="ghost"
-                  onClick={handleBack}
-                  className="md:flex hidden items-center"
-                  style={{ color: '#1d4ed8', fontSize: '1.1em' }}
-                >
-                  <ChevronLeft className="mr-1.5" size={18} style={{ color: '#1d4ed8' }} />
-                  Zurück
-                </Button>
-                <Button
-                  onClick={handleNext}
-                  className="md:w-auto w-full bg-orange-primary hover:bg-orange-primary/90"
-                >
-                  {step === 1 ? "Weiter" : "Absenden"}
-                  <ChevronRight className="ml-1.5" size={16} />
-                </Button>
-              </div>
+              {step < 3 && (
+                <div className="md:flex md:justify-between mt-3" style={{ width: '120%', maxWidth: '120%' }}>
+                  <Button
+                    variant="ghost"
+                    onClick={handleBack}
+                    className="md:flex hidden items-center"
+                    style={{ color: '#1d4ed8', fontSize: '1.1em' }}
+                  >
+                    <ChevronLeft className="mr-1.5" size={18} style={{ color: '#1d4ed8' }} />
+                    Zurück
+                  </Button>
+                  <Button
+                    onClick={handleNext}
+                    className="md:w-auto w-full bg-orange-primary hover:bg-orange-primary/90"
+                  >
+                    {step === 1 ? "Weiter" : "Absenden"}
+                    <ChevronRight className="ml-1.5" size={16} />
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
 
