@@ -14,6 +14,8 @@ const BewertungSchreiben = () => {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [selectedLegalArea, setSelectedLegalArea] = useState("Allgemeine Rechtsberatung");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -91,15 +93,15 @@ const BewertungSchreiben = () => {
             <div className="my-12">
               {step === 1 ? (
                 <>
-                  <h1 className="text-2xl font-semibold mb-6 leading-8">
-                    Bewertung für Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
+                  <h1 className="text-2xl font-bold mb-6 leading-8">
+                    Bewerten Sie Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
                   </h1>
 
                   <div className="mb-9">
                     {/* Star Rating */}
                     <div className="mb-8">
                       <label className="text-neutral-700 text-base mb-4 block">
-                        Wie bewerten Sie die Kanzlei? *
+                        Wie bewerten Sie die Kanzlei?
                       </label>
                       <div className="flex gap-2 mb-2">
                         {[1, 2, 3, 4, 5].map((star) => (
@@ -116,7 +118,7 @@ const BewertungSchreiben = () => {
                               className={`${
                                 star <= (hoverRating || rating)
                                   ? "fill-amber-400 text-amber-400"
-                                  : "text-neutral-300"
+                                  : "fill-[#cbd5e1] text-[#cbd5e1]"
                               }`}
                             />
                           </button>
@@ -129,15 +131,58 @@ const BewertungSchreiben = () => {
                       )}
                     </div>
 
+                    {/* Legal Area Selection */}
+                    <div className="mb-6">
+                      <label className="text-neutral-700 text-base mb-3 block">
+                        Um welches Rechtsgebiet handelte es sich?
+                      </label>
+                      <div className="relative">
+                        <button
+                          type="button"
+                          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                          className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg text-left flex justify-between items-center"
+                        >
+                          {selectedLegalArea}
+                          <ChevronRight className={`transform transition-transform ${isDropdownOpen ? 'rotate-90' : ''}`} size={16} />
+                        </button>
+                        {isDropdownOpen && (
+                          <div className="absolute z-10 w-full mt-1 bg-white border border-neutral-400 rounded max-h-52 overflow-y-auto">
+                            <ul className="list-none p-0">
+                              {[
+                                "Allgemeine Rechtsberatung", "Allgemeines Vertragsrecht", "Arbeitsrecht", "Arzthaftungsrecht",
+                                "Baurecht & Architektenrecht", "Datenschutzrecht", "Erbrecht", "Familienrecht",
+                                "Forderungseinzug & Inkassorecht", "Gewerblicher Rechtsschutz", "Grundstücksrecht & Immobilienrecht",
+                                "Handelsrecht & Gesellschaftsrecht", "Insolvenzrecht & Sanierungsrecht", "Maklerrecht",
+                                "Markenrecht", "Medizinrecht", "Mietrecht & Wohnungseigentumsrecht", "Ordnungswidrigkeitenrecht",
+                                "Schadensersatzrecht & Schmerzensgeldrecht", "Sozialrecht", "Sportrecht", "Steuerrecht",
+                                "Strafrecht", "Urheberrecht & Medienrecht", "Vereinsrecht & Verbandsrecht", "Verkehrsrecht",
+                                "Versicherungsrecht", "Verwaltungsrecht", "Wirtschaftsrecht", "Zivilrecht", "Zwangsvollstreckungsrecht"
+                              ].map((area) => (
+                                <li key={area}>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setSelectedLegalArea(area);
+                                      setIsDropdownOpen(false);
+                                    }}
+                                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                  >
+                                    {area}
+                                  </button>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
                     {/* Review Title */}
                     <div className="mb-6">
-                      <label htmlFor="reviewTitle" className="text-neutral-700 text-base mb-3 block">
-                        Titel Ihrer Bewertung *
-                      </label>
                       <input
                         id="reviewTitle"
                         type="text"
-                        placeholder="Zusammenfassung Ihrer Erfahrung"
+                        placeholder="Überschrift Ihrer Bewertung"
                         value={reviewTitle}
                         onChange={(e) => setReviewTitle(e.target.value)}
                         className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg placeholder-placeholder-text"
@@ -149,13 +194,10 @@ const BewertungSchreiben = () => {
 
                     {/* Review Text */}
                     <div className="mb-2">
-                      <label htmlFor="reviewText" className="text-neutral-700 text-base mb-3 block">
-                        Ihre Bewertung *
-                      </label>
                       <textarea
                         id="reviewText"
                         rows={6}
-                        placeholder="Beschreiben Sie Ihre Erfahrungen mit der Kanzlei..."
+                        placeholder="Beschreiben Sie Ihre Erfahrung"
                         value={reviewText}
                         onChange={(e) => setReviewText(e.target.value)}
                         maxLength={maxLength}
