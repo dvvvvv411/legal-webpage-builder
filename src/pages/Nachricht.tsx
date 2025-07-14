@@ -51,7 +51,7 @@ const Nachricht = () => {
             />
           </a>
           <div className="flex items-center">
-            <LockKeyhole style={{ color: '#64748b' }} size={16} fill="currentColor" />
+            <LockKeyhole style={{ color: '#64748b' }} size={16} strokeWidth={2.5} />
             <span className="ml-2 sm:inline hidden text-sm" style={{ color: '#64748b' }}>
               Gesicherte Verbindung
             </span>
