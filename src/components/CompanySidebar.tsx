@@ -53,11 +53,11 @@ const CompanySidebar = () => {
           </Button>
           
           <div className="flex gap-2.5">
-            <Button variant="outline" className="md:hidden flex-1">
+            <Button variant="orange-outline" className="md:hidden flex-1">
               <Phone className="h-4 w-4" />
               <span className="sr-only">Anrufen</span>
             </Button>
-            <Button variant="outline" className="flex-1">
+            <Button variant="orange" className="flex-1">
               Bewertung abgeben
             </Button>
           </div>
