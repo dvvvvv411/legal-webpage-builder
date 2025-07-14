@@ -63,14 +63,12 @@ const Header = () => {
               >
                 Sie sind Anwalt?
               </a>
-              <div className="flex items-center space-x-1">
-                <Button variant="ghost" size="sm">
-                  <Menu className="w-8 h-8 text-gray-600" />
-                </Button>
-                <div className="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center">
-                  <User className="w-5 h-5 text-white fill-current" />
-                </div>
+              <div className="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center">
+                <User className="w-5 h-5 text-white fill-current" />
               </div>
+              <Button variant="ghost" size="sm">
+                <Menu className="w-8 h-8 text-gray-600" />
+              </Button>
             </div>
 
             {/* Mobile Menu */}
