@@ -91,7 +91,7 @@ const RatingSummary = () => {
 
         <Button 
           variant="orange-outline" 
-          className="w-full mt-5 2xl:hidden"
+          className="w-full mt-5 2xl:hidden text-xl"
         >
           Bewertung abgeben
         </Button>
