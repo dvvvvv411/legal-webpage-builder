@@ -285,9 +285,10 @@ const ReviewsList = () => {
                 size="sm"
                 onClick={() => handlePageChange(pageNumber)}
                 className={isActive 
-                  ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90 h-8 w-8 text-sm rounded-sm p-0" 
-                  : "text-pagination-active hover:bg-transparent hover:text-pagination-active/80 h-8 w-8 text-sm p-0"
+                  ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90 h-11 w-11 text-sm rounded-sm p-0" 
+                  : "hover:bg-transparent hover:text-[rgb(29,78,216)]/80 h-11 w-11 text-sm p-0"
                 }
+                style={!isActive ? { color: 'rgb(29, 78, 216)' } : {}}
               >
                 {pageNumber}
               </Button>
