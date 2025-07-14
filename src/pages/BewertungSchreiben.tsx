@@ -86,12 +86,12 @@ const BewertungSchreiben = () => {
 
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto max-w-[1920px] w-full m-auto px-4 md:px-0 flex">
-        <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] 2xl:grid-cols-[auto_1fr_auto] justify-center xl:!justify-between w-full min-h-full">
+        <div className={`grid ${step === 3 ? 'grid-cols-1' : 'grid-cols-1 xl:grid-cols-[1fr_auto] 2xl:grid-cols-[auto_1fr_auto]'} justify-center xl:!justify-between w-full min-h-full`}>
           {/* Left Spacer */}
-          <div className="xl:w-[440px] hidden 2xl:block"></div>
+          {step !== 3 && <div className="xl:w-[440px] hidden 2xl:block"></div>}
 
           {/* Center Content */}
-          <div className="w-[480px] max-w-full mx-auto">
+          <div className={`${step === 3 ? 'w-full max-w-4xl' : 'w-[480px] max-w-full'} mx-auto`}>
             <div className="my-12">
               {step === 1 ? (
                 <>
@@ -452,58 +452,60 @@ const BewertungSchreiben = () => {
           </div>
 
           {/* Right Sidebar */}
-          <div className="xl:w-[480px] hidden xl:block">
-            <div className="bg-card-input-bg px-10 py-10 h-full">
-              <div className="mb-6 text-sm text-neutral-700">Ihre Kanzlei</div>
-              
-              <div className="mb-3 flex gap-4 xl:items-center">
-                <figure>
-                  <img
-                    alt="Bild von Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater"
-                    src="https://www.anwalt.de/cdn-cgi/image/format=auto,fit=scale-down,width=80,height=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg"
-                    className="rounded-xl"
-                    height="80"
-                    width="80"
-                  />
-                </figure>
-                <div>
-                  <span
-                    title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater"
-                    className="text-black text-lg font-semibold"
-                  >
-                    Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-12">
-                <p className="mb-2 flex items-center gap-2 text-sm font-semibold" style={{ color: 'hsl(var(--dark-slate))', fontSize: '1.045em' }}>
-                  <Scale className="shrink-0" style={{ color: 'hsl(var(--dark-slate))' }} size={18} />
-                  Rechtsgebiete:
-                </p>
-                <div className="flex flex-wrap gap-2 text-legal-text" style={{ fontSize: '1em' }}>
-                  {[
-                    "Arbeitsrecht", "Steuerrecht", "Verkehrsrecht", "Medizinrecht",
-                    "Handelsrecht & Gesellschaftsrecht", "Baurecht & Architektenrecht",
-                    "Mietrecht & Wohnungseigentumsrecht", "Insolvenzrecht & Sanierungsrecht",
-                    "Strafrecht", "Versicherungsrecht", "Zivilrecht",
-                    "Schadensersatzrecht & Schmerzensgeldrecht", "Forderungseinzug & Inkassorecht",
-                    "Allgemeines Vertragsrecht", "Grundstücksrecht & Immobilienrecht",
-                    "Arzthaftungsrecht", "Maklerrecht", "Erbrecht", "Wirtschaftsrecht",
-                    "Gewerblicher Rechtsschutz", "Datenschutzrecht", "Ordnungswidrigkeitenrecht",
-                    "Zwangsvollstreckungsrecht"
-                  ].map((area, index, array) => (
-                    <span key={area} className="inline-flex items-center">
-                      {area}
-                      {index < array.length - 1 && (
-                        <span className="mx-1 w-1 h-1 bg-neutral-300 rounded-full"></span>
-                      )}
+          {step !== 3 && (
+            <div className="xl:w-[480px] hidden xl:block">
+              <div className="bg-card-input-bg px-10 py-10 h-full">
+                <div className="mb-6 text-sm text-neutral-700">Ihre Kanzlei</div>
+                
+                <div className="mb-3 flex gap-4 xl:items-center">
+                  <figure>
+                    <img
+                      alt="Bild von Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater"
+                      src="https://www.anwalt.de/cdn-cgi/image/format=auto,fit=scale-down,width=80,height=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg"
+                      className="rounded-xl"
+                      height="80"
+                      width="80"
+                    />
+                  </figure>
+                  <div>
+                    <span
+                      title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater"
+                      className="text-black text-lg font-semibold"
+                    >
+                      Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
                     </span>
-                  ))}
+                  </div>
+                </div>
+
+                <div className="mt-12">
+                  <p className="mb-2 flex items-center gap-2 text-sm font-semibold" style={{ color: 'hsl(var(--dark-slate))', fontSize: '1.045em' }}>
+                    <Scale className="shrink-0" style={{ color: 'hsl(var(--dark-slate))' }} size={18} />
+                    Rechtsgebiete:
+                  </p>
+                  <div className="flex flex-wrap gap-2 text-legal-text" style={{ fontSize: '1em' }}>
+                    {[
+                      "Arbeitsrecht", "Steuerrecht", "Verkehrsrecht", "Medizinrecht",
+                      "Handelsrecht & Gesellschaftsrecht", "Baurecht & Architektenrecht",
+                      "Mietrecht & Wohnungseigentumsrecht", "Insolvenzrecht & Sanierungsrecht",
+                      "Strafrecht", "Versicherungsrecht", "Zivilrecht",
+                      "Schadensersatzrecht & Schmerzensgeldrecht", "Forderungseinzug & Inkassorecht",
+                      "Allgemeines Vertragsrecht", "Grundstücksrecht & Immobilienrecht",
+                      "Arzthaftungsrecht", "Maklerrecht", "Erbrecht", "Wirtschaftsrecht",
+                      "Gewerblicher Rechtsschutz", "Datenschutzrecht", "Ordnungswidrigkeitenrecht",
+                      "Zwangsvollstreckungsrecht"
+                    ].map((area, index, array) => (
+                      <span key={area} className="inline-flex items-center">
+                        {area}
+                        {index < array.length - 1 && (
+                          <span className="mx-1 w-1 h-1 bg-neutral-300 rounded-full"></span>
+                        )}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
