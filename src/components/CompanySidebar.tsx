@@ -85,16 +85,17 @@ const CompanySidebar = () => {
             onClick={() => setIsOnlineConsultationOpen(!isOnlineConsultationOpen)}
           >
             <div className="relative">
-              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                <Video className="w-4 h-4 text-green-600" />
+              <div className="w-[37px] h-[37px] bg-green-100 rounded-full flex items-center justify-center">
+                <Video className="w-[18px] h-[18px] text-green-600" />
               </div>
             </div>
             <span className="flex-1">Online-Rechtsberatung</span>
              <ChevronDown 
-               className={`icon-enhanced text-blue-600 transition-transform ${
-                 isOnlineConsultationOpen ? 'rotate-180' : ''
-               }`}
-            />
+                className={`icon-enhanced transition-transform ${
+                  isOnlineConsultationOpen ? 'rotate-180' : ''
+                }`}
+                style={{ color: '#0f172a' }}
+             />
           </button>
           
           {isOnlineConsultationOpen && (
