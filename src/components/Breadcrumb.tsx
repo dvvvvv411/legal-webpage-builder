@@ -13,8 +13,8 @@ const Breadcrumb = ({ items }: BreadcrumbProps) => {
     <div className="py-2">
          <div className="container mx-auto px-enhanced">
            <ol className="flex flex-wrap gap-2">
-              {items.map((item, index) => (
-                <li key={index} className="flex gap-2 text-base text-neutral-600" style={{ fontSize: '1.188rem' }}>
+             {items.map((item, index) => (
+               <li key={index} className="flex gap-2 text-lg text-neutral-600">
               {item.current ? (
                 <span className="cursor-text text-inherit">
                   {item.label}
