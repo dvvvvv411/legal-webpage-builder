@@ -5,10 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, Settings, Users, FileText, Shield, Building2, MessageSquare, Scale, TrendingUp, User } from 'lucide-react';
+import { Loader2, Settings, Users, FileText, Shield, Building2, MessageSquare, Scale, TrendingUp } from 'lucide-react';
 import LawFirmManager from '@/components/admin/LawFirmManager';
 import ReviewManager from '@/components/admin/ReviewManager';
-import LawyerManager from '@/components/admin/LawyerManager';
 import LegalAreaManager from '@/components/admin/LegalAreaManager';
 
 const Admin = () => {
@@ -59,9 +58,8 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="law-firms" className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="law-firms">Kanzleien</TabsTrigger>
-            <TabsTrigger value="lawyers">Anwälte</TabsTrigger>
             <TabsTrigger value="reviews">Bewertungen</TabsTrigger>
             <TabsTrigger value="legal-areas">Rechtsgebiete</TabsTrigger>
             <TabsTrigger value="analytics">Statistiken</TabsTrigger>
@@ -69,10 +67,6 @@ const Admin = () => {
           
           <TabsContent value="law-firms" className="mt-6">
             <LawFirmManager />
-          </TabsContent>
-          
-          <TabsContent value="lawyers" className="mt-6">
-            <LawyerManager />
           </TabsContent>
           
           <TabsContent value="reviews" className="mt-6">
