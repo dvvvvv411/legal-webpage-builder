@@ -296,7 +296,7 @@ const ReviewsList = () => {
 
           {/* Dropdown */}
           {isDropdownOpen && (
-            <div className="fixed md:absolute top-0 md:top-full right-0 md:right-0 w-screen md:w-[371px] max-h-dvh z-[1040] flex flex-col gap-4 md:rounded-[5px] bg-white p-4 shadow-2xl border">
+            <div className="fixed md:absolute top-0 md:top-full right-0 md:right-0 w-screen md:w-[408px] max-h-dvh z-[1040] flex flex-col gap-4 md:rounded-[5px] bg-white p-4 shadow-2xl border">
               {/* Header */}
               <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
                 <p className="text-base font-semibold text-neutral-700">Rechtsgebiete</p>
