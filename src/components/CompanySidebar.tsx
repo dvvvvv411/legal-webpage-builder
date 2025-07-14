@@ -28,11 +28,11 @@ const CompanySidebar = () => {
               <a 
                 href="https://www.anwalt.de/steinbock-partner" 
                 title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater" 
-                className="text-pretty font-bold text-blue-600 hover:text-blue-700 text-lg"
+                className="text-pretty font-bold text-orange-banner hover:text-orange-hover text-lg"
               >
                 Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
               </a>
-              <a href="https://www.anwalt.de/steinbock-partner/bewertungen.php" className="text-blue-600 hover:text-blue-700">
+              <a href="https://www.anwalt.de/steinbock-partner/bewertungen.php" className="text-orange-banner hover:text-orange-hover">
                 <div className="my-1 flex text-amber-400">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 fill-current" />
@@ -48,7 +48,7 @@ const CompanySidebar = () => {
 
         {/* Action Buttons */}
         <div className="px-4 py-4 border-t border-neutral-200 flex flex-col gap-2.5">
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full">
+          <Button className="bg-orange-banner hover:bg-orange-hover text-white w-full">
             Anliegen schildern
           </Button>
           
@@ -68,7 +68,7 @@ const CompanySidebar = () => {
             <span>+49 931 22{showFullNumber ? "222" : "..."}</span>
             <Button 
               variant="link" 
-              className="text-blue-600 font-semibold hover:underline p-0 h-auto"
+              className="text-orange-banner font-semibold hover:underline p-0 h-auto"
               onClick={() => setShowFullNumber(!showFullNumber)}
             >
               {showFullNumber ? "verbergen" : "anzeigen"}
@@ -89,7 +89,7 @@ const CompanySidebar = () => {
             </div>
             <span className="flex-1">Online-Rechtsberatung</span>
             <ChevronDown 
-              className={`h-5 w-5 text-blue-600 transition-transform ${
+              className={`h-5 w-5 text-orange-banner transition-transform ${
                 isOnlineConsultationOpen ? 'rotate-180' : ''
               }`} 
             />
