@@ -105,7 +105,7 @@ const BewertungSchreiben = () => {
                       <label className="text-neutral-700 text-base mb-4 block">
                         Wie bewerten Sie die Kanzlei?
                       </label>
-                      <div className="flex gap-2 mb-2">
+                      <div className="flex gap-1 mb-2">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <button
                             key={star}
@@ -116,7 +116,7 @@ const BewertungSchreiben = () => {
                             className="transition-colors"
                           >
                             <Star
-                              size={35}
+                              size={39}
                               strokeWidth={0.5}
                               className={`${
                                 star <= (hoverRating || rating)
