@@ -69,6 +69,24 @@ const BewertungSchreiben = () => {
     }
   }, [slug]);
 
+  // Set dynamic page title and meta description
+  useEffect(() => {
+    if (lawFirm) {
+      document.title = `ᐅ Bewertung schreiben für ${lawFirm.name} ᐅ exklusiv bei anwalt.de!`;
+      
+      // Set meta description
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', `Schreiben Sie eine Bewertung für ${lawFirm.name}. Teilen Sie Ihre Erfahrungen mit anderen Mandanten - exklusiv bei anwalt.de!`);
+      } else {
+        const meta = document.createElement('meta');
+        meta.name = 'description';
+        meta.content = `Schreiben Sie eine Bewertung für ${lawFirm.name}. Teilen Sie Ihre Erfahrungen mit anderen Mandanten - exklusiv bei anwalt.de!`;
+        document.head.appendChild(meta);
+      }
+    }
+  }, [lawFirm]);
+
   const fetchLawFirmData = async () => {
     try {
       const { data: firmData, error: firmError } = await supabase

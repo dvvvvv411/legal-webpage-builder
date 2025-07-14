@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +8,21 @@ import { Loader2, LogIn, Settings, Star } from 'lucide-react';
 
 const Index = () => {
   const { user, loading, signOut } = useAuth();
+
+  useEffect(() => {
+    document.title = "ᐅ Anwalt Portal ᐅ Bewertungen und Vorlagen für Anwälte";
+    
+    // Set meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Anwalt Portal - Finden Sie den passenden Anwalt durch Bewertungen und nutzen Sie unsere Vorlagen für Ihre Rechtsberatung.');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = 'Anwalt Portal - Finden Sie den passenden Anwalt durch Bewertungen und nutzen Sie unsere Vorlagen für Ihre Rechtsberatung.';
+      document.head.appendChild(meta);
+    }
+  }, []);
 
   if (loading) {
     return (

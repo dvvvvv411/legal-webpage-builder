@@ -59,6 +59,24 @@ const Nachricht = () => {
     }
   }, [slug]);
 
+  // Set dynamic page title and meta description
+  useEffect(() => {
+    if (lawFirm) {
+      document.title = `ᐅ Nachricht an ${lawFirm.name} ᐅ exklusiv bei anwalt.de!`;
+      
+      // Set meta description
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', `Senden Sie eine Nachricht an ${lawFirm.name}. Kostenloses Kontaktformular für Ihre Rechtsberatung - exklusiv bei anwalt.de!`);
+      } else {
+        const meta = document.createElement('meta');
+        meta.name = 'description';
+        meta.content = `Senden Sie eine Nachricht an ${lawFirm.name}. Kostenloses Kontaktformular für Ihre Rechtsberatung - exklusiv bei anwalt.de!`;
+        document.head.appendChild(meta);
+      }
+    }
+  }, [lawFirm]);
+
   const fetchLawFirmData = async () => {
     try {
       const { data: firmData, error: firmError } = await supabase

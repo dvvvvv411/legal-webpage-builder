@@ -129,6 +129,24 @@ const LawFirm = () => {
     fetchAllData();
   }, [slug, navigate, toast]);
 
+  // Set dynamic page title and meta description
+  useEffect(() => {
+    if (lawFirm) {
+      document.title = `ᐅ Bewertungen von ${lawFirm.name} ᐅ exklusiv bei anwalt.de!`;
+      
+      // Set meta description
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', `Lesen Sie aktuelle Bewertungen von ${lawFirm.name}. Erfahrungen und Meinungen von Mandanten - exklusiv bei anwalt.de!`);
+      } else {
+        const meta = document.createElement('meta');
+        meta.name = 'description';
+        meta.content = `Lesen Sie aktuelle Bewertungen von ${lawFirm.name}. Erfahrungen und Meinungen von Mandanten - exklusiv bei anwalt.de!`;
+        document.head.appendChild(meta);
+      }
+    }
+  }, [lawFirm]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -144,7 +162,7 @@ const LawFirm = () => {
   const breadcrumbItems = [
     {
       label: lawFirm.name,
-      href: `/law-firm/${lawFirm.slug}`
+      href: `/${lawFirm.slug}`
     },
     {
       label: "Bewertungen",
