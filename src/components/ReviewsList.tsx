@@ -346,7 +346,7 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
               
               {/* Date and Lawyer Info */}
               <p className="text-neutral-500 text-lg mr-3.5">
-                am {formatDate(review.review_date, review.review_time)}
+                von {review.initials} am {formatDate(review.review_date, review.review_time)}
                 {review.lawyer ? (
                   <span>
                     {" "}für{" "}
