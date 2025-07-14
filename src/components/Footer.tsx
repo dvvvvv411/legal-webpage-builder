@@ -40,7 +40,7 @@ const Footer = () => {
                 title="Facebook"
                 className="hover:opacity-80"
               >
-                <div className="w-6 h-6 rounded-full flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: 'rgb(100, 116, 139)' }}>
+                <div className="w-6 h-6 rounded-full flex items-center justify-center text-white font-bold text-lg" style={{ backgroundColor: 'rgb(100, 116, 139)' }}>
                   f
                 </div>
                 <span className="sr-only">Facebook</span>
@@ -68,7 +68,7 @@ const Footer = () => {
                 title="Linkedin"
                 className="hover:opacity-80"
               >
-                <div className="w-6 h-6 rounded-sm flex items-center justify-center text-white font-bold text-xs" style={{ backgroundColor: 'rgb(100, 116, 139)' }}>
+                <div className="w-6 h-6 rounded-sm flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: 'rgb(100, 116, 139)' }}>
                   in
                 </div>
                 <span className="sr-only">Linkedin</span>

@@ -21,7 +21,7 @@ const buttonVariants = cva(
         orange: "bg-orange-button text-white hover:bg-orange-button-hover",
         "orange-outline": "border border-orange-button text-orange-button bg-transparent hover:bg-orange-button hover:text-white",
         "orange-outline-no-hover": "border border-orange-button text-orange-button bg-transparent",
-        "blue-outline": "border border-blue-500 text-blue-600 bg-transparent hover:bg-blue-500 hover:text-white",
+        "blue-outline": "border border-blue-500 text-blue-600 bg-transparent hover:bg-blue-100 hover:text-blue-700",
       },
       size: {
         default: "h-11 px-5 py-2.5",
