@@ -65,6 +65,8 @@ export const useLawFirmBySlug = (slug: string) => {
   return useQuery({
     queryKey: ["law-firm", slug],
     queryFn: async () => {
+      console.log("Fetching law firm with slug:", slug);
+      
       const { data, error } = await supabase
         .from("law_firms")
         .select(`
@@ -79,19 +81,31 @@ export const useLawFirmBySlug = (slug: string) => {
           )
         `)
         .eq("slug", slug)
-        .single();
+        .maybeSingle();
       
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching law firm:", error);
+        throw error;
+      }
+      
+      if (!data) {
+        console.log("No law firm found with slug:", slug);
+        return null;
+      }
+      
+      console.log("Raw law firm data:", data);
       
       // Transform the data to match our interface
       const transformed = {
         ...data,
-        legal_areas: data.legal_areas.map((la: any) => la.legal_area),
-        reviews: data.reviews.map((review: any) => ({
+        legal_areas: data.legal_areas?.map((la: any) => la.legal_area) || [],
+        reviews: data.reviews?.map((review: any) => ({
           ...review,
           legal_area: review.legal_area
-        }))
+        })) || []
       };
+      
+      console.log("Transformed law firm data:", transformed);
       
       return transformed as LawFirmWithDetails;
     },

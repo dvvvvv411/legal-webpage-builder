@@ -31,8 +31,14 @@ const BewertungSchreiben = () => {
     legal_area_id: "",
   });
 
-  const { data: lawFirm, isLoading: firmLoading } = useLawFirmBySlug(slug || "");
-  const { data: legalAreas } = useLegalAreas();
+  const { data: lawFirm, isLoading: firmLoading, error: firmError } = useLawFirmBySlug(slug || "");
+  
+  // Use law firm's specific legal areas instead of all legal areas
+  const legalAreas = lawFirm?.legal_areas || [];
+  
+  console.log("BewertungSchreiben page - slug:", slug);
+  console.log("BewertungSchreiben page - lawFirm:", lawFirm);
+  console.log("BewertungSchreiben page - legalAreas:", legalAreas);
   const createReview = useCreateReview();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -80,6 +86,25 @@ const BewertungSchreiben = () => {
     );
   }
 
+  if (firmError) {
+    console.error("Error loading law firm:", firmError);
+    return (
+      <div className="min-h-screen bg-page-background">
+        <Header />
+        <div className="container mx-auto px-enhanced py-12">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-4">Error Loading Law Firm</h1>
+            <p className="text-muted-foreground mb-4">
+              There was an error loading the law firm information.
+            </p>
+            <Button onClick={() => navigate("/")}>Return Home</Button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   if (!lawFirm) {
     return (
       <div className="min-h-screen bg-page-background">
@@ -87,6 +112,9 @@ const BewertungSchreiben = () => {
         <div className="container mx-auto px-enhanced py-12">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Law Firm Not Found</h1>
+            <p className="text-muted-foreground mb-4">
+              The law firm with slug "{slug}" could not be found.
+            </p>
             <Button onClick={() => navigate("/")}>Return Home</Button>
           </div>
         </div>
@@ -172,11 +200,17 @@ const BewertungSchreiben = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="">Not specified</SelectItem>
-                      {legalAreas?.map((area) => (
-                        <SelectItem key={area.id} value={area.id}>
-                          {area.name}
+                      {legalAreas.length > 0 ? (
+                        legalAreas.map((area) => (
+                          <SelectItem key={area.id} value={area.id}>
+                            {area.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="" disabled>
+                          No legal areas available
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
