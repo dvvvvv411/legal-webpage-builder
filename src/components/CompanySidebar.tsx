@@ -49,7 +49,7 @@ const CompanySidebar = () => {
 
         {/* Action Buttons */}
         <div className="px-4 py-4 border-t border-neutral-200 flex flex-col gap-2.5">
-          <Button variant="orange" className="w-full text-lg py-8 rounded-lg">
+          <Button variant="orange" className="w-full text-lg py-6 rounded-lg">
             Anliegen schildern
           </Button>
           
@@ -58,7 +58,7 @@ const CompanySidebar = () => {
               <Phone className="w-4 h-4" />
               <span className="sr-only">Anrufen</span>
             </Button>
-            <Button variant="orange-outline-no-hover" className="flex-1 text-lg py-8 rounded-lg">
+            <Button variant="orange-outline-no-hover" className="flex-1 text-lg py-6 rounded-lg">
               Bewertung abgeben
             </Button>
           </div>
