@@ -6,8 +6,11 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit2, Trash2, Building, X } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus, Edit2, Trash2, Building, X, Upload, Image, Link } from "lucide-react";
 import { useLawFirms, useCreateLawFirm, useUpdateLawFirm, useDeleteLawFirm, LawFirm } from "@/hooks/use-law-firms";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const LawFirmManager = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -15,6 +18,7 @@ const LawFirmManager = () => {
   const [selectedLawFirm, setSelectedLawFirm] = useState<LawFirm | null>(null);
   const [lawyers, setLawyers] = useState<string[]>([]);
   const [newLawyerName, setNewLawyerName] = useState("");
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
@@ -105,6 +109,44 @@ const LawFirmManager = () => {
     setFormData({ ...formData, name, slug });
   };
 
+  const handleLogoUpload = async (file: File) => {
+    if (!file) return;
+    
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from('law-firm-logos')
+        .upload(filePath, file);
+
+      if (error) {
+        throw error;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('law-firm-logos')
+        .getPublicUrl(filePath);
+
+      setFormData({ ...formData, logo_url: publicUrl });
+      toast({
+        title: "Logo erfolgreich hochgeladen!",
+        description: "Das Logo kann jetzt verwendet werden.",
+      });
+    } catch (error) {
+      console.error('Error uploading logo:', error);
+      toast({
+        title: "Fehler beim Hochladen",
+        description: "Das Logo konnte nicht hochgeladen werden.",
+        variant: "destructive",
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const LawFirmForm = () => (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-2 gap-4">
@@ -139,13 +181,88 @@ const LawFirmManager = () => {
       </div>
 
       <div>
-        <Label htmlFor="logo_url">Logo URL</Label>
-        <Input
-          id="logo_url"
-          value={formData.logo_url}
-          onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
-          placeholder="https://example.com/logo.png"
-        />
+        <Label>Logo</Label>
+        <Tabs defaultValue="upload" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="upload">
+              <Upload className="h-4 w-4 mr-2" />
+              Hochladen
+            </TabsTrigger>
+            <TabsTrigger value="url">
+              <Link className="h-4 w-4 mr-2" />
+              URL
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="upload" className="space-y-4">
+            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
+              <div className="space-y-2">
+                <div className="flex justify-center">
+                  <Image className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Klicken Sie hier oder ziehen Sie ein Bild hierher
+                </div>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      handleLogoUpload(file);
+                    }
+                  }}
+                  className="cursor-pointer"
+                  disabled={uploading}
+                />
+                {uploading && (
+                  <div className="text-sm text-muted-foreground">
+                    Wird hochgeladen...
+                  </div>
+                )}
+              </div>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="url" className="space-y-4">
+            <Input
+              placeholder="https://example.com/logo.png"
+              value={formData.logo_url}
+              onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
+            />
+          </TabsContent>
+        </Tabs>
+        
+        {formData.logo_url && (
+          <div className="mt-4 p-4 border rounded-lg bg-muted/50">
+            <Label className="text-sm font-medium">Vorschau:</Label>
+            <div className="mt-2 flex items-center gap-4">
+              <img 
+                src={formData.logo_url} 
+                alt="Logo Vorschau" 
+                className="h-16 w-16 object-contain rounded border"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+              <div className="flex-1">
+                <div className="text-sm text-muted-foreground truncate">
+                  {formData.logo_url}
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setFormData({ ...formData, logo_url: "" })}
+                  className="mt-1 h-auto p-0 text-red-500 hover:text-red-700"
+                >
+                  <X className="h-3 w-3 mr-1" />
+                  Entfernen
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div>
