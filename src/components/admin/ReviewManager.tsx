@@ -68,7 +68,6 @@ export const ReviewManager = () => {
     initials: "",
     review_date: "",
     review_time: "",
-    scope: "",
     law_firm_id: "",
     lawyer_id: "",
     legal_area_id: ""
@@ -169,7 +168,7 @@ export const ReviewManager = () => {
         avatar_color: selectedReview?.avatar_color || getRandomColor(),
         review_date: formData.review_date || null,
         review_time: formData.review_time || null,
-        scope: formData.scope || null,
+        scope: null,
         law_firm_id: formData.law_firm_id,
         lawyer_id: (formData.lawyer_id && formData.lawyer_id !== "none") ? formData.lawyer_id : null,
         legal_area_id: (formData.legal_area_id && formData.legal_area_id !== "none") ? formData.legal_area_id : null
@@ -221,7 +220,6 @@ export const ReviewManager = () => {
       initials: review.initials,
       review_date: review.review_date || "",
       review_time: review.review_time || "",
-      scope: review.scope || "",
       law_firm_id: review.law_firm_id,
       lawyer_id: review.lawyer_id || "none",
       legal_area_id: review.legal_area_id || "none"
@@ -253,7 +251,6 @@ export const ReviewManager = () => {
       initials: "",
       review_date: "",
       review_time: "",
-      scope: "",
       law_firm_id: "",
       lawyer_id: "none",
       legal_area_id: "none"
@@ -423,16 +420,6 @@ export const ReviewManager = () => {
                   </SelectContent>
                 </Select>
               </div>
-
-              <div>
-                <Label htmlFor="scope">Scope/Category</Label>
-                <Input
-                  id="scope"
-                  value={formData.scope}
-                  onChange={(e) => setFormData(prev => ({ ...prev, scope: e.target.value }))}
-                  placeholder="e.g., Verkehrsrecht, Arbeitsrecht"
-                />
-              </div>
               
               <div className="flex gap-2 pt-4">
                 <Button type="submit" disabled={loading}>
@@ -505,11 +492,6 @@ export const ReviewManager = () => {
                   {review.legal_area && (
                     <Badge variant="outline">
                       {review.legal_area.name}
-                    </Badge>
-                  )}
-                  {review.scope && (
-                    <Badge variant="outline">
-                      {review.scope}
                     </Badge>
                   )}
                 </div>
