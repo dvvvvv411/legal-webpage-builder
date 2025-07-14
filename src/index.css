@@ -50,6 +50,10 @@ All colors MUST be HSL.
     --sehr-gut-bg: 223 64% 95%; /* rgb(232 237 251) */
     --sehr-gut-text: 221 68% 28.8%; /* rgb(17 47 130) */
     --sehr-gut-outline: 223 67% 84%; /* rgb(187 202 243) */
+    
+    /* Nachricht page specific colors */
+    --card-input-bg: 210 17% 97%; /* rgb(244 247 250) */
+    --orange-primary: 21 90% 49%; /* rgb(233 93 15) */
 
     --radius: 0.5rem;
 

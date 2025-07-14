@@ -22,7 +22,7 @@ const Nachricht = () => {
   const maxLength = 3000;
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
       <header className="border-b border-neutral-300 bg-white sticky top-0 z-10 h-[58px]">
         <div className="w-full max-w-7xl mx-auto py-4 px-4 xl:px-2.5 flex items-center justify-between">
@@ -31,8 +31,8 @@ const Nachricht = () => {
               className="img-fluid" 
               width="130" 
               height="25" 
-              src="/img/anwalt.de-logo.svg" 
-              alt="Anwalt suchen und finden bei anwalt.de"
+              src="https://www.anwalt.de/img/anwalt.de-logo.svg" 
+              alt="Anwalt.de"
             />
           </a>
           <div className="flex items-center">
@@ -46,10 +46,10 @@ const Nachricht = () => {
 
       {/* Breadcrumb Steps */}
       <div className="sticky top-[58px] z-10">
-        <nav aria-label="Breadcrumbs" className="bg-neutral-50 border-b border-neutral-200 py-3">
+        <nav aria-label="Breadcrumbs" className="bg-white border-b border-neutral-200 py-3">
           <ol className="flex items-center justify-center gap-4 max-w-4xl mx-auto px-4">
             <li className="flex items-center">
-              <span className="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+              <span className="text-black text-sm font-medium">
                 Rechtsanliegen schildern
               </span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
@@ -126,7 +126,7 @@ const Nachricht = () => {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       maxLength={maxLength}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none bg-card-input-bg"
                     />
                     <span className="absolute bottom-2 right-2 text-sm text-gray-500">
                       <span className={message.length === 0 ? "text-red-500" : ""}>
@@ -150,7 +150,7 @@ const Nachricht = () => {
                 </Button>
                 <Button
                   onClick={handleNext}
-                  className="md:w-auto w-full bg-primary hover:bg-primary/90"
+                  className="md:w-auto w-full bg-orange-primary hover:bg-orange-primary/90"
                 >
                   Weiter
                   <ChevronRight className="ml-1.5" size={16} />
@@ -161,7 +161,7 @@ const Nachricht = () => {
 
           {/* Right Sidebar */}
           <div className="xl:w-[440px] hidden xl:block">
-            <div className="bg-white border border-neutral-200 rounded-lg p-6 h-full">
+            <div className="bg-card-input-bg border border-neutral-200 rounded-lg p-6 h-full">
               <div className="mb-6 text-sm text-neutral-700">Ihre Kanzlei</div>
               
               <div className="mb-3 flex gap-4 xl:items-center">

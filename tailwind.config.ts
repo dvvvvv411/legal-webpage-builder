@@ -67,6 +67,8 @@ export default {
 				'sehr-gut-bg': 'hsl(var(--sehr-gut-bg))',
 				'sehr-gut-text': 'hsl(var(--sehr-gut-text))',
 				'sehr-gut-outline': 'hsl(var(--sehr-gut-outline))',
+				'card-input-bg': 'hsl(var(--card-input-bg))',
+				'orange-primary': 'hsl(var(--orange-primary))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
