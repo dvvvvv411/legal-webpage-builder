@@ -1,6 +1,7 @@
 import { ThumbsUp } from "lucide-react";
 import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const RatingSummary = () => {
   const ratingData = [
@@ -93,8 +94,9 @@ const RatingSummary = () => {
         <Button 
           variant="orange-outline" 
           className="w-full mt-5 2xl:hidden text-xl"
+          asChild
         >
-          Bewertung abgeben
+          <Link to="/bewertung/schreiben">Bewertung abgeben</Link>
         </Button>
       </div>
     </section>
