@@ -63,6 +63,7 @@ export default {
 				'orange-button-hover': 'hsl(var(--orange-button-hover))',
 				'rating-bg-light': 'hsl(var(--rating-bg-light))',
 				'page-background': 'hsl(var(--page-background))',
+				'pagination-active': 'hsl(var(--pagination-active))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

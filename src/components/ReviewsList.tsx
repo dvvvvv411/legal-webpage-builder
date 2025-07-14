@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Star, Filter } from "lucide-react";
+import { Star, Filter, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -264,14 +264,15 @@ const ReviewsList = () => {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-6 pt-4 border-t border-neutral-200">
+        <div className="flex justify-center items-center gap-2 mt-6">
           <Button
             variant="outline"
             size="sm"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
+            className="p-2"
           >
-            Zurück
+            <ChevronLeft className="h-4 w-4" />
           </Button>
           
           {[...Array(totalPages)].map((_, i) => {
@@ -279,9 +280,10 @@ const ReviewsList = () => {
             return (
               <Button
                 key={pageNumber}
-                variant={currentPage === pageNumber ? "orange" : "outline"}
+                variant="outline"
                 size="sm"
                 onClick={() => handlePageChange(pageNumber)}
+                className={currentPage === pageNumber ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90" : ""}
               >
                 {pageNumber}
               </Button>
@@ -293,8 +295,9 @@ const ReviewsList = () => {
             size="sm"
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
+            className="p-2"
           >
-            Weiter
+            <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
       )}
