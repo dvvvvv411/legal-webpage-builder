@@ -290,7 +290,7 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
                     className="text-white rounded-full avatar-enhanced flex items-center justify-center text-lg font-normal"
                     style={{ backgroundColor: review.avatar_color }}
                   >
-                    {review.initials.replace(/\./g, '')}
+                    {review.initials.replace(/[\.\s]/g, '')}
                   </div>
                 </div>
                 
