@@ -49,17 +49,17 @@ const Nachricht = () => {
         <nav aria-label="Breadcrumbs" className="bg-white border-b border-neutral-200 py-3">
           <ol className="flex items-center justify-center gap-4 max-w-4xl mx-auto px-4">
             <li className="flex items-center">
-              <span className="text-black text-[1.1em] font-medium">
+              <span className="text-black text-sm font-medium">
                 Rechtsanliegen schildern
               </span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li className="flex items-center">
-              <span className="text-neutral-500 text-[1.1em]">Kontaktinfo</span>
+              <span className="text-neutral-500 text-sm">Kontaktinfo</span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li>
-              <span className="text-neutral-500 text-[1.1em]">Bestätigen</span>
+              <span className="text-neutral-500 text-sm">Bestätigen</span>
             </li>
           </ol>
         </nav>
@@ -146,9 +146,9 @@ const Nachricht = () => {
                 <Button
                   variant="ghost"
                   onClick={handleBack}
-                  className="md:flex hidden items-center text-[#1d4ed8] hover:text-[#1d4ed8]/80 text-[1.1em]"
+                  className="md:flex hidden items-center"
                 >
-                  <ChevronLeft className="mr-1.5 text-[#1d4ed8]" size={18} />
+                  <ChevronLeft className="mr-1.5" size={16} />
                   Zurück
                 </Button>
                 <Button
