@@ -247,7 +247,7 @@ export const LawFirmManager = () => {
                   required
                 />
                 <p className="text-sm text-muted-foreground mt-1">
-                  This will be used in the URL: /{formData.slug}
+                  This will be used in the URL: /law-firm/{formData.slug}
                 </p>
               </div>
               <div>
@@ -303,7 +303,7 @@ export const LawFirmManager = () => {
             <CardContent>
               <div className="space-y-2">
                 <div>
-                  <Badge variant="secondary">/{lawFirm.slug}</Badge>
+                  <Badge variant="secondary">/law-firm/{lawFirm.slug}</Badge>
                 </div>
                 {lawFirm.phone && (
                   <p className="text-sm text-muted-foreground">
