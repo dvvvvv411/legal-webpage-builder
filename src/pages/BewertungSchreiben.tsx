@@ -94,7 +94,19 @@ const BewertungSchreiben = () => {
           {/* Center Content */}
           <div className="w-[480px] max-w-full mx-auto">
             <div className="my-12">
-              {step === 1 ? (
+              {isSubmitted ? (
+                <div className="text-center grid place-items-center">
+                  <div className="flex justify-center items-center w-16 h-16 bg-neutral-100 rounded-full mb-6">
+                    <Briefcase className="text-neutral-600" size={28} />
+                  </div>
+                  <h1 className="text-2xl font-semibold mb-4">
+                    Vielen Dank für Ihre Bewertung!
+                  </h1>
+                  <p className="text-neutral-600 mb-4">
+                    Ihre Bewertung wird nun überprüft und nach der Genehmigung veröffentlicht. Sie erhalten eine E-Mail-Bestätigung an <span className="font-semibold">{email}</span>.
+                  </p>
+                </div>
+              ) : step === 1 ? (
                 <>
                   <h1 className="text-2xl font-bold mb-6 leading-8">
                     Bewerten Sie Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
@@ -402,18 +414,6 @@ const BewertungSchreiben = () => {
                     </div>
                   </div>
                 </>
-              ) : isSubmitted ? (
-                <div className="text-center grid place-items-center">
-                  <div className="flex justify-center items-center w-16 h-16 bg-neutral-100 rounded-full mb-6">
-                    <Briefcase className="text-neutral-600" size={28} />
-                  </div>
-                  <h1 className="text-2xl font-semibold mb-4">
-                    Vielen Dank für Ihre Bewertung!
-                  </h1>
-                  <p className="text-neutral-600 mb-4">
-                    Ihre Bewertung wird nun überprüft und nach der Genehmigung veröffentlicht. Sie erhalten eine E-Mail-Bestätigung an <span className="font-semibold">{email}</span>.
-                  </p>
-                </div>
               ) : null}
 
               {/* Action Buttons */}
