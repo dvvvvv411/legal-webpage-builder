@@ -12,6 +12,7 @@ import { useLawFirms, useCreateLawFirm, useUpdateLawFirm, useDeleteLawFirm, LawF
 import { useCreateLawyer, useDeleteLawyer } from "@/hooks/use-lawyers";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const LawFirmManager = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -20,6 +21,7 @@ const LawFirmManager = () => {
   const [lawyers, setLawyers] = useState<string[]>([]);
   const [newLawyerName, setNewLawyerName] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
@@ -33,15 +35,24 @@ const LawFirmManager = () => {
   const deleteLawFirm = useDeleteLawFirm();
   const createLawyer = useCreateLawyer();
   const deleteLawyer = useDeleteLawyer();
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (isProcessing) return;
+    
+    setIsProcessing(true);
+    console.log('Starting law firm submission with lawyers:', lawyers);
+    
     try {
       let lawFirmId: string;
+      let successfulLawyers = 0;
+      let failedLawyers = 0;
       
+      // Step 1: Create or update law firm
       if (selectedLawFirm) {
-        // Update existing law firm
+        console.log('Updating existing law firm:', selectedLawFirm.id);
         const updatedLawFirm = await updateLawFirm.mutateAsync({
           id: selectedLawFirm.id,
           ...formData,
@@ -49,72 +60,120 @@ const LawFirmManager = () => {
           logo_url: formData.logo_url || undefined,
         });
         lawFirmId = selectedLawFirm.id;
+        console.log('Law firm updated successfully');
         
         // Handle lawyers for existing law firm
         const existingLawyers = selectedLawFirm.lawyers || [];
         const existingLawyerNames = existingLawyers.map((lawyer: any) => lawyer.name);
         
         // Remove lawyers that are no longer in the list
+        console.log('Removing lawyers not in new list...');
         for (const existingLawyer of existingLawyers) {
           if (!lawyers.includes(existingLawyer.name)) {
-            await deleteLawyer.mutateAsync(existingLawyer.id);
+            try {
+              await deleteLawyer.mutateAsync(existingLawyer.id);
+              console.log('Deleted lawyer:', existingLawyer.name);
+            } catch (error) {
+              console.error('Failed to delete lawyer:', existingLawyer.name, error);
+            }
           }
         }
         
         // Add new lawyers
+        console.log('Adding new lawyers...');
         for (const lawyerName of lawyers) {
           if (!existingLawyerNames.includes(lawyerName)) {
-            await createLawyer.mutateAsync({
-              name: lawyerName,
-              law_firm_id: lawFirmId,
-            });
+            try {
+              await createLawyer.mutateAsync({
+                name: lawyerName,
+                law_firm_id: lawFirmId,
+              });
+              successfulLawyers++;
+              console.log('Created lawyer:', lawyerName);
+            } catch (error) {
+              failedLawyers++;
+              console.error('Failed to create lawyer:', lawyerName, error);
+            }
           }
         }
         
         setIsEditDialogOpen(false);
       } else {
-        // Create new law firm
+        console.log('Creating new law firm...');
         const newLawFirm = await createLawFirm.mutateAsync({
           ...formData,
           phone: formData.phone || undefined,
           logo_url: formData.logo_url || undefined,
         });
         lawFirmId = newLawFirm.id;
+        console.log('New law firm created with ID:', lawFirmId);
         
         // Create lawyers for new law firm
+        console.log('Creating lawyers for new law firm...');
         for (const lawyerName of lawyers) {
-          await createLawyer.mutateAsync({
-            name: lawyerName,
-            law_firm_id: lawFirmId,
-          });
+          try {
+            await createLawyer.mutateAsync({
+              name: lawyerName,
+              law_firm_id: lawFirmId,
+            });
+            successfulLawyers++;
+            console.log('Created lawyer:', lawyerName);
+          } catch (error) {
+            failedLawyers++;
+            console.error('Failed to create lawyer:', lawyerName, error);
+          }
         }
         
         setIsCreateDialogOpen(false);
       }
       
+      // Step 2: Force refresh queries to ensure UI updates
+      console.log('Invalidating queries...');
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['law-firms'] }),
+        queryClient.invalidateQueries({ queryKey: ['lawyers'] }),
+      ]);
+      
+      // Step 3: Wait a bit for queries to refresh
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      console.log('Process completed. Success:', successfulLawyers, 'Failed:', failedLawyers);
+      
+      // Show success message
+      let description = `Kanzlei wurde erfolgreich gespeichert.`;
+      if (successfulLawyers > 0) {
+        description += ` ${successfulLawyers} Anwälte wurden erfolgreich hinzugefügt.`;
+      }
+      if (failedLawyers > 0) {
+        description += ` ${failedLawyers} Anwälte konnten nicht erstellt werden.`;
+      }
+      
       toast({
         title: "Erfolgreich gespeichert",
-        description: `Kanzlei und ${lawyers.length} Anwälte wurden erfolgreich gespeichert.`,
+        description,
+        variant: failedLawyers > 0 ? "destructive" : "default",
       });
       
+      // Reset form
+      setFormData({
+        name: "",
+        slug: "",
+        phone: "",
+        logo_url: "",
+      });
+      setLawyers([]);
+      setSelectedLawFirm(null);
+      
     } catch (error) {
-      console.error('Error saving law firm and lawyers:', error);
+      console.error('Error in handleSubmit:', error);
       toast({
         title: "Fehler beim Speichern",
         description: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
         variant: "destructive",
       });
+    } finally {
+      setIsProcessing(false);
     }
-    
-    // Reset form
-    setFormData({
-      name: "",
-      slug: "",
-      phone: "",
-      logo_url: "",
-    });
-    setLawyers([]);
-    setSelectedLawFirm(null);
   };
 
   const handleEdit = (lawFirm: any) => {
@@ -360,8 +419,8 @@ const LawFirmManager = () => {
         </div>
       </div>
 
-      <Button type="submit" className="w-full">
-        {selectedLawFirm ? "Kanzlei aktualisieren" : "Kanzlei erstellen"}
+      <Button type="submit" className="w-full" disabled={isProcessing}>
+        {isProcessing ? "Wird gespeichert..." : (selectedLawFirm ? "Kanzlei aktualisieren" : "Kanzlei erstellen")}
       </Button>
     </form>
   );
