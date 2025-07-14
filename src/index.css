@@ -115,4 +115,69 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     font-size: 110%; /* 10% larger for better readability */
   }
+
+  /* Scale all interactive elements 10% larger for better accessibility */
+  .scale-110 {
+    transform: scale(1.1);
+    transform-origin: center;
+  }
+
+  /* Larger spacing tokens for better readability */
+  .p-enhanced {
+    padding: 1.375rem; /* 22px instead of 20px (p-5) */
+  }
+
+  .px-enhanced {
+    padding-left: 1.1rem; /* 17.6px instead of 16px (px-4) */
+    padding-right: 1.1rem;
+  }
+
+  .py-enhanced {
+    padding-top: 1.1rem;
+    padding-bottom: 1.1rem;
+  }
+
+  .gap-enhanced {
+    gap: 2.2rem; /* 35.2px instead of 32px (gap-8) */
+  }
+
+  .space-y-enhanced > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1.65rem; /* 26.4px instead of 24px (space-y-6) */
+  }
+
+  /* Enhanced button and interactive element sizing */
+  .min-h-enhanced {
+    min-height: 2.75rem; /* 44px instead of 40px */
+  }
+
+  .h-enhanced {
+    height: 2.75rem;
+  }
+
+  /* Enhanced icon sizes */
+  .icon-enhanced {
+    width: 1.375rem; /* 22px instead of 20px (w-5) */
+    height: 1.375rem;
+  }
+
+  .icon-enhanced-lg {
+    width: 1.65rem; /* 26.4px instead of 24px (w-6) */
+    height: 1.65rem;
+  }
+
+  /* Enhanced avatar/profile image sizes */
+  .avatar-enhanced {
+    width: 2.75rem; /* 44px instead of 40px (w-10) */
+    height: 2.75rem;
+  }
+
+  .avatar-enhanced-lg {
+    width: 5.5rem; /* 88px instead of 80px (w-20) */
+    height: 5.5rem;
+  }
+
+  /* Enhanced border radius for larger elements */
+  .rounded-enhanced {
+    border-radius: 0.55rem; /* 8.8px instead of 8px */
+  }
 }

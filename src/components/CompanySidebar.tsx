@@ -8,18 +8,18 @@ const CompanySidebar = () => {
 
   return (
     <aside className="sticky top-16 z-20">
-      <div className="border border-neutral-100 bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="border border-neutral-100 bg-white rounded-enhanced shadow-lg overflow-hidden">
         {/* Company Info */}
         <div className="p-4 pb-0 flex justify-items-start">
           <div className="mb-3 flex gap-4">
-            <div className="w-20 flex-shrink-0">
+            <div className="avatar-enhanced-lg flex-shrink-0">
               <a href="https://www.anwalt.de/steinbock-partner" title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater" className="inline-block">
                 <img 
                   alt="Kanzleilogo Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater" 
                   src="https://www.anwalt.de/cdn-cgi/image/fit=contain,width=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg" 
-                  className="aspect-square rounded-xl object-contain outline outline-1 outline-[rgba(0,0,0,0.08)]" 
-                  width="80" 
-                  height="80" 
+                   className="aspect-square rounded-enhanced object-contain outline outline-1 outline-[rgba(0,0,0,0.08)]" 
+                   width="88" 
+                   height="88"
                 />
               </a>
             </div>
@@ -35,7 +35,7 @@ const CompanySidebar = () => {
               <a href="https://www.anwalt.de/steinbock-partner/bewertungen.php" className="text-blue-600 hover:text-blue-700">
                 <div className="my-1 flex text-amber-400">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-current" />
+                    <Star key={i} className="icon-enhanced fill-current" />
                   ))}
                 </div>
                 <div className="text-neutral-700 mt-1">
@@ -54,7 +54,7 @@ const CompanySidebar = () => {
           
           <div className="flex gap-2.5">
             <Button variant="orange-outline" className="md:hidden flex-1">
-              <Phone className="h-4 w-4" />
+              <Phone className="w-4 h-4" />
               <span className="sr-only">Anrufen</span>
             </Button>
             <Button variant="orange-outline" className="flex-1">
@@ -64,7 +64,7 @@ const CompanySidebar = () => {
 
           {/* Phone Number */}
           <div className="flex gap-3 items-center justify-center hidden md:flex">
-            <Phone className="h-4 w-4 mt-0.5" />
+            <Phone className="w-4 h-4 mt-0.5" />
             <span>+49 931 22{showFullNumber ? "222" : "..."}</span>
             <Button 
               variant="link" 
@@ -84,14 +84,14 @@ const CompanySidebar = () => {
           >
             <div className="relative">
               <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                <Video className="h-4 w-4 text-green-600" />
+                <Video className="w-4 h-4 text-green-600" />
               </div>
             </div>
             <span className="flex-1">Online-Rechtsberatung</span>
-            <ChevronDown 
-              className={`h-5 w-5 text-blue-600 transition-transform ${
-                isOnlineConsultationOpen ? 'rotate-180' : ''
-              }`} 
+             <ChevronDown 
+               className={`icon-enhanced text-blue-600 transition-transform ${
+                 isOnlineConsultationOpen ? 'rotate-180' : ''
+               }`}
             />
           </button>
           

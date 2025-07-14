@@ -183,13 +183,13 @@ const ReviewsList = () => {
     return [...Array(5)].map((_, i) => (
       <Star 
         key={i} 
-        className="h-5 w-5 fill-amber-400 text-amber-400" 
+        className="icon-enhanced fill-amber-400 text-amber-400" 
       />
     ));
   };
 
   return (
-    <section className="rounded bg-white p-5 border">
+    <section className="rounded-enhanced bg-white p-enhanced border">
       {/* Header */}
       <div className="sticky top-0 pt-4 -mt-4 mb-3 bg-white z-10 border-b border-neutral-200 flex flex-col sm:flex-row">
         <h2 className="mb-2 flex items-center gap-2 text-lg font-semibold pb-3 flex-auto pe-4">
@@ -200,7 +200,7 @@ const ReviewsList = () => {
         </h2>
         <div className="relative text-neutral-700 font-semibold text-sm flex-none mb-3">
           <Button variant="outline" className="flex items-center gap-1 px-3 py-2 bg-white border border-neutral-300 rounded-md shadow-sm">
-            <Filter className="h-4 w-4" />
+            <Filter className="w-4 h-4" />
             <span>Rechtsgebiete</span>
           </Button>
         </div>
@@ -211,13 +211,13 @@ const ReviewsList = () => {
         {currentReviews.map((review) => (
           <div 
             key={review.id}
-            className="w-full p-5 bg-page-background rounded-lg border border-neutral-100"
+            className="w-full p-enhanced bg-page-background rounded-enhanced border border-neutral-100"
           >
             <div className="sm:flex sm:items-center">
               <div className="flex items-center mb-2 sm:mb-0">
                 {/* Initials Badge */}
                 <div className="mr-3.5">
-                  <div className={`${review.bgColor} text-white rounded-full w-10 h-10 flex items-center justify-center text-sm font-semibold`}>
+                  <div className={`${review.bgColor} text-white rounded-full avatar-enhanced flex items-center justify-center text-sm font-semibold`}>
                     {review.initials}
                   </div>
                 </div>
@@ -272,7 +272,7 @@ const ReviewsList = () => {
               disabled={currentPage === 1}
               className="p-3 text-pagination-active hover:bg-pagination-active/10 hover:text-pagination-active disabled:text-neutral-400"
             >
-            <ChevronLeft className="h-6 w-6" />
+            <ChevronLeft className="icon-enhanced-lg" />
           </Button>
           
           {[...Array(totalPages)].map((_, i) => {
@@ -302,7 +302,7 @@ const ReviewsList = () => {
             disabled={currentPage === totalPages}
             className="p-3 text-pagination-active hover:bg-pagination-active/10 hover:text-pagination-active disabled:text-neutral-400"
           >
-            <ChevronRight className="h-6 w-6" />
+            <ChevronRight className="icon-enhanced-lg" />
           </Button>
         </div>
       )}

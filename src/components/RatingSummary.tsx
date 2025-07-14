@@ -11,7 +11,7 @@ const RatingSummary = () => {
   ];
 
   return (
-    <section className="mb-4 rounded bg-white p-5 shadow-sm border">
+    <section className="mb-4 rounded-enhanced bg-white p-enhanced shadow-sm border">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between gap-y-1 pb-4 border-b mb-4 pe-4">
         <h1 className="text-base font-bold mb-0">
@@ -35,7 +35,7 @@ const RatingSummary = () => {
               <span className="font-bold text-neutral-700">Sehr gut</span>
               <div className="flex my-1 text-amber-400">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-current" />
+                   <Star key={i} className="icon-enhanced fill-current" />
                 ))}
               </div>
               <div className="mt-0.5">
@@ -51,12 +51,12 @@ const RatingSummary = () => {
             <div className="text-slate-900 font-bold text-4xl mb-0">4,9</div>
             <div className="my-1 flex text-amber-400 mb-4">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 fill-current" />
+                <Star key={i} className="icon-enhanced fill-current" />
               ))}
             </div>
             <div className="px-4 py-1.5 bg-blue-50 rounded-full border border-blue-100 flex items-center gap-2">
               <div className="text-blue-700 text-sm">Sehr gut</div>
-              <ThumbsUp className="h-4 w-4 text-blue-700" />
+              <ThumbsUp className="w-4 h-4 text-blue-700" />
             </div>
           </div>
 
@@ -71,7 +71,7 @@ const RatingSummary = () => {
                   <div>
                     <div className="flex mr-3 items-center">
                       <span className="text-sm font-semibold mr-1">{rating.stars}</span>
-                      <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
+                      <Star className="icon-enhanced fill-amber-400 text-amber-400" />
                     </div>
                   </div>
                   <div className="w-full bg-neutral-100 rounded-full h-2.5">

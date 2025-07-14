@@ -33,7 +33,7 @@ const Header = () => {
                   alt="ANWALT.DE"
                   width={185}
                   height={35}
-                  className="h-8 w-auto"
+                   className="h-9 w-auto"
                 />
               </a>
             </div>
@@ -64,7 +64,7 @@ const Header = () => {
                 Sie sind Anwalt?
               </a>
               <Button variant="ghost" size="sm">
-                <Menu className="h-5 w-5" />
+                <Menu className="icon-enhanced" />
               </Button>
             </div>
 
@@ -73,7 +73,7 @@ const Header = () => {
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="sm">
-                    <Menu className="h-5 w-5" />
+                    <Menu className="icon-enhanced" />
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-80">
@@ -84,7 +84,7 @@ const Header = () => {
                         alt="ANWALT.DE"
                         width={185}
                         height={35}
-                        className="h-8 w-auto"
+                        className="h-9 w-auto"
                       />
                     </div>
                     

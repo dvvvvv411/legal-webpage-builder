@@ -21,10 +21,10 @@ const Index = () => {
       <Header />
       <Breadcrumb items={breadcrumbItems} />
       
-      <main className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left column - 2/3 width */}
-          <div className="lg:col-span-2 space-y-6">
+       <main className="container mx-auto px-enhanced py-12">
+         <div className="grid grid-cols-1 lg:grid-cols-3 gap-enhanced">
+           {/* Left column - 2/3 width */}
+           <div className="lg:col-span-2 space-y-enhanced">
             <RatingSummary />
             <ReviewsList />
           </div>
