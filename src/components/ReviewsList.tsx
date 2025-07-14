@@ -408,9 +408,9 @@ const ReviewsList = () => {
                 {review.lawyer && (
                   <span>
                     {" "}für{" "}
-                    <a href="#" className="text-neutral-500 hover:text-neutral-700 underline">
+                    <span className="text-neutral-500">
                       {review.lawyer}
-                    </a>
+                    </span>
                   </span>
                 )}
               </p>
