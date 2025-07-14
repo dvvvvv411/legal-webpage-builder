@@ -40,7 +40,7 @@ const ReviewManager = () => {
     
     const reviewData = {
       ...formData,
-      legal_area_id: formData.legal_area_id || undefined,
+      legal_area_id: formData.legal_area_id === "none" || !formData.legal_area_id ? undefined : formData.legal_area_id,
     };
     
     if (selectedReview) {
@@ -71,7 +71,7 @@ const ReviewManager = () => {
     setSelectedReview(review);
     setFormData({
       law_firm_id: review.law_firm_id,
-      legal_area_id: review.legal_area_id || "",
+      legal_area_id: review.legal_area_id || "none",
       initials: review.initials,
       rating: review.rating,
       title: review.title,
@@ -129,7 +129,7 @@ const ReviewManager = () => {
             <SelectValue placeholder="Select a legal area" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">None</SelectItem>
+            <SelectItem value="none">None</SelectItem>
             {legalAreas?.map((area) => (
               <SelectItem key={area.id} value={area.id}>
                 {area.name}
