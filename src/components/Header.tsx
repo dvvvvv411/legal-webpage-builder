@@ -66,7 +66,7 @@ const Header = () => {
               </a>
               <div className="flex items-center space-x-1">
                 <Button variant="ghost" size="sm" className="p-0">
-                  <Menu className="w-8 h-8 text-gray-600" />
+                  <Menu className="w-16 h-16 text-gray-600" />
                 </Button>
                 <Avatar className="w-8 h-8">
                   <AvatarFallback className="bg-gray-400">
@@ -81,7 +81,7 @@ const Header = () => {
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="sm" className="p-0">
-                    <Menu className="w-8 h-8 text-gray-600" />
+                    <Menu className="w-16 h-16 text-gray-600" />
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-80">
