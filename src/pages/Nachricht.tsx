@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Lock, Scale } from "lucide-react";
+import { ChevronLeft, ChevronRight, LockKeyhole, Scale } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
@@ -36,8 +36,8 @@ const Nachricht = () => {
             />
           </a>
           <div className="flex items-center">
-            <Lock className="text-neutral-500" size={16} />
-            <span className="text-neutral-500 ml-2 sm:inline hidden text-sm">
+            <LockKeyhole style={{ color: '#64748b' }} size={16} />
+            <span className="ml-2 sm:inline hidden text-[1.1em]" style={{ color: '#64748b' }}>
               Gesicherte Verbindung
             </span>
           </div>
@@ -93,7 +93,11 @@ const Nachricht = () => {
                         type="radio"
                         checked={concern === "personal"}
                         onChange={(e) => setConcern(e.target.value)}
-                        className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                        className="w-4 h-4 bg-gray-100 border-gray-300 focus:ring-2"
+                        style={{
+                          accentColor: 'rgb(97, 131, 228)',
+                          color: 'rgb(97, 131, 228)'
+                        }}
                       />
                       <label htmlFor="personal" className="ml-2 text-neutral-900">
                         Privat
@@ -107,7 +111,11 @@ const Nachricht = () => {
                         type="radio"
                         checked={concern === "commercial"}
                         onChange={(e) => setConcern(e.target.value)}
-                        className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                        className="w-4 h-4 bg-gray-100 border-gray-300 focus:ring-2"
+                        style={{
+                          accentColor: 'rgb(97, 131, 228)',
+                          color: 'rgb(97, 131, 228)'
+                        }}
                       />
                       <label htmlFor="commercial" className="ml-2 text-neutral-900">
                         Geschäftlich
