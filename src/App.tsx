@@ -27,12 +27,12 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/vorlage" element={<Vorlage />} />
-            <Route path="/law-firm/:slug" element={<LawFirm />} />
-            <Route path="/law-firm/:slug/nachricht" element={<Nachricht />} />
-            <Route path="/law-firm/:slug/bewertung/schreiben" element={<BewertungSchreiben />} />
             <Route path="/vorlage/nachricht" element={<Nachricht />} />
             <Route path="/vorlage/bewertung/schreiben" element={<BewertungSchreiben />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE LAW FIRM ROUTES */}
+            <Route path="/:slug" element={<LawFirm />} />
+            <Route path="/:slug/nachricht" element={<Nachricht />} />
+            <Route path="/:slug/bewertung/schreiben" element={<BewertungSchreiben />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
