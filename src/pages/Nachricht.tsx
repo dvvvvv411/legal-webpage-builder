@@ -161,7 +161,7 @@ const Nachricht = () => {
 
           {/* Right Sidebar */}
           <div className="xl:w-[440px] hidden xl:block">
-            <div className="bg-card-input-bg p-8 h-full">
+            <div className="bg-card-input-bg px-12 py-10 h-full">
               <div className="mb-6 text-sm text-neutral-700">Ihre Kanzlei</div>
               
               <div className="mb-3 flex gap-4 xl:items-center">
@@ -189,7 +189,7 @@ const Nachricht = () => {
                   <Scale className="shrink-0 text-orange-primary" size={16} />
                   Rechtsgebiete:
                 </p>
-                <div className="flex flex-wrap gap-2 text-sm text-neutral-600">
+                <div className="flex flex-wrap gap-2 text-legal-text" style={{ fontSize: '1.05em' }}>
                   {[
                     "Arbeitsrecht", "Steuerrecht", "Verkehrsrecht", "Medizinrecht",
                     "Handelsrecht & Gesellschaftsrecht", "Baurecht & Architektenrecht",
