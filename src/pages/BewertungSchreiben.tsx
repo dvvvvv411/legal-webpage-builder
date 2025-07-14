@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, LockKeyhole, Scale, Star, Mail } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, LockKeyhole, Scale, Star, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -115,6 +115,7 @@ const BewertungSchreiben = () => {
                           >
                             <Star
                               size={32}
+                              strokeWidth={1}
                               className={`${
                                 star <= (hoverRating || rating)
                                   ? "fill-amber-400 text-amber-400"
@@ -143,7 +144,7 @@ const BewertungSchreiben = () => {
                           className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg text-left flex justify-between items-center"
                         >
                           {selectedLegalArea}
-                          <ChevronRight className={`transform transition-transform ${isDropdownOpen ? 'rotate-90' : ''}`} size={16} />
+                          <ChevronDown size={16} />
                         </button>
                         {isDropdownOpen && (
                           <div className="absolute z-10 w-full mt-1 bg-white border border-neutral-400 rounded max-h-52 overflow-y-auto">
