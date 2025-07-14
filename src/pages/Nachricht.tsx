@@ -64,17 +64,33 @@ const Nachricht = () => {
         <nav aria-label="Breadcrumbs" className="bg-white border-b border-neutral-200 py-3">
           <ol className="flex items-center justify-center gap-4 max-w-4xl mx-auto px-4">
             <li className="flex items-center">
-              <span className={step === 1 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>
+              <span className={
+                step === 1 
+                  ? "text-black text-sm font-medium" 
+                  : step > 1 
+                    ? "text-sm font-medium" 
+                    : "text-neutral-500 text-sm"
+              } style={step > 1 ? { color: '#4ec085' } : {}}>
                 Rechtsanliegen schildern
               </span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li className="flex items-center">
-              <span className={step === 2 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>Kontaktinfo</span>
+              <span className={
+                step === 2 
+                  ? "text-black text-sm font-medium" 
+                  : step > 2 
+                    ? "text-sm font-medium" 
+                    : "text-neutral-500 text-sm"
+              } style={step > 2 ? { color: '#4ec085' } : {}}>
+                Kontaktinfo
+              </span>
               <ChevronRight className="ml-4 text-neutral-500" size={16} />
             </li>
             <li>
-              <span className={step === 3 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>Bestätigen</span>
+              <span className={step === 3 ? "text-black text-sm font-medium" : "text-neutral-500 text-sm"}>
+                Bestätigen
+              </span>
             </li>
           </ol>
         </nav>
