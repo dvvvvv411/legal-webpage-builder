@@ -9,13 +9,14 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Edit2, Trash2, Building, X, Upload, Image, Link, ExternalLink, Copy } from "lucide-react";
 import { useLawFirms, useCreateLawFirm, useUpdateLawFirm, useDeleteLawFirm, LawFirm } from "@/hooks/use-law-firms";
+import { useCreateLawyer, useDeleteLawyer } from "@/hooks/use-lawyers";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
 const LawFirmManager = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [selectedLawFirm, setSelectedLawFirm] = useState<LawFirm | null>(null);
+  const [selectedLawFirm, setSelectedLawFirm] = useState<(LawFirm & { lawyers: Array<{ id: string; name: string; title?: string; specialization?: string; bio?: string; photo_url?: string; }> }) | null>(null);
   const [lawyers, setLawyers] = useState<string[]>([]);
   const [newLawyerName, setNewLawyerName] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -30,29 +31,80 @@ const LawFirmManager = () => {
   const createLawFirm = useCreateLawFirm();
   const updateLawFirm = useUpdateLawFirm();
   const deleteLawFirm = useDeleteLawFirm();
+  const createLawyer = useCreateLawyer();
+  const deleteLawyer = useDeleteLawyer();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (selectedLawFirm) {
-      await updateLawFirm.mutateAsync({
-        id: selectedLawFirm.id,
-        ...formData,
-        phone: formData.phone || undefined,
-        logo_url: formData.logo_url || undefined,
+    try {
+      let lawFirmId: string;
+      
+      if (selectedLawFirm) {
+        // Update existing law firm
+        const updatedLawFirm = await updateLawFirm.mutateAsync({
+          id: selectedLawFirm.id,
+          ...formData,
+          phone: formData.phone || undefined,
+          logo_url: formData.logo_url || undefined,
+        });
+        lawFirmId = selectedLawFirm.id;
+        
+        // Handle lawyers for existing law firm
+        const existingLawyers = selectedLawFirm.lawyers || [];
+        const existingLawyerNames = existingLawyers.map((lawyer: any) => lawyer.name);
+        
+        // Remove lawyers that are no longer in the list
+        for (const existingLawyer of existingLawyers) {
+          if (!lawyers.includes(existingLawyer.name)) {
+            await deleteLawyer.mutateAsync(existingLawyer.id);
+          }
+        }
+        
+        // Add new lawyers
+        for (const lawyerName of lawyers) {
+          if (!existingLawyerNames.includes(lawyerName)) {
+            await createLawyer.mutateAsync({
+              name: lawyerName,
+              law_firm_id: lawFirmId,
+            });
+          }
+        }
+        
+        setIsEditDialogOpen(false);
+      } else {
+        // Create new law firm
+        const newLawFirm = await createLawFirm.mutateAsync({
+          ...formData,
+          phone: formData.phone || undefined,
+          logo_url: formData.logo_url || undefined,
+        });
+        lawFirmId = newLawFirm.id;
+        
+        // Create lawyers for new law firm
+        for (const lawyerName of lawyers) {
+          await createLawyer.mutateAsync({
+            name: lawyerName,
+            law_firm_id: lawFirmId,
+          });
+        }
+        
+        setIsCreateDialogOpen(false);
+      }
+      
+      toast({
+        title: "Erfolgreich gespeichert",
+        description: `Kanzlei und ${lawyers.length} Anwälte wurden erfolgreich gespeichert.`,
       });
-      setIsEditDialogOpen(false);
-    } else {
-      await createLawFirm.mutateAsync({
-        ...formData,
-        phone: formData.phone || undefined,
-        logo_url: formData.logo_url || undefined,
+      
+    } catch (error) {
+      console.error('Error saving law firm and lawyers:', error);
+      toast({
+        title: "Fehler beim Speichern",
+        description: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+        variant: "destructive",
       });
-      setIsCreateDialogOpen(false);
     }
-    
-    // TODO: Implement lawyer creation when database is properly set up
-    // For now, lawyers are just stored in the form state
     
     // Reset form
     setFormData({

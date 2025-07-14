@@ -49,11 +49,14 @@ export const useLawFirms = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("law_firms")
-        .select("*")
+        .select(`
+          *,
+          lawyers:lawyers(*)
+        `)
         .order("name");
       
       if (error) throw error;
-      return data as LawFirm[];
+      return data as (LawFirm & { lawyers: Array<{ id: string; name: string; title?: string; specialization?: string; bio?: string; photo_url?: string; }> })[];
     },
   });
 };
