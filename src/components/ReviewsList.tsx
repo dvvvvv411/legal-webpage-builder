@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Star, Filter, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Star, Filter, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -18,7 +18,85 @@ interface Review {
 
 const ReviewsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [tempSelectedFilters, setTempSelectedFilters] = useState<string[]>([]);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const reviewsPerPage = 10;
+
+  // Rechtsgebiete Optionen
+  const practiceAreas = [
+    { name: "Verkehrsrecht", count: 126 },
+    { name: "Arbeitsrecht", count: 94 },
+    { name: "Allgemeine Rechtsberatung", count: 69 },
+    { name: "Mietrecht & Wohnungseigentumsrecht", count: 46 },
+    { name: "Schadensersatzrecht & Schmerzensgeldrecht", count: 35 },
+    { name: "Strafrecht", count: 34 },
+    { name: "Versicherungsrecht", count: 33 },
+    { name: "Allgemeines Vertragsrecht", count: 30 },
+    { name: "Erbrecht", count: 30 },
+    { name: "Bankrecht & Kapitalmarktrecht", count: 25 },
+    { name: "Baurecht & Architektenrecht", count: 16 },
+    { name: "Handelsrecht & Gesellschaftsrecht", count: 14 },
+    { name: "Medizinrecht", count: 14 },
+    { name: "Familienrecht", count: 12 },
+    { name: "Steuerrecht", count: 12 },
+    { name: "Forderungseinzug & Inkassorecht", count: 7 },
+    { name: "Kaufrecht", count: 5 },
+    { name: "Gewerblicher Rechtsschutz", count: 4 },
+    { name: "Ordnungswidrigkeitenrecht", count: 4 },
+    { name: "IT-Recht", count: 3 },
+    { name: "Zivilrecht", count: 3 },
+    { name: "Grundstücksrecht & Immobilienrecht", count: 2 },
+    { name: "Verwaltungsrecht", count: 2 },
+    { name: "Arzthaftungsrecht", count: 1 },
+    { name: "Insolvenzrecht & Sanierungsrecht", count: 1 },
+    { name: "Wettbewerbsrecht", count: 1 }
+  ];
+
+  // Click outside handler
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+        setTempSelectedFilters(selectedFilters);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [selectedFilters]);
+
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+    setTempSelectedFilters(selectedFilters);
+  };
+
+  const handleFilterChange = (filterName: string) => {
+    if (tempSelectedFilters.includes(filterName)) {
+      setTempSelectedFilters(tempSelectedFilters.filter(f => f !== filterName));
+    } else {
+      setTempSelectedFilters([...tempSelectedFilters, filterName]);
+    }
+  };
+
+  const handleApplyFilters = () => {
+    setSelectedFilters(tempSelectedFilters);
+    setIsDropdownOpen(false);
+  };
+
+  const handleCancelFilters = () => {
+    setTempSelectedFilters(selectedFilters);
+    setIsDropdownOpen(false);
+  };
+
+  const handleResetFilters = () => {
+    setTempSelectedFilters([]);
+  };
+
+  const removeFilter = (filterName: string) => {
+    setSelectedFilters(selectedFilters.filter(f => f !== filterName));
+  };
 
   // Mock-Daten für die Bewertungen
   const allReviews: Review[] = [
@@ -169,11 +247,16 @@ const ReviewsList = () => {
     }
   ];
 
-  // Berechne die aktuellen Bewertungen für die Seite
-  const indexOfLastReview = currentPage * reviewsPerPage;
-  const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-  const currentReviews = allReviews.slice(indexOfFirstReview, indexOfLastReview);
-  const totalPages = Math.ceil(allReviews.length / reviewsPerPage);
+  // Filtere Reviews basierend auf ausgewählten Filtern
+  const filteredReviews = selectedFilters.length > 0 
+    ? allReviews.filter(review => selectedFilters.includes(review.category))
+    : allReviews;
+
+  // Paginierung
+  const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
+  const startIndex = (currentPage - 1) * reviewsPerPage;
+  const endIndex = startIndex + reviewsPerPage;
+  const currentReviews = filteredReviews.slice(startIndex, endIndex);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -198,15 +281,104 @@ const ReviewsList = () => {
             609
           </Badge>
         </h2>
-        <div className="relative font-semibold text-xl flex-none mb-3" style={{ color: '#334155' }}>
-          <Button variant="outline" className="flex items-center gap-1 px-3 py-2 bg-white border border-neutral-300 rounded-md shadow-sm" style={{ color: '#334155' }}>
+        <div className="relative font-semibold text-xl flex-none mb-3" style={{ color: '#334155' }} ref={dropdownRef}>
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-1 px-3 py-2 bg-white border border-neutral-300 rounded-md shadow-sm" 
+            style={{ color: '#334155' }}
+            onClick={handleDropdownToggle}
+          >
             <svg className="w-4 h-4" viewBox="0 0 448 512" fill="currentColor">
               <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32H352c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM288 416c0 17.7-14.3 32-32 32H192c-17.7 0-32-14.3-32-32s14.3-32 32-32h64c17.7 0 32 14.3 32 32z"/>
             </svg>
             <span>Rechtsgebiete</span>
           </Button>
+
+          {/* Dropdown */}
+          {isDropdownOpen && (
+            <div className="fixed md:absolute top-0 md:top-full left-0 md:left-0 w-screen md:w-[371px] max-h-dvh z-[1040] flex flex-col gap-4 md:rounded-[5px] bg-white p-4 shadow-2xl border">
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
+                <p className="text-base font-semibold text-neutral-700">Rechtsgebiete</p>
+                <Button 
+                  variant="link" 
+                  className="!bg-transparent !text-gray-400 p-0 h-auto text-base hover:underline"
+                  onClick={handleResetFilters}
+                >
+                  Zurücksetzen
+                </Button>
+              </div>
+
+              {/* Checkboxes */}
+              <div className="flex flex-col gap-4 font-normal text-base max-h-[288px] overflow-auto pr-4">
+                {practiceAreas.map((area) => (
+                  <div key={area.name} className="pl-7 relative flex">
+                    <input
+                      type="checkbox"
+                      id={area.name}
+                      checked={tempSelectedFilters.includes(area.name)}
+                      onChange={() => handleFilterChange(area.name)}
+                      className="peer checked:border-[#666] checked:bg-[#F0F0F0] absolute left-0.5 top-[1em] -mt-px -translate-y-[50%] appearance-none rounded h-5 w-5 cursor-pointer border-2 border-solid border-[#666] transition-colors duration-200 focus:shadow-sm hover:bg-[#F0F0F0] hover:transition-colors hover:duration-200"
+                      style={{
+                        backgroundImage: tempSelectedFilters.includes(area.name) ? 
+                          "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0yMzIuNDksODAuNDlsLTEyOCwxMjhhMTIsMTIsMCwwLDEtMTcsMGwtNTYtNTZhMTIsMTIsMCwxLDEsMTctMTdMOTYsMTgzLDIxNS41MSw2My41MWExMiwxMiwwLDAsMSwxNywxN1oiIGZpbGw9IiM2NjY2NjYiIHN0cm9rZT0iIzY2NjY2NiIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+')" : 
+                          'none',
+                        backgroundSize: 'contain'
+                      }}
+                    />
+                    <label 
+                      htmlFor={area.name} 
+                      className={`text-[#333] ml-1 mt-[0.2em] inline-block text-pretty cursor-pointer ${
+                        tempSelectedFilters.includes(area.name) ? 'font-semibold' : ''
+                      }`}
+                    >
+                      {area.name} ({area.count})
+                    </label>
+                  </div>
+                ))}
+              </div>
+
+              {/* Footer Buttons */}
+              <div className="flex justify-around gap-2 mt-auto border-t border-neutral-200 pt-4">
+                <Button 
+                  variant="link" 
+                  className="text-base hover:underline p-0 h-auto"
+                  style={{ color: '#1d4ed8', fontWeight: 600 }}
+                  onClick={handleCancelFilters}
+                >
+                  Abbrechen
+                </Button>
+                <Button 
+                  variant="orange" 
+                  className="px-[60px] py-2"
+                  onClick={handleApplyFilters}
+                >
+                  Anwenden
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Active Filter Badges */}
+      {selectedFilters.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-4">
+          {selectedFilters.map((filter) => (
+            <Badge 
+              key={filter} 
+              variant="secondary" 
+              className="flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-full"
+            >
+              {filter}
+              <X 
+                className="w-3 h-3 cursor-pointer hover:text-blue-900" 
+                onClick={() => removeFilter(filter)}
+              />
+            </Badge>
+          ))}
+        </div>
+      )}
 
       {/* Reviews List */}
       <div className="space-y-2">
