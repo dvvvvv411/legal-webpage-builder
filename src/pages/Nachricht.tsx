@@ -196,7 +196,7 @@ const Nachricht = () => {
                             <SelectValue placeholder="Select a legal area" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="">Not specified</SelectItem>
+                            <SelectItem value="not-specified">Not specified</SelectItem>
                             {legalAreas?.map((area) => (
                               <SelectItem key={area.id} value={area.id}>
                                 {area.name}

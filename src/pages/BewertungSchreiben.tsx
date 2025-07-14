@@ -43,7 +43,7 @@ const BewertungSchreiben = () => {
     try {
       await createReview.mutateAsync({
         law_firm_id: lawFirm.id,
-        legal_area_id: formData.legal_area_id || undefined,
+        legal_area_id: formData.legal_area_id === "not-specified" ? undefined : formData.legal_area_id || undefined,
         initials: formData.initials,
         rating: formData.rating,
         title: formData.title,
@@ -171,7 +171,7 @@ const BewertungSchreiben = () => {
                       <SelectValue placeholder="Select a legal area (optional)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Not specified</SelectItem>
+                      <SelectItem value="not-specified">Not specified</SelectItem>
                       {legalAreas?.map((area) => (
                         <SelectItem key={area.id} value={area.id}>
                           {area.name}
