@@ -14,9 +14,9 @@ const Header = () => {
   return (
     <div>
       {/* Orange Banner */}
-      <div className="bg-orange-banner text-white py-2">
+      <div className="bg-orange-banner text-white py-1">
         <div className="container mx-auto px-4 text-center">
-          <a href="/mitmachen" className="text-white hover:underline text-base font-medium">
+          <a href="/mitmachen" className="text-white underline text-base font-medium">
             Als Anwalt noch nicht auf anwalt.de? Jetzt mitmachen!
           </a>
         </div>
