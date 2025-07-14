@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, ChevronDown, LockKeyhole, Scale, Star, Mail, EyeOff } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, LockKeyhole, Scale, Star, Mail, EyeOff, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +15,7 @@ const BewertungSchreiben = () => {
   const [email, setEmail] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [selectedLegalArea, setSelectedLegalArea] = useState("Allgemeine Rechtsberatung");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [titleTouched, setTitleTouched] = useState(false);
   const [textTouched, setTextTouched] = useState(false);
@@ -34,7 +35,7 @@ const BewertungSchreiben = () => {
     if (step === 1) {
       setStep(2);
     } else if (step === 2) {
-      setStep(3);
+      setIsSubmitted(true);
     }
   };
 
@@ -401,25 +402,22 @@ const BewertungSchreiben = () => {
                     </div>
                   </div>
                 </>
-              ) : (
-                <>
-                  <div className="my-12">
-                    <Mail className="text-[32px] mb-5 relative left-[1px] text-neutral-900" size={32} />
-                    <h1 className="text-2xl font-semibold mb-6 leading-8">
-                      Bewertung erfolgreich abgeschickt
-                    </h1>
-                    <p className="mb-3 text-neutral-600">
-                      Vielen Dank für Ihre Bewertung!
-                    </p>
-                    <p className="mb-3 text-neutral-600">
-                      Ihre Bewertung wird nach einer kurzen Prüfung veröffentlicht. Sie erhalten eine Bestätigung an <span className="font-semibold">{email}</span>.
-                    </p>
+              ) : isSubmitted ? (
+                <div className="text-center grid place-items-center">
+                  <div className="flex justify-center items-center w-16 h-16 bg-neutral-100 rounded-full mb-6">
+                    <Briefcase className="text-neutral-600" size={28} />
                   </div>
-                </>
-              )}
+                  <h1 className="text-2xl font-semibold mb-4">
+                    Vielen Dank für Ihre Bewertung!
+                  </h1>
+                  <p className="text-neutral-600 mb-4">
+                    Ihre Bewertung wird nun überprüft und nach der Genehmigung veröffentlicht. Sie erhalten eine E-Mail-Bestätigung an <span className="font-semibold">{email}</span>.
+                  </p>
+                </div>
+              ) : null}
 
               {/* Action Buttons */}
-              {step < 3 && (
+              {!isSubmitted && (
                 <div className="md:flex md:justify-between mt-3">
                   <Button
                     variant="ghost"
