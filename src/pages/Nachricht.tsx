@@ -161,7 +161,7 @@ const Nachricht = () => {
 
           {/* Right Sidebar */}
           <div className="xl:w-[440px] hidden xl:block">
-            <div className="bg-card-input-bg p-6 h-full">
+            <div className="bg-card-input-bg p-8 h-full">
               <div className="mb-6 text-sm text-neutral-700">Ihre Kanzlei</div>
               
               <div className="mb-3 flex gap-4 xl:items-center">
@@ -175,21 +175,18 @@ const Nachricht = () => {
                   />
                 </figure>
                 <div>
-                  <a
-                    href="https://www.anwalt.de/steinbock-partner"
+                  <span
                     title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater"
-                    className="text-blue-600 hover:text-blue-800 text-lg font-semibold"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    className="text-black text-lg font-semibold"
                   >
                     Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
-                  </a>
+                  </span>
                 </div>
               </div>
 
               <div className="mt-12">
-                <p className="mb-2 flex items-center gap-2 text-sm font-semibold">
-                  <Scale className="shrink-0" size={16} />
+                <p className="mb-2 flex items-center gap-2 text-sm font-semibold text-orange-primary">
+                  <Scale className="shrink-0 text-orange-primary" size={16} />
                   Rechtsgebiete:
                 </p>
                 <div className="flex flex-wrap gap-2 text-sm text-neutral-600">
@@ -215,8 +212,8 @@ const Nachricht = () => {
               </div>
 
               <div className="mt-6 flex gap-2">
-                <p className="mb-2 flex items-center gap-2 text-sm font-semibold mb-0">
-                  <svg className="shrink-0" width="16" height="16" viewBox="0 0 576 512" fill="currentColor">
+                <p className="mb-2 flex items-center gap-2 text-sm font-semibold mb-0 text-orange-primary">
+                  <svg className="shrink-0 text-orange-primary" width="16" height="16" viewBox="0 0 576 512" fill="currentColor">
                     <path d="M64 96c-17.7 0-32 14.3-32 32V384c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H64zM0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64v47.2V336.8 384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM519.4 411.3L416 354.4V317.9l118.8 65.4c.9 .5 1.9 .8 3 .8c3.4 0 6.2-2.8 6.2-6.2V134.2c0-3.4-2.8-6.2-6.2-6.2c-1 0-2.1 .3-3 .8L416 194.1V157.6l103.4-56.9c5.6-3.1 12-4.7 18.4-4.7c21.1 0 38.2 17.1 38.2 38.2V377.8c0 21.1-17.1 38.2-38.2 38.2c-6.4 0-12.8-1.6-18.4-4.7z"/>
                   </svg>
                   Online-Rechtsberatung
