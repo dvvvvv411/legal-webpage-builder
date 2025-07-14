@@ -2,10 +2,12 @@ import { Phone, Video, ChevronDown } from "lucide-react";
 import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CompanySidebar = () => {
   const [showFullNumber, setShowFullNumber] = useState(false);
   const [isOnlineConsultationOpen, setIsOnlineConsultationOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <aside className="sticky top-16 z-20">
@@ -50,7 +52,11 @@ const CompanySidebar = () => {
 
         {/* Action Buttons */}
         <div className="px-4 py-4 border-t border-neutral-200 flex flex-col gap-2.5">
-          <Button variant="orange" className="w-full text-lg py-6 rounded-lg">
+          <Button 
+            variant="orange" 
+            className="w-full text-lg py-6 rounded-lg"
+            onClick={() => navigate("/nachricht")}
+          >
             Anliegen schildern
           </Button>
           
