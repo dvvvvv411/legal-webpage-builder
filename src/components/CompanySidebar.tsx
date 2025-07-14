@@ -69,7 +69,7 @@ const CompanySidebar = () => {
             <span>+49 931 22{showFullNumber ? "222" : "..."}</span>
             <Button 
               variant="link" 
-              className="hover:underline p-0 h-auto"
+              className="hover:underline p-0 h-auto text-base"
               style={{ color: '#1d4ed8', fontWeight: 600 }}
               onClick={() => setShowFullNumber(!showFullNumber)}
             >
