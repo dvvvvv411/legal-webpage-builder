@@ -171,8 +171,8 @@ export const ReviewManager = () => {
         review_time: formData.review_time || null,
         scope: formData.scope || null,
         law_firm_id: formData.law_firm_id,
-        lawyer_id: formData.lawyer_id || null,
-        legal_area_id: formData.legal_area_id || null
+        lawyer_id: (formData.lawyer_id && formData.lawyer_id !== "none") ? formData.lawyer_id : null,
+        legal_area_id: (formData.legal_area_id && formData.legal_area_id !== "none") ? formData.legal_area_id : null
       };
 
       let result;
@@ -223,8 +223,8 @@ export const ReviewManager = () => {
       review_time: review.review_time || "",
       scope: review.scope || "",
       law_firm_id: review.law_firm_id,
-      lawyer_id: review.lawyer_id || "",
-      legal_area_id: review.legal_area_id || ""
+      lawyer_id: review.lawyer_id || "none",
+      legal_area_id: review.legal_area_id || "none"
     });
     setIsOpen(true);
   };
@@ -255,8 +255,8 @@ export const ReviewManager = () => {
       review_time: "",
       scope: "",
       law_firm_id: "",
-      lawyer_id: "",
-      legal_area_id: ""
+      lawyer_id: "none",
+      legal_area_id: "none"
     });
     setSelectedReview(null);
   };
@@ -394,7 +394,7 @@ export const ReviewManager = () => {
                     <SelectValue placeholder="Select lawyer" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">No specific lawyer</SelectItem>
+                    <SelectItem value="none">No specific lawyer</SelectItem>
                     {lawyers.map((lawyer) => (
                       <SelectItem key={lawyer.id} value={lawyer.id}>
                         {lawyer.name}
@@ -414,7 +414,7 @@ export const ReviewManager = () => {
                     <SelectValue placeholder="Select legal area" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">No specific area</SelectItem>
+                    <SelectItem value="none">No specific area</SelectItem>
                     {legalAreas.map((area) => (
                       <SelectItem key={area.id} value={area.id}>
                         {area.name}
