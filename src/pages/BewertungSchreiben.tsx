@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, ChevronDown, LockKeyhole, Scale, Star, Mail } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, LockKeyhole, Scale, Star, Mail, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -274,50 +274,45 @@ const BewertungSchreiben = () => {
 
                   <div>
                     {/* Gender Selection */}
-                    <div className="mb-6">
-                      <p className="text-neutral-700 text-base mb-4">
-                        Wie lautet Ihre Anrede?
-                      </p>
-                      <fieldset className="flex gap-4">
-                        <legend className="sr-only">Wie lautet Ihre Anrede?</legend>
-                        <div className="flex items-center">
-                          <input
-                            id="male"
-                            name="gender"
-                            value="1"
-                            type="radio"
-                            checked={gender === "1"}
-                            onChange={(e) => setGender(e.target.value)}
-                            className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
-                          />
-                          <label htmlFor="male" className="ml-2 text-neutral-900">Herr</label>
-                        </div>
-                        <div className="flex items-center">
-                          <input
-                            id="female"
-                            name="gender"
-                            value="2"
-                            type="radio"
-                            checked={gender === "2"}
-                            onChange={(e) => setGender(e.target.value)}
-                            className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
-                          />
-                          <label htmlFor="female" className="ml-2 text-neutral-900">Frau</label>
-                        </div>
-                        <div className="flex items-center">
-                          <input
-                            id="undefined"
-                            name="gender"
-                            value="3"
-                            type="radio"
-                            checked={gender === "3"}
-                            onChange={(e) => setGender(e.target.value)}
-                            className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
-                          />
-                          <label htmlFor="undefined" className="ml-2 text-neutral-900">Keine Angabe</label>
-                        </div>
-                      </fieldset>
-                    </div>
+                    <fieldset className="flex gap-4 mb-6">
+                      <legend className="sr-only">Anrede</legend>
+                      <div className="flex items-center">
+                        <input
+                          id="male"
+                          name="gender"
+                          value="1"
+                          type="radio"
+                          checked={gender === "1"}
+                          onChange={(e) => setGender(e.target.value)}
+                          className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                        />
+                        <label htmlFor="male" className="ml-2 text-neutral-900">Herr</label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          id="female"
+                          name="gender"
+                          value="2"
+                          type="radio"
+                          checked={gender === "2"}
+                          onChange={(e) => setGender(e.target.value)}
+                          className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                        />
+                        <label htmlFor="female" className="ml-2 text-neutral-900">Frau</label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          id="undefined"
+                          name="gender"
+                          value="3"
+                          type="radio"
+                          checked={gender === "3"}
+                          onChange={(e) => setGender(e.target.value)}
+                          className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                        />
+                        <label htmlFor="undefined" className="ml-2 text-neutral-900">Keine Angabe</label>
+                      </div>
+                    </fieldset>
 
                     {/* Name Fields */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
@@ -374,9 +369,14 @@ const BewertungSchreiben = () => {
                     </div>
 
                     {/* Privacy Notice */}
-                    <p className="text-sm text-neutral-600 mb-6">
-                      Ihr Name und Mail-Adresse sind nicht öffentlich sichtbar. Es werden nur Ihre Initialen angezeigt.
-                    </p>
+                    <hr className="my-0 border-neutral-300 mb-4" />
+                    <div className="flex items-center mb-4">
+                      <EyeOff className="mr-2 text-neutral-600" size={16} />
+                      <p className="text-sm text-neutral-600">
+                        Ihr Name und Mail-Adresse sind nicht öffentlich sichtbar. Es werden nur Ihre Initialen angezeigt.
+                      </p>
+                    </div>
+                    <hr className="my-0 border-neutral-300 mb-6" />
 
                     {/* Terms and Privacy */}
                     <p className="text-sm text-neutral-600 mb-6">
