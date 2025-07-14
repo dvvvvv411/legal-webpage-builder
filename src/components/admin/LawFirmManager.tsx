@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Edit2, Trash2, Building, X, Upload, Image, Link } from "lucide-react";
+import { Plus, Edit2, Trash2, Building, X, Upload, Image, Link, ExternalLink, Copy } from "lucide-react";
 import { useLawFirms, useCreateLawFirm, useUpdateLawFirm, useDeleteLawFirm, LawFirm } from "@/hooks/use-law-firms";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -107,6 +107,14 @@ const LawFirmManager = () => {
   const handleNameChange = (name: string) => {
     const slug = generateSlug(name);
     setFormData({ ...formData, name, slug });
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+      title: "Link kopiert!",
+      description: "Der Link wurde in die Zwischenablage kopiert.",
+    });
   };
 
   const handleLogoUpload = async (file: File) => {
@@ -342,53 +350,78 @@ const LawFirmManager = () => {
                 <TableHead>Name</TableHead>
                 <TableHead>Slug</TableHead>
                 <TableHead>Telefon</TableHead>
+                <TableHead>Link</TableHead>
                 <TableHead>Anwälte</TableHead>
                 <TableHead>Aktionen</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {lawFirms?.map((lawFirm: any) => (
-                <TableRow key={lawFirm.id}>
-                  <TableCell className="font-medium">{lawFirm.name}</TableCell>
-                  <TableCell>
-                    <code className="text-sm bg-muted px-2 py-1 rounded">
-                      {lawFirm.slug}
-                    </code>
-                  </TableCell>
-                  <TableCell>{lawFirm.phone || "-"}</TableCell>
-                  <TableCell>
-                    {lawFirm.lawyers && lawFirm.lawyers.length > 0 ? (
-                      <div className="flex flex-wrap gap-1">
-                        {lawFirm.lawyers.map((lawyer: any, index: number) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {lawyer.name}
-                          </Badge>
-                        ))}
+              {lawFirms?.map((lawFirm: any) => {
+                const firmUrl = `${window.location.origin}/${lawFirm.slug}`;
+                return (
+                  <TableRow key={lawFirm.id}>
+                    <TableCell className="font-medium">{lawFirm.name}</TableCell>
+                    <TableCell>
+                      <code className="text-sm bg-muted px-2 py-1 rounded">
+                        {lawFirm.slug}
+                      </code>
+                    </TableCell>
+                    <TableCell>{lawFirm.phone || "-"}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={firmUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          Ansehen
+                        </a>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyToClipboard(firmUrl)}
+                          className="h-6 w-6 p-0"
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
                       </div>
-                    ) : (
-                      <span className="text-muted-foreground">Keine Anwälte</span>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleEdit(lawFirm)}
-                      >
-                        <Edit2 className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDelete(lawFirm.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                    <TableCell>
+                      {lawFirm.lawyers && lawFirm.lawyers.length > 0 ? (
+                        <div className="flex flex-wrap gap-1">
+                          {lawFirm.lawyers.map((lawyer: any, index: number) => (
+                            <Badge key={index} variant="outline" className="text-xs">
+                              {lawyer.name}
+                            </Badge>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground">Keine Anwälte</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEdit(lawFirm)}
+                        >
+                          <Edit2 className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDelete(lawFirm.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         )}
