@@ -28,7 +28,8 @@ const CompanySidebar = () => {
               <a 
                 href="https://www.anwalt.de/steinbock-partner" 
                 title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater" 
-                className="text-pretty font-bold text-blue-600 hover:text-blue-700 text-xl"
+                className="text-pretty font-bold hover:text-blue-700 text-xl"
+                style={{ color: '#1d4ed8' }}
               >
                 Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
               </a>
@@ -68,7 +69,8 @@ const CompanySidebar = () => {
             <span>+49 931 22{showFullNumber ? "222" : "..."}</span>
             <Button 
               variant="link" 
-              className="text-blue-600 font-semibold hover:underline p-0 h-auto"
+              className="hover:underline p-0 h-auto"
+              style={{ color: '#1d4ed8', fontWeight: 600 }}
               onClick={() => setShowFullNumber(!showFullNumber)}
             >
               {showFullNumber ? "verbergen" : "anzeigen"}
