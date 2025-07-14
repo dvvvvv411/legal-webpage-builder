@@ -264,15 +264,15 @@ const ReviewsList = () => {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-6">
+        <div className="flex justify-center items-center gap-3 mt-6">
           <Button
             variant="ghost"
-            size="sm"
+            size="lg"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="p-2 text-pagination-active hover:bg-transparent hover:text-pagination-active/80 disabled:text-neutral-400"
+            className="p-3 text-pagination-active hover:bg-transparent hover:text-pagination-active/80 disabled:text-neutral-400"
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-6 w-6" />
           </Button>
           
           {[...Array(totalPages)].map((_, i) => {
@@ -282,11 +282,11 @@ const ReviewsList = () => {
               <Button
                 key={pageNumber}
                 variant={isActive ? "default" : "ghost"}
-                size="sm"
+                size="lg"
                 onClick={() => handlePageChange(pageNumber)}
                 className={isActive 
-                  ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90" 
-                  : "text-pagination-active hover:bg-transparent hover:text-pagination-active/80"
+                  ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90 h-12 w-12 text-base" 
+                  : "text-pagination-active hover:bg-transparent hover:text-pagination-active/80 h-12 w-12 text-base"
                 }
               >
                 {pageNumber}
@@ -296,12 +296,12 @@ const ReviewsList = () => {
           
           <Button
             variant="ghost"
-            size="sm"
+            size="lg"
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="p-2 text-pagination-active hover:bg-transparent hover:text-pagination-active/80 disabled:text-neutral-400"
+            className="p-3 text-pagination-active hover:bg-transparent hover:text-pagination-active/80 disabled:text-neutral-400"
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-6 w-6" />
           </Button>
         </div>
       )}
