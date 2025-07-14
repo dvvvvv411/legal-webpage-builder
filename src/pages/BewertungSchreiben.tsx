@@ -435,7 +435,7 @@ const BewertungSchreiben = () => {
                     className="md:w-auto w-full bg-orange-primary hover:bg-orange-primary/90"
                     disabled={step === 1 && (rating === 0 || !reviewTitle.trim() || !reviewText.trim())}
                   >
-                    {step === 1 ? "Weiter" : "Bewertung abschicken"}
+                    {step === 1 ? "Weiter" : "Absenden"}
                     <ChevronRight className="ml-1.5" size={16} />
                   </Button>
                 </div>
