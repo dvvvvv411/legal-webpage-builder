@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   return (
@@ -190,9 +191,11 @@ const Footer = () => {
             <div>
               <a 
                 href="https://www.anwalt.de/rechtstipps/newsletter.php" 
-                className="inline-block font-normal xl:w-full w-auto px-4 py-2 border border-neutral-300 rounded-md text-neutral-600 hover:text-info-500 hover:border-info-500 transition-colors"
+                className="inline-block font-normal xl:w-full w-auto"
               >
-                Zum anwalt.de-Newsletter
+                <Button variant="blue-outline" className="xl:w-full w-auto text-lg py-6 rounded-lg">
+                  Zum anwalt.de-Newsletter
+                </Button>
               </a>
             </div>
           </div>
