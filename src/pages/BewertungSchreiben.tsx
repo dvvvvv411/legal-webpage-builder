@@ -116,8 +116,8 @@ const BewertungSchreiben = () => {
                             className="transition-colors"
                           >
                             <Star
-                              size={32}
-                              strokeWidth={1}
+                              size={35}
+                              strokeWidth={0.5}
                               className={`${
                                 star <= (hoverRating || rating)
                                   ? "fill-amber-400 text-amber-400"
