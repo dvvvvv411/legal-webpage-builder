@@ -113,6 +113,5 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    font-size: 110%; /* 10% larger for better readability */
   }
 }
