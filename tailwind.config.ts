@@ -64,6 +64,8 @@ export default {
 				'rating-bg-light': 'hsl(var(--rating-bg-light))',
 				'page-background': 'hsl(var(--page-background))',
 				'pagination-active': 'hsl(var(--pagination-active))',
+				'sehr-gut-bg': 'hsl(var(--sehr-gut-bg))',
+				'sehr-gut-text': 'hsl(var(--sehr-gut-text))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
