@@ -282,11 +282,11 @@ const ReviewsList = () => {
               <Button
                 key={pageNumber}
                 variant={isActive ? "default" : "ghost"}
-                size="lg"
+                size="sm"
                 onClick={() => handlePageChange(pageNumber)}
                 className={isActive 
-                  ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90 h-12 w-12 text-base rounded-sm" 
-                  : "text-pagination-active hover:bg-transparent hover:text-pagination-active/80 h-12 w-12 text-base"
+                  ? "bg-pagination-active text-white border-pagination-active hover:bg-pagination-active/90 h-8 w-8 text-sm rounded-sm p-0" 
+                  : "text-pagination-active hover:bg-transparent hover:text-pagination-active/80 h-8 w-8 text-sm p-0"
                 }
               >
                 {pageNumber}
