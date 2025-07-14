@@ -4,7 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const CompanySidebar = () => {
+interface CompanySidebarProps {
+  lawFirm?: any;
+}
+
+const CompanySidebar = ({ lawFirm }: CompanySidebarProps) => {
   const [showFullNumber, setShowFullNumber] = useState(false);
   const [isOnlineConsultationOpen, setIsOnlineConsultationOpen] = useState(false);
   const navigate = useNavigate();

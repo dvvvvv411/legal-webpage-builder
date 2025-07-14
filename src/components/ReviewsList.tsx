@@ -17,7 +17,11 @@ interface Review {
   bgColor: string;
 }
 
-const ReviewsList = () => {
+interface ReviewsListProps {
+  lawFirm?: any;
+}
+
+const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);

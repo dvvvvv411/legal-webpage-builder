@@ -14,6 +14,146 @@ export type Database = {
   }
   public: {
     Tables: {
+      law_firm_legal_areas: {
+        Row: {
+          created_at: string
+          id: string
+          law_firm_id: string
+          legal_area_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          law_firm_id: string
+          legal_area_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          law_firm_id?: string
+          legal_area_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "law_firm_legal_areas_law_firm_id_fkey"
+            columns: ["law_firm_id"]
+            isOneToOne: false
+            referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "law_firm_legal_areas_legal_area_id_fkey"
+            columns: ["legal_area_id"]
+            isOneToOne: false
+            referencedRelation: "legal_areas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      law_firms: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          logo_url: string | null
+          name: string
+          phone: string | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          phone?: string | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          phone?: string | null
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      lawyers: {
+        Row: {
+          bio: string | null
+          created_at: string
+          id: string
+          law_firm_id: string
+          name: string
+          photo_url: string | null
+          specialization: string | null
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          id?: string
+          law_firm_id: string
+          name: string
+          photo_url?: string | null
+          specialization?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          id?: string
+          law_firm_id?: string
+          name?: string
+          photo_url?: string | null
+          specialization?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lawyers_law_firm_id_fkey"
+            columns: ["law_firm_id"]
+            isOneToOne: false
+            referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      legal_areas: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -38,6 +178,63 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          avatar_color: string | null
+          content: string
+          created_at: string
+          id: string
+          initials: string
+          law_firm_id: string
+          legal_area_id: string | null
+          rating: Database["public"]["Enums"]["review_rating"]
+          scope: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_color?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          initials: string
+          law_firm_id: string
+          legal_area_id?: string | null
+          rating: Database["public"]["Enums"]["review_rating"]
+          scope?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_color?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          initials?: string
+          law_firm_id?: string
+          legal_area_id?: string | null
+          rating?: Database["public"]["Enums"]["review_rating"]
+          scope?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_law_firm_id_fkey"
+            columns: ["law_firm_id"]
+            isOneToOne: false
+            referencedRelation: "law_firms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_legal_area_id_fkey"
+            columns: ["legal_area_id"]
+            isOneToOne: false
+            referencedRelation: "legal_areas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -46,7 +243,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      review_rating: "1" | "2" | "3" | "4" | "5"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -173,6 +370,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      review_rating: ["1", "2", "3", "4", "5"],
+    },
   },
 } as const

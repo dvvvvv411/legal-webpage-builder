@@ -4,7 +4,10 @@ import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Settings, Users, FileText, Shield } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Loader2, Settings, Users, FileText, Shield, Building2, MessageSquare, Scale, TrendingUp } from 'lucide-react';
+import LawFirmManager from '@/components/admin/LawFirmManager';
+import ReviewManager from '@/components/admin/ReviewManager';
 
 const Admin = () => {
   const { user, loading, signOut } = useAuth();
@@ -53,93 +56,84 @@ const Admin = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                Benutzer
-              </CardTitle>
-              <CardDescription>
-                Benutzerverwaltung und -statistiken
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full" disabled>
-                Bald verfügbar
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Bewertungen
-              </CardTitle>
-              <CardDescription>
-                Bewertungen verwalten und moderieren
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full" disabled>
-                Bald verfügbar
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
-                Sicherheit
-              </CardTitle>
-              <CardDescription>
-                Sicherheitseinstellungen und Logs
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full" disabled>
-                Bald verfügbar
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings className="h-5 w-5" />
-                Einstellungen
-              </CardTitle>
-              <CardDescription>
-                Systemeinstellungen und Konfiguration
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full" disabled>
-                Bald verfügbar
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle>Willkommen im Admin-Bereich</CardTitle>
-            <CardDescription>
-              Hier können Sie in Zukunft alle Aspekte Ihres Anwalt Portals verwalten.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-sm text-muted-foreground space-y-2">
-              <p>• Benutzer verwalten und Rollen zuweisen</p>
-              <p>• Bewertungen moderieren und bearbeiten</p>
-              <p>• Systemeinstellungen konfigurieren</p>
-              <p>• Sicherheitseinstellungen überwachen</p>
-              <p>• Berichte und Statistiken einsehen</p>
+        <Tabs defaultValue="law-firms" className="w-full">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="law-firms">Kanzleien</TabsTrigger>
+            <TabsTrigger value="reviews">Bewertungen</TabsTrigger>
+            <TabsTrigger value="legal-areas">Rechtsgebiete</TabsTrigger>
+            <TabsTrigger value="analytics">Statistiken</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="law-firms" className="mt-6">
+            <LawFirmManager />
+          </TabsContent>
+          
+          <TabsContent value="reviews" className="mt-6">
+            <ReviewManager />
+          </TabsContent>
+          
+          <TabsContent value="legal-areas" className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Scale className="h-5 w-5" />
+                  Rechtsgebiete
+                </CardTitle>
+                <CardDescription>
+                  Verwaltung der Rechtsgebiete
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <p className="text-muted-foreground">Rechtsgebiete-Verwaltung kommt bald</p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="analytics" className="mt-6">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Kanzleien</CardTitle>
+                  <Building2 className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">12</div>
+                  <p className="text-xs text-muted-foreground">
+                    Aktive Kanzleien
+                  </p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Bewertungen</CardTitle>
+                  <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">2,350</div>
+                  <p className="text-xs text-muted-foreground">
+                    +15.3% vom letzten Monat
+                  </p>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Durchschnittsbewertung</CardTitle>
+                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">4.8</div>
+                  <p className="text-xs text-muted-foreground">
+                    Ausgezeichnete Leistung
+                  </p>
+                </CardContent>
+              </Card>
             </div>
-          </CardContent>
-        </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

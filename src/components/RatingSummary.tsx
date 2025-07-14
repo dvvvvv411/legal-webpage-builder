@@ -3,7 +3,11 @@ import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-const RatingSummary = () => {
+interface RatingSummaryProps {
+  lawFirm?: any;
+}
+
+const RatingSummary = ({ lawFirm }: RatingSummaryProps) => {
   const ratingData = [
     { stars: 5, count: 586, percentage: 96.22 },
     { stars: 4, count: 17, percentage: 2.79 },
