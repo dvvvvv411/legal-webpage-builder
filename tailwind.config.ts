@@ -72,7 +72,6 @@ export default {
 				'legal-text': 'hsl(var(--legal-text))',
 				'radio-blue': 'hsl(var(--radio-blue))',
 				'placeholder-text': 'hsl(var(--placeholder-text))',
-				'dark-slate': 'hsl(var(--dark-slate))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
