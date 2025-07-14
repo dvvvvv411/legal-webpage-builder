@@ -57,6 +57,7 @@ All colors MUST be HSL.
     --legal-text: 220 25% 27%; /* rgb(51 65 85) */
     --radio-blue: 225 74% 64%; /* rgb(97 131 228) */
     --placeholder-text: 215 20% 47%; /* rgb(100 116 139) */
+    --dark-slate: 222 47% 11%; /* #0f172a */
 
     --radius: 0.5rem;
 
