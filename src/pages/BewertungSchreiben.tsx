@@ -264,108 +264,96 @@ const BewertungSchreiben = () => {
                 </>
               ) : step === 2 ? (
                 <>
-                  <h1 className="text-2xl font-semibold mb-8 leading-8">
-                    Kontaktdaten
+                  <h1 className="text-2xl font-semibold mb-4 leading-8">
+                    Ihre Kontaktdaten für Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
                   </h1>
+                  
+                  <p className="text-neutral-600 mb-8">
+                    Fast geschafft! Um Ihre Bewertung bestätigen zu können, benötigen wir noch Ihren Namen und Ihre E-Mail-Adresse.
+                  </p>
 
                   <div>
-                    {/* Anonymous Checkbox */}
+                    {/* Gender Selection */}
                     <div className="mb-6">
-                      <div className="flex items-center">
+                      <p className="text-neutral-700 text-base mb-4">
+                        Wie lautet Ihre Anrede?
+                      </p>
+                      <fieldset className="flex gap-4">
+                        <legend className="sr-only">Wie lautet Ihre Anrede?</legend>
+                        <div className="flex items-center">
+                          <input
+                            id="male"
+                            name="gender"
+                            value="1"
+                            type="radio"
+                            checked={gender === "1"}
+                            onChange={(e) => setGender(e.target.value)}
+                            className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                          />
+                          <label htmlFor="male" className="ml-2 text-neutral-900">Herr</label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            id="female"
+                            name="gender"
+                            value="2"
+                            type="radio"
+                            checked={gender === "2"}
+                            onChange={(e) => setGender(e.target.value)}
+                            className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                          />
+                          <label htmlFor="female" className="ml-2 text-neutral-900">Frau</label>
+                        </div>
+                        <div className="flex items-center">
+                          <input
+                            id="undefined"
+                            name="gender"
+                            value="3"
+                            type="radio"
+                            checked={gender === "3"}
+                            onChange={(e) => setGender(e.target.value)}
+                            className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
+                          />
+                          <label htmlFor="undefined" className="ml-2 text-neutral-900">Keine Angabe</label>
+                        </div>
+                      </fieldset>
+                    </div>
+
+                    {/* Name Fields */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
+                      <div className="relative mb-3">
                         <input
-                          id="anonymous"
-                          name="anonymous"
-                          type="checkbox"
-                          checked={isAnonymous}
-                          onChange={(e) => setIsAnonymous(e.target.checked)}
-                          className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 rounded focus:ring-radio-blue focus:ring-2"
+                          id="firstname"
+                          type="text"
+                          value={firstname}
+                          onChange={(e) => setFirstname(e.target.value)}
+                          className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg placeholder-placeholder-text peer"
+                          placeholder=" "
                         />
-                        <label htmlFor="anonymous" className="ml-2 text-neutral-900">
-                          Bewertung anonym abgeben
+                        <label
+                          htmlFor="firstname"
+                          className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-card-input-bg px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                        >
+                          Vorname
+                        </label>
+                      </div>
+                      <div className="relative mb-3">
+                        <input
+                          id="lastname"
+                          type="text"
+                          value={lastname}
+                          onChange={(e) => setLastname(e.target.value)}
+                          className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg placeholder-placeholder-text peer"
+                          placeholder=" "
+                        />
+                        <label
+                          htmlFor="lastname"
+                          className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-card-input-bg px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+                        >
+                          Nachname
                         </label>
                       </div>
                     </div>
-
-                    {!isAnonymous && (
-                      <>
-                        {/* Gender Selection */}
-                        <fieldset className="flex gap-4 mb-8">
-                          <legend className="sr-only">Wie lautet Ihre Anrede?</legend>
-                          <div className="flex items-center">
-                            <input
-                              id="male"
-                              name="gender"
-                              value="1"
-                              type="radio"
-                              checked={gender === "1"}
-                              onChange={(e) => setGender(e.target.value)}
-                              className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
-                            />
-                            <label htmlFor="male" className="ml-2 text-neutral-900">Herr</label>
-                          </div>
-                          <div className="flex items-center">
-                            <input
-                              id="female"
-                              name="gender"
-                              value="2"
-                              type="radio"
-                              checked={gender === "2"}
-                              onChange={(e) => setGender(e.target.value)}
-                              className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
-                            />
-                            <label htmlFor="female" className="ml-2 text-neutral-900">Frau</label>
-                          </div>
-                          <div className="flex items-center">
-                            <input
-                              id="undefined"
-                              name="gender"
-                              value="3"
-                              type="radio"
-                              checked={gender === "3"}
-                              onChange={(e) => setGender(e.target.value)}
-                              className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 focus:ring-radio-blue focus:ring-2"
-                            />
-                            <label htmlFor="undefined" className="ml-2 text-neutral-900">Keine Angabe</label>
-                          </div>
-                        </fieldset>
-
-                        {/* Name Fields */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3">
-                          <div className="relative mb-3">
-                            <input
-                              id="firstname"
-                              type="text"
-                              value={firstname}
-                              onChange={(e) => setFirstname(e.target.value)}
-                              className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg placeholder-placeholder-text peer"
-                              placeholder=" "
-                            />
-                            <label
-                              htmlFor="firstname"
-                              className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-card-input-bg px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                            >
-                              Vorname
-                            </label>
-                          </div>
-                          <div className="relative mb-3">
-                            <input
-                              id="lastname"
-                              type="text"
-                              value={lastname}
-                              onChange={(e) => setLastname(e.target.value)}
-                              className="w-full px-4 py-3 border-0 rounded-md focus:outline-none bg-card-input-bg placeholder-placeholder-text peer"
-                              placeholder=" "
-                            />
-                            <label
-                              htmlFor="lastname"
-                              className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-card-input-bg px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                            >
-                              Nachname
-                            </label>
-                          </div>
-                        </div>
-                      </>
-                    )}
 
                     {/* Email Field */}
                     <div className="relative mb-6">
@@ -381,29 +369,36 @@ const BewertungSchreiben = () => {
                         htmlFor="email"
                         className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-card-input-bg px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
                       >
-                        E-Mail-Adresse *
+                        E-Mail
                       </label>
                     </div>
 
-                    {/* Terms and Privacy */}
-                    <p className="text-neutral-700 text-base mb-9">
-                      Mit Klick auf „Bewertung abschicken" akzeptieren Sie die{" "}
-                      <a
-                        target="_blank"
-                        href="/pdf/anwalt.de_bewertungsrichtlinien.pdf"
-                        className="underline"
-                      >
-                        Bewertungsrichtlinien
-                      </a>{" "}
-                      und unsere{" "}
-                      <a
-                        target="_blank"
-                        href="/pdf/DSE_anwalt.de.pdf"
-                        className="underline"
-                      >
-                        Datenschutzerklärung.
-                      </a>
+                    {/* Privacy Notice */}
+                    <p className="text-sm text-neutral-600 mb-6">
+                      Ihr Name und Mail-Adresse sind nicht öffentlich sichtbar. Es werden nur Ihre Initialen angezeigt.
                     </p>
+
+                    {/* Terms and Privacy */}
+                    <p className="text-sm text-neutral-600 mb-6">
+                      Mit Klick auf „Absenden" akzeptieren Sie die Bewertungsrichtlinien und Nutzungsbedingungen. Hinweise zum Datenschutz finden Sie in unserer Datenschutzerklärung.
+                    </p>
+
+                    {/* Contact Permission Checkbox */}
+                    <div className="mb-6">
+                      <div className="flex items-start">
+                        <input
+                          id="contactPermission"
+                          name="contactPermission"
+                          type="checkbox"
+                          checked={isAnonymous}
+                          onChange={(e) => setIsAnonymous(e.target.checked)}
+                          className="w-4 h-4 text-radio-blue bg-gray-100 border-gray-300 rounded focus:ring-radio-blue focus:ring-2 mt-0.5"
+                        />
+                        <label htmlFor="contactPermission" className="ml-2 text-sm text-neutral-900">
+                          Ich bin einverstanden, dass der bewertete Anwalt meinen Namen und meine E-Mail für mögliche Rückfragen und Bewertungskommentare einsehen kann. Diese Einwilligung und meine Bewertung kann ich jederzeit widerrufen.
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </>
               ) : (
