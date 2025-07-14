@@ -117,29 +117,27 @@ const Nachricht = () => {
                 </fieldset>
 
                 {/* Message Textarea */}
-                <div className="mb-5">
-                  <div className="relative">
-                    <textarea
-                      id="message"
-                      rows={4}
-                      placeholder="Bitte beschreiben Sie Ihr Anliegen möglichst genau"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      maxLength={maxLength}
-                      className="w-full px-4 py-3 pb-8 border-0 rounded-md focus:outline-none resize-vertical bg-card-input-bg placeholder-placeholder-text min-h-[120px]"
-                      style={{
-                        '--placeholder-color': 'hsl(var(--placeholder-text))',
-                        width: '120%',
-                        maxWidth: '120%'
-                      } as React.CSSProperties}
-                    />
-                    <div className="absolute bottom-2 right-3 text-sm text-gray-500">
-                      <span className={message.length === 0 ? "text-red-500" : ""}>
-                        {message.length}
-                      </span>
-                      /{maxLength}
-                    </div>
-                  </div>
+                <div className="mb-2">
+                  <textarea
+                    id="message"
+                    rows={4}
+                    placeholder="Bitte beschreiben Sie Ihr Anliegen möglichst genau"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    maxLength={maxLength}
+                    className="w-full px-4 py-3 border-0 rounded-md focus:outline-none resize-vertical bg-card-input-bg placeholder-placeholder-text min-h-[120px]"
+                    style={{
+                      '--placeholder-color': 'hsl(var(--placeholder-text))',
+                      width: '120%',
+                      maxWidth: '120%'
+                    } as React.CSSProperties}
+                  />
+                </div>
+                <div className="text-sm text-gray-500 mb-3 text-right" style={{ width: '120%', maxWidth: '120%' }}>
+                  <span className={message.length === 0 ? "text-red-500" : ""}>
+                    {message.length}
+                  </span>
+                  /{maxLength}
                 </div>
               </div>
 
