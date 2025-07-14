@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin } from "lucide-react";
+import { Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Footer = () => {
@@ -38,9 +38,11 @@ const Footer = () => {
                 target="_blank" 
                 rel="noopener noreferrer"
                 title="Facebook"
-                className="text-neutral-500 hover:text-info-500"
+                className="hover:opacity-80"
               >
-                <Facebook className="h-6 w-6" />
+                <div className="w-6 h-6 rounded-full flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: 'rgb(100, 116, 139)' }}>
+                  f
+                </div>
                 <span className="sr-only">Facebook</span>
                 <span className="sr-only">Link in einem neuen Tab öffnen</span>
               </a>
@@ -51,9 +53,9 @@ const Footer = () => {
                 target="_blank" 
                 rel="noopener noreferrer"
                 title="Instagram"
-                className="text-neutral-500 hover:text-info-500"
+                className="hover:opacity-80"
               >
-                <Instagram className="h-6 w-6" />
+                <Instagram className="h-6 w-6" style={{ color: 'rgb(100, 116, 139)' }} />
                 <span className="sr-only">Instagram</span>
                 <span className="sr-only">Link in einem neuen Tab öffnen</span>
               </a>
@@ -64,9 +66,11 @@ const Footer = () => {
                 target="_blank" 
                 rel="noopener noreferrer"
                 title="Linkedin"
-                className="text-neutral-500 hover:text-info-500"
+                className="hover:opacity-80"
               >
-                <Linkedin className="h-6 w-6" />
+                <div className="w-6 h-6 rounded-sm flex items-center justify-center text-white font-bold text-xs" style={{ backgroundColor: 'rgb(100, 116, 139)' }}>
+                  in
+                </div>
                 <span className="sr-only">Linkedin</span>
                 <span className="sr-only">Link in einem neuen Tab öffnen</span>
               </a>
