@@ -3,6 +3,8 @@ import { Filter, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useReviewsByLawFirm } from "@/hooks/use-reviews";
+import { useLegalAreas } from "@/hooks/use-legal-areas";
 
 interface Review {
   id: number;
@@ -22,6 +24,8 @@ interface ReviewsListProps {
 }
 
 const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
+  const { data: reviews = [] } = useReviewsByLawFirm(lawFirm?.id || '');
+  const { data: legalAreas = [] } = useLegalAreas();
   const [currentPage, setCurrentPage] = useState(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
@@ -29,8 +33,38 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const reviewsPerPage = 10;
 
-  // Rechtsgebiete Optionen
-  const practiceAreas = [
+  // Convert reviews to display format and calculate practice areas
+  const convertedReviews = reviews.map((review, index) => ({
+    id: index + 1,
+    author: review.initials,
+    initials: review.initials,
+    rating: parseInt(review.rating),
+    date: new Date(review.created_at).toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }) + ' Uhr',
+    title: review.title,
+    category: legalAreas.find(area => area.id === review.legal_area_id)?.name || 'Allgemeine Rechtsberatung',
+    text: review.content,
+    lawyer: review.scope,
+    bgColor: review.avatar_color || 'bg-blue-500'
+  }));
+
+  // Calculate practice areas from actual reviews
+  const practiceAreaCounts = convertedReviews.reduce((acc, review) => {
+    acc[review.category] = (acc[review.category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const practiceAreas = Object.entries(practiceAreaCounts)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count);
+
+  // Use fallback data if no reviews
+  const fallbackAreas = [
     { name: "Verkehrsrecht", count: 126 },
     { name: "Arbeitsrecht", count: 94 },
     { name: "Allgemeine Rechtsberatung", count: 69 },
@@ -58,6 +92,8 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
     { name: "Insolvenzrecht & Sanierungsrecht", count: 1 },
     { name: "Wettbewerbsrecht", count: 1 }
   ];
+
+  const displayAreas = practiceAreas.length > 0 ? practiceAreas : fallbackAreas;
 
   // Click outside handler
   useEffect(() => {
@@ -103,8 +139,8 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
     setSelectedFilters(selectedFilters.filter(f => f !== filterName));
   };
 
-  // Mock-Daten für die Bewertungen
-  const allReviews: Review[] = [
+  // Mock-Daten für die Bewertungen als Fallback
+  const fallbackReviews: Review[] = [
     {
       id: 1,
       author: "H. H.",
@@ -225,7 +261,6 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
       lawyer: "Rechtsanwalt Ingo Hochheim",
       bgColor: "bg-cyan-500"
     },
-    // Weitere Mock-Daten für weitere Seiten
     {
       id: 11,
       author: "P. M.",
@@ -251,6 +286,9 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
       bgColor: "bg-yellow-500"
     }
   ];
+
+  // Use converted reviews or fallback
+  const allReviews = convertedReviews.length > 0 ? convertedReviews : fallbackReviews;
 
   // Filtere Reviews basierend auf ausgewählten Filtern
   const filteredReviews = selectedFilters.length > 0 
@@ -283,7 +321,7 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
         <h2 className="mb-2 flex items-center gap-2 text-2xl font-semibold pb-3 flex-auto pe-4">
           Bewertungen 
           <Badge variant="secondary" className="rounded-full border border-neutral-200 bg-page-background text-neutral-700 text-lg py-0.5 px-2.5 -ml-0.5 font-normal">
-            609
+            {allReviews.length}
           </Badge>
         </h2>
         <div className="relative font-semibold text-xl flex-none mb-3" style={{ color: '#334155' }} ref={dropdownRef}>
@@ -316,7 +354,7 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
 
               {/* Checkboxes */}
               <div className="flex flex-col gap-4 font-normal text-base max-h-[288px] overflow-auto pr-4">
-                {practiceAreas.map((area) => (
+                {displayAreas.map((area) => (
                   <div key={area.name} className="pl-7 relative flex">
                     <input
                       type="checkbox"

@@ -3,6 +3,7 @@ import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useReviewsByLawFirm } from "@/hooks/use-reviews";
 
 interface CompanySidebarProps {
   lawFirm?: any;
@@ -12,6 +13,34 @@ const CompanySidebar = ({ lawFirm }: CompanySidebarProps) => {
   const [showFullNumber, setShowFullNumber] = useState(false);
   const [isOnlineConsultationOpen, setIsOnlineConsultationOpen] = useState(false);
   const navigate = useNavigate();
+  
+  const { data: reviews = [] } = useReviewsByLawFirm(lawFirm?.id || '');
+  
+  // Calculate rating statistics
+  const calculateRatingStats = () => {
+    if (!reviews.length) {
+      return { averageRating: 4.9, totalReviews: 609 };
+    }
+    
+    const totalReviews = reviews.length;
+    const averageRating = reviews.reduce((sum, review) => sum + parseInt(review.rating), 0) / totalReviews;
+    
+    return {
+      averageRating: Math.round(averageRating * 10) / 10,
+      totalReviews
+    };
+  };
+
+  const { averageRating, totalReviews } = calculateRatingStats();
+  
+  // Fallback values and dynamic links
+  const displayName = lawFirm?.name || "Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater";
+  const displayLogo = lawFirm?.logo_url || "https://www.anwalt.de/cdn-cgi/image/fit=contain,width=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg";
+  const displayPhone = lawFirm?.phone || "+49 931 22222";
+  const companyLink = lawFirm?.slug ? `/${lawFirm.slug}` : "https://www.anwalt.de/steinbock-partner";
+  const reviewsLink = lawFirm?.slug ? `/${lawFirm.slug}/bewertungen` : "https://www.anwalt.de/steinbock-partner/bewertungen.php";
+  const messageLink = lawFirm?.slug ? `/${lawFirm.slug}/nachricht` : "/vorlage/nachricht";
+  const reviewLink = lawFirm?.slug ? `/${lawFirm.slug}/bewertung/schreiben` : "/vorlage/bewertung/schreiben";
 
   return (
     <aside className="sticky top-16 z-20">
@@ -20,10 +49,10 @@ const CompanySidebar = ({ lawFirm }: CompanySidebarProps) => {
         <div className="p-4 pb-0 flex justify-items-start">
           <div className="mb-3 flex gap-4">
             <div className="avatar-enhanced-lg flex-shrink-0">
-              <a href="https://www.anwalt.de/steinbock-partner" title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater" className="inline-block">
+              <a href={companyLink} title={displayName} className="inline-block">
                 <img 
-                  alt="Kanzleilogo Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater" 
-                  src="https://www.anwalt.de/cdn-cgi/image/fit=contain,width=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg" 
+                  alt={`Kanzleilogo ${displayName}`} 
+                  src={displayLogo} 
                    className="aspect-square rounded-enhanced object-contain outline outline-1 outline-[rgba(0,0,0,0.08)]" 
                    width="88" 
                    height="88"
@@ -33,21 +62,21 @@ const CompanySidebar = ({ lawFirm }: CompanySidebarProps) => {
             <div className="flex flex-col justify-center">
               <p className="text-base text-neutral-600">Kanzlei</p>
               <a 
-                href="https://www.anwalt.de/steinbock-partner" 
-                title="Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater" 
+                href={companyLink} 
+                title={displayName} 
                 className="text-pretty font-bold hover:text-blue-700 text-xl"
                 style={{ color: '#1d4ed8' }}
               >
-                Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater
+                {displayName}
               </a>
-              <a href="https://www.anwalt.de/steinbock-partner/bewertungen.php" className="text-blue-600 hover:text-blue-700">
+              <a href={reviewsLink} className="text-blue-600 hover:text-blue-700">
                 <div className="my-1 flex text-amber-400">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="icon-enhanced fill-current" />
                   ))}
                 </div>
                 <div className="text-neutral-700 mt-1">
-                  <span className="font-semibold">4,9</span> • <span>609 Bewertungen</span>
+                  <span className="font-semibold">{averageRating}</span> • <span>{totalReviews} Bewertungen</span>
                 </div>
               </a>
             </div>
@@ -59,7 +88,7 @@ const CompanySidebar = ({ lawFirm }: CompanySidebarProps) => {
           <Button 
             variant="orange" 
             className="w-full text-lg py-6 rounded-lg"
-            onClick={() => navigate("/vorlage/nachricht")}
+            onClick={() => navigate(messageLink)}
           >
             Anliegen schildern
           </Button>
@@ -72,7 +101,7 @@ const CompanySidebar = ({ lawFirm }: CompanySidebarProps) => {
             <Button 
               variant="orange-outline-no-hover" 
               className="flex-1 text-lg py-6 rounded-lg"
-              onClick={() => navigate("/vorlage/bewertung/schreiben")}
+              onClick={() => navigate(reviewLink)}
             >
               Bewertung abgeben
             </Button>
@@ -81,7 +110,7 @@ const CompanySidebar = ({ lawFirm }: CompanySidebarProps) => {
           {/* Phone Number */}
           <div className="flex gap-3 items-center justify-center hidden md:flex">
             <Phone className="w-4 h-4 mt-0.5" />
-            <span>+49 931 22{showFullNumber ? "222" : "..."}</span>
+            <span>{displayPhone.substring(0, displayPhone.length - 3)}{showFullNumber ? displayPhone.substring(displayPhone.length - 3) : "..."}</span>
             <Button 
               variant="link" 
               className="hover:underline p-0 h-auto text-base"
@@ -115,8 +144,8 @@ const CompanySidebar = ({ lawFirm }: CompanySidebarProps) => {
           
           {isOnlineConsultationOpen && (
              <div className="px-4 pb-4 text-neutral-500 text-lg">
-               Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater bietet Online-Rechtsberatung an.
-             </div>
+                {displayName} bietet Online-Rechtsberatung an.
+              </div>
           )}
         </div>
       </div>
