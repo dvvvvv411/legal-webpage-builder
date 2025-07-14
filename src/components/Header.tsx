@@ -44,11 +44,12 @@ const Header = () => {
               {navItems.map((item, index) => (
                 <div key={item.name} className="flex items-center">
                   {item.divider && (
-                    <div className="h-6 w-px bg-gray-300 mx-4" />
+                    <div className="h-6 w-px mx-4" style={{ backgroundColor: '#333333' }} />
                   )}
                   <a 
                     href={item.href}
-                    className="text-gray-700 hover:text-blue-600 font-medium transition-colors text-lg"
+                    className="hover:text-blue-600 font-medium transition-colors text-lg"
+                    style={{ color: '#333333' }}
                   >
                     {item.name}
                   </a>
