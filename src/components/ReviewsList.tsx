@@ -3,8 +3,6 @@ import { Filter, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useReviewsByLawFirm } from "@/hooks/use-reviews";
-import { useLegalAreas } from "@/hooks/use-legal-areas";
 
 interface Review {
   id: number;
@@ -19,13 +17,7 @@ interface Review {
   bgColor: string;
 }
 
-interface ReviewsListProps {
-  lawFirm?: any;
-}
-
-const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
-  const { data: reviews = [] } = useReviewsByLawFirm(lawFirm?.id || '');
-  const { data: legalAreas = [] } = useLegalAreas();
+const ReviewsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
@@ -33,83 +25,8 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const reviewsPerPage = 10;
 
-  // Helper function to format initials
-  const formatInitialsForAvatar = (initials: string) => {
-    return initials.replace(/\./g, '').replace(/\s+/g, '');
-  };
-
-  const formatInitialsForText = (initials: string) => {
-    return initials;
-  };
-
-  // Helper function to format date and time with law firm
-  const formatDateTime = (reviewDate: string | null, reviewTime: string | null, author: string, lawyer: string | null) => {
-    let baseDate;
-    if (!reviewDate) {
-      baseDate = new Date().toLocaleDateString('de-DE', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      }) + ' Uhr';
-    } else {
-      const date = new Date(reviewDate);
-      const formattedDate = date.toLocaleDateString('de-DE', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-
-      if (reviewTime) {
-        const [hours, minutes] = reviewTime.split(':');
-        baseDate = `${formattedDate} um ${hours}:${minutes} Uhr`;
-      } else {
-        baseDate = `${formattedDate} um 00:00 Uhr`;
-      }
-    }
-
-    // Format the complete date string with law firm name
-    if (lawyer && lawFirm) {
-      return `von ${author} am ${baseDate} für ${lawyer} bei ${lawFirm.name}`;
-    } else if (lawFirm) {
-      return `von ${author} am ${baseDate} für ${lawFirm.name}`;
-    } else {
-      return `von ${author} am ${baseDate}`;
-    }
-  };
-
-  // Convert reviews to display format and calculate practice areas
-  const convertedReviews = reviews.map((review, index) => {
-    const author = formatInitialsForText(review.initials);
-    const lawyer = review.scope;
-    
-    return {
-      id: index + 1,
-      author,
-      initials: formatInitialsForAvatar(review.initials),
-      rating: parseInt(review.rating),
-      date: formatDateTime(review.review_date, review.review_time, author, lawyer),
-      title: review.title,
-      category: legalAreas.find(area => area.id === review.legal_area_id)?.name || 'Allgemeine Rechtsberatung',
-      text: review.content,
-      lawyer,
-      bgColor: review.avatar_color || '#6B7280'
-    };
-  });
-
-  // Calculate practice areas from actual reviews
-  const practiceAreaCounts = convertedReviews.reduce((acc, review) => {
-    acc[review.category] = (acc[review.category] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
-
-  const practiceAreas = Object.entries(practiceAreaCounts)
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count);
-
-  // Use fallback data if no reviews
-  const fallbackAreas = [
+  // Rechtsgebiete Optionen
+  const practiceAreas = [
     { name: "Verkehrsrecht", count: 126 },
     { name: "Arbeitsrecht", count: 94 },
     { name: "Allgemeine Rechtsberatung", count: 69 },
@@ -137,8 +54,6 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
     { name: "Insolvenzrecht & Sanierungsrecht", count: 1 },
     { name: "Wettbewerbsrecht", count: 1 }
   ];
-
-  const displayAreas = practiceAreas.length > 0 ? practiceAreas : fallbackAreas;
 
   // Click outside handler
   useEffect(() => {
@@ -184,8 +99,8 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
     setSelectedFilters(selectedFilters.filter(f => f !== filterName));
   };
 
-  // Mock-Daten für die Bewertungen als Fallback
-  const fallbackReviews: Review[] = [
+  // Mock-Daten für die Bewertungen
+  const allReviews: Review[] = [
     {
       id: 1,
       author: "H. H.",
@@ -306,6 +221,7 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
       lawyer: "Rechtsanwalt Ingo Hochheim",
       bgColor: "bg-cyan-500"
     },
+    // Weitere Mock-Daten für weitere Seiten
     {
       id: 11,
       author: "P. M.",
@@ -331,9 +247,6 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
       bgColor: "bg-yellow-500"
     }
   ];
-
-  // Use converted reviews or fallback
-  const allReviews = convertedReviews.length > 0 ? convertedReviews : fallbackReviews;
 
   // Filtere Reviews basierend auf ausgewählten Filtern
   const filteredReviews = selectedFilters.length > 0 
@@ -366,7 +279,7 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
         <h2 className="mb-2 flex items-center gap-2 text-2xl font-semibold pb-3 flex-auto pe-4">
           Bewertungen 
           <Badge variant="secondary" className="rounded-full border border-neutral-200 bg-page-background text-neutral-700 text-lg py-0.5 px-2.5 -ml-0.5 font-normal">
-            {allReviews.length}
+            609
           </Badge>
         </h2>
         <div className="relative font-semibold text-xl flex-none mb-3" style={{ color: '#334155' }} ref={dropdownRef}>
@@ -399,7 +312,7 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
 
               {/* Checkboxes */}
               <div className="flex flex-col gap-4 font-normal text-base max-h-[288px] overflow-auto pr-4">
-                {displayAreas.map((area) => (
+                {practiceAreas.map((area) => (
                   <div key={area.name} className="pl-7 relative flex">
                     <input
                       type="checkbox"
@@ -477,15 +390,12 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
           >
             <div className="sm:flex sm:items-center">
               <div className="flex items-center mb-2 sm:mb-0">
-                 {/* Initials Badge */}
-                 <div className="mr-3.5">
-                   <div 
-                     className="text-white rounded-full avatar-enhanced flex items-center justify-center text-lg font-normal"
-                     style={{ backgroundColor: review.bgColor }}
-                   >
-                     {review.initials}
-                   </div>
-                 </div>
+                {/* Initials Badge */}
+                <div className="mr-3.5">
+                  <div className={`${review.bgColor} text-white rounded-full avatar-enhanced flex items-center justify-center text-lg font-normal`}>
+                    {review.initials}
+                  </div>
+                </div>
                 
                 {/* Stars */}
                 <div className="flex text-amber-400 mr-3.5">
@@ -495,7 +405,15 @@ const ReviewsList = ({ lawFirm }: ReviewsListProps) => {
               
               {/* Date and Lawyer Info */}
               <p className="text-neutral-500 text-lg mr-3.5">
-                {review.date}
+                von {review.author} am {review.date}
+                {review.lawyer && (
+                  <span>
+                    {" "}für{" "}
+                    <span className="text-neutral-500">
+                      {review.lawyer}
+                    </span>
+                  </span>
+                )}
               </p>
             </div>
             

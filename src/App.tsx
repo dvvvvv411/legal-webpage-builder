@@ -28,9 +28,6 @@ const App = () => (
             <Route path="/vorlage" element={<Vorlage />} />
             <Route path="/vorlage/nachricht" element={<Nachricht />} />
             <Route path="/vorlage/bewertung/schreiben" element={<BewertungSchreiben />} />
-            <Route path="/:slug" element={<Vorlage />} />
-            <Route path="/:slug/nachricht" element={<Nachricht />} />
-            <Route path="/:slug/bewertung/schreiben" element={<BewertungSchreiben />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
