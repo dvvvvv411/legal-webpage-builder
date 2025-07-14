@@ -66,6 +66,7 @@ export default {
 				'pagination-active': 'hsl(var(--pagination-active))',
 				'sehr-gut-bg': 'hsl(var(--sehr-gut-bg))',
 				'sehr-gut-text': 'hsl(var(--sehr-gut-text))',
+				'sehr-gut-outline': 'hsl(var(--sehr-gut-outline))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

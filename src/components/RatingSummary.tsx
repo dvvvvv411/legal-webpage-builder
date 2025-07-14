@@ -47,14 +47,14 @@ const RatingSummary = () => {
 
         <div className="flex gap-10">
           {/* Desktop Rating Display */}
-          <div className="w-[255px] hidden mr-10 py-6 bg-rating-bg-light rounded md:grid place-items-center">
+          <div className="w-[300px] h-[180px] hidden mr-10 py-6 bg-rating-bg-light rounded md:flex flex-col items-center justify-center">
             <div className="text-slate-900 font-bold text-5xl mb-0">4,9</div>
             <div className="my-1 flex text-amber-400 mb-4">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="icon-enhanced fill-current" />
               ))}
             </div>
-             <div className="px-4 py-1.5 bg-sehr-gut-bg rounded-full border border-sehr-gut-bg flex items-center gap-2">
+             <div className="px-4 py-1.5 bg-sehr-gut-bg rounded-full border border-sehr-gut-outline flex items-center gap-2">
                <div className="text-sehr-gut-text text-lg">Sehr gut</div>
                <ThumbsUp className="w-4 h-4 text-sehr-gut-text" />
              </div>
