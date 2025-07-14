@@ -8,7 +8,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Plus, Edit2, Trash2, Building, X } from "lucide-react";
 import { useLawFirms, useCreateLawFirm, useUpdateLawFirm, useDeleteLawFirm, LawFirm } from "@/hooks/use-law-firms";
-import { useCreateLawyer, useDeleteLawyer } from "@/hooks/use-lawyers";
 
 const LawFirmManager = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -27,40 +26,29 @@ const LawFirmManager = () => {
   const createLawFirm = useCreateLawFirm();
   const updateLawFirm = useUpdateLawFirm();
   const deleteLawFirm = useDeleteLawFirm();
-  const createLawyer = useCreateLawyer();
-  const deleteLawyer = useDeleteLawyer();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    let lawFirmId: string;
-    
     if (selectedLawFirm) {
-      const updatedFirm = await updateLawFirm.mutateAsync({
+      await updateLawFirm.mutateAsync({
         id: selectedLawFirm.id,
         ...formData,
         phone: formData.phone || undefined,
         logo_url: formData.logo_url || undefined,
       });
-      lawFirmId = updatedFirm.id;
       setIsEditDialogOpen(false);
     } else {
-      const newFirm = await createLawFirm.mutateAsync({
+      await createLawFirm.mutateAsync({
         ...formData,
         phone: formData.phone || undefined,
         logo_url: formData.logo_url || undefined,
       });
-      lawFirmId = newFirm.id;
       setIsCreateDialogOpen(false);
     }
     
-    // Create lawyers for the law firm
-    for (const lawyerName of lawyers) {
-      await createLawyer.mutateAsync({
-        name: lawyerName,
-        law_firm_id: lawFirmId,
-      });
-    }
+    // TODO: Implement lawyer creation when database is properly set up
+    // For now, lawyers are just stored in the form state
     
     // Reset form
     setFormData({
