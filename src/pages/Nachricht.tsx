@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Lock, Scale } from "lucide-react";
+import { ChevronLeft, ChevronRight, LockKeyhole, Scale } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
@@ -36,8 +36,8 @@ const Nachricht = () => {
             />
           </a>
           <div className="flex items-center">
-            <Lock className="text-neutral-500" size={16} />
-            <span className="text-neutral-500 ml-2 sm:inline hidden text-sm">
+            <LockKeyhole style={{ color: '#64748b' }} size={16} />
+            <span className="ml-2 sm:inline hidden text-sm" style={{ color: '#64748b' }}>
               Gesicherte Verbindung
             </span>
           </div>
@@ -147,8 +147,9 @@ const Nachricht = () => {
                   variant="ghost"
                   onClick={handleBack}
                   className="md:flex hidden items-center"
+                  style={{ color: '#1d4ed8', fontSize: '1.1em' }}
                 >
-                  <ChevronLeft className="mr-1.5" size={16} />
+                  <ChevronLeft className="mr-1.5" size={18} style={{ color: '#1d4ed8' }} />
                   Zurück
                 </Button>
                 <Button
