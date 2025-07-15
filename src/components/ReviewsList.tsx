@@ -47,35 +47,31 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const reviewsPerPage = 10;
 
-  // Rechtsgebiete Optionen
-  const practiceAreas = [
-    { name: "Verkehrsrecht", count: 126 },
-    { name: "Arbeitsrecht", count: 94 },
-    { name: "Allgemeine Rechtsberatung", count: 69 },
-    { name: "Mietrecht & Wohnungseigentumsrecht", count: 46 },
-    { name: "Schadensersatzrecht & Schmerzensgeldrecht", count: 35 },
-    { name: "Strafrecht", count: 34 },
-    { name: "Versicherungsrecht", count: 33 },
-    { name: "Allgemeines Vertragsrecht", count: 30 },
-    { name: "Erbrecht", count: 30 },
-    { name: "Bankrecht & Kapitalmarktrecht", count: 25 },
-    { name: "Baurecht & Architektenrecht", count: 16 },
-    { name: "Handelsrecht & Gesellschaftsrecht", count: 14 },
-    { name: "Medizinrecht", count: 14 },
-    { name: "Familienrecht", count: 12 },
-    { name: "Steuerrecht", count: 12 },
-    { name: "Forderungseinzug & Inkassorecht", count: 7 },
-    { name: "Kaufrecht", count: 5 },
-    { name: "Gewerblicher Rechtsschutz", count: 4 },
-    { name: "Ordnungswidrigkeitenrecht", count: 4 },
-    { name: "IT-Recht", count: 3 },
-    { name: "Zivilrecht", count: 3 },
-    { name: "Grundstücksrecht & Immobilienrecht", count: 2 },
-    { name: "Verwaltungsrecht", count: 2 },
-    { name: "Arzthaftungsrecht", count: 1 },
-    { name: "Insolvenzrecht & Sanierungsrecht", count: 1 },
-    { name: "Wettbewerbsrecht", count: 1 }
-  ];
+  // Dynamically generate legal areas from reviews
+  const generateLegalAreas = () => {
+    const legalAreaCounts = new Map<string, number>();
+    
+    reviews.forEach(review => {
+      // Get legal area name from either scope or legal_area.name
+      const legalAreaName = review.legal_area?.name || review.scope;
+      
+      if (legalAreaName && legalAreaName.trim() !== '') {
+        legalAreaCounts.set(legalAreaName, (legalAreaCounts.get(legalAreaName) || 0) + 1);
+      }
+    });
+
+    // Convert to array and sort by count (descending) then by name (ascending)
+    return Array.from(legalAreaCounts.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => {
+        if (b.count !== a.count) {
+          return b.count - a.count; // Sort by count descending
+        }
+        return a.name.localeCompare(b.name); // Then by name ascending
+      });
+  };
+
+  const practiceAreas = generateLegalAreas();
 
   // Click outside handler
   useEffect(() => {
@@ -105,6 +101,7 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
 
   const handleApplyFilters = () => {
     setSelectedFilters(tempSelectedFilters);
+    setCurrentPage(1); // Reset to first page when filters are applied
     setIsDropdownOpen(false);
   };
 
@@ -115,10 +112,14 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
 
   const handleResetFilters = () => {
     setTempSelectedFilters([]);
+    setSelectedFilters([]);
+    setCurrentPage(1); // Reset to first page when filters are reset
+    setIsDropdownOpen(false);
   };
 
   const removeFilter = (filterName: string) => {
     setSelectedFilters(selectedFilters.filter(f => f !== filterName));
+    setCurrentPage(1); // Reset to first page when filter is removed
   };
 
   // Filtere Reviews basierend auf ausgewählten Filtern
@@ -126,9 +127,10 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
   
   // Anwenden der Rechtsgebiets-Filter
   if (selectedFilters.length > 0) {
-    filteredReviews = filteredReviews.filter(review => 
-      selectedFilters.includes(review.scope || review.legal_area?.name || '')
-    );
+    filteredReviews = filteredReviews.filter(review => {
+      const legalAreaName = review.legal_area?.name || review.scope;
+      return selectedFilters.includes(legalAreaName || '');
+    });
   }
 
   // Sortiere Reviews chronologisch (neuste zuerst)
@@ -227,7 +229,7 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
         <h2 className="mb-2 flex items-center gap-2 text-2xl font-semibold pb-3 flex-auto pe-4">
           Bewertungen 
           <Badge variant="secondary" className="rounded-full border border-neutral-200 bg-page-background text-neutral-700 text-lg py-0.5 px-2.5 -ml-0.5 font-normal">
-            {reviews.length}
+            {selectedFilters.length > 0 ? `${filteredReviews.length} von ${reviews.length}` : reviews.length}
           </Badge>
         </h2>
         <div className="relative font-semibold text-xl flex-none mb-3" style={{ color: '#334155' }} ref={dropdownRef}>
@@ -260,31 +262,37 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
 
               {/* Checkboxes */}
               <div className="flex flex-col gap-4 font-normal text-base max-h-[288px] overflow-auto pr-4">
-                {practiceAreas.map((area) => (
-                  <div key={area.name} className="pl-7 relative flex">
-                    <input
-                      type="checkbox"
-                      id={area.name}
-                      checked={tempSelectedFilters.includes(area.name)}
-                      onChange={() => handleFilterChange(area.name)}
-                      className="peer checked:border-[#666] checked:bg-[#F0F0F0] absolute left-0.5 top-[1em] -mt-px -translate-y-[50%] appearance-none rounded h-5 w-5 cursor-pointer border-2 border-solid border-[#666] transition-colors duration-200 focus:shadow-sm hover:bg-[#F0F0F0] hover:transition-colors hover:duration-200"
-                      style={{
-                        backgroundImage: tempSelectedFilters.includes(area.name) ? 
-                          "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0yMzIuNDksODAuNDlsLTEyOCwxMjhhMTIsMTIsMCwwLDEtMTcsMGwtNTYtNTZhMTIsMTIsMCwxLDEsMTctMTdMOTYsMTgzLDIxNS41MSw2My41MWExMiwxMiwwLDAsMSwxNywxN1oiIGZpbGw9IiM2NjY2NjYiIHN0cm9rZT0iIzY2NjY2NiIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+')" : 
-                          'none',
-                        backgroundSize: 'contain'
-                      }}
-                    />
-                    <label 
-                      htmlFor={area.name} 
-                      className={`text-[#333] ml-1 mt-[0.2em] inline-block text-pretty cursor-pointer ${
-                        tempSelectedFilters.includes(area.name) ? 'font-semibold' : ''
-                      }`}
-                    >
-                      {area.name} ({area.count})
-                    </label>
+                {practiceAreas.length > 0 ? (
+                  practiceAreas.map((area) => (
+                    <div key={area.name} className="pl-7 relative flex">
+                      <input
+                        type="checkbox"
+                        id={area.name}
+                        checked={tempSelectedFilters.includes(area.name)}
+                        onChange={() => handleFilterChange(area.name)}
+                        className="peer checked:border-[#666] checked:bg-[#F0F0F0] absolute left-0.5 top-[1em] -mt-px -translate-y-[50%] appearance-none rounded h-5 w-5 cursor-pointer border-2 border-solid border-[#666] transition-colors duration-200 focus:shadow-sm hover:bg-[#F0F0F0] hover:transition-colors hover:duration-200"
+                        style={{
+                          backgroundImage: tempSelectedFilters.includes(area.name) ? 
+                            "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0yMzIuNDksODAuNDlsLTEyOCwxMjhhMTIsMTIsMCwwLDEtMTcsMGwtNTYtNTZhMTIsMTIsMCwxLDEsMTctMTdMOTYsMTgzLDIxNS41MSw2My41MWExMiwxMiwwLDAsMSwxNywxN1oiIGZpbGw9IiM2NjY2NjYiIHN0cm9rZT0iIzY2NjY2NiIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+')" : 
+                            'none',
+                          backgroundSize: 'contain'
+                        }}
+                      />
+                      <label 
+                        htmlFor={area.name} 
+                        className={`text-[#333] ml-1 mt-[0.2em] inline-block text-pretty cursor-pointer ${
+                          tempSelectedFilters.includes(area.name) ? 'font-semibold' : ''
+                        }`}
+                      >
+                        {area.name} ({area.count})
+                      </label>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-gray-500 text-center py-4">
+                    Keine Rechtsgebiete verfügbar
                   </div>
-                ))}
+                )}
               </div>
 
               {/* Footer Buttons */}
@@ -331,68 +339,91 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
 
       {/* Reviews List */}
       <div className="space-y-2">
-        {currentReviews.map((review) => (
-          <div 
-            key={review.id}
-            className="w-full p-enhanced bg-page-background rounded-enhanced border border-neutral-100"
-          >
-            <div className="sm:flex sm:items-center">
-              <div className="flex items-center mb-2 sm:mb-0">
-                {/* Initials Badge */}
-                <div className="mr-3.5">
-                  <div 
-                    className="text-white rounded-full avatar-enhanced flex items-center justify-center text-lg font-normal"
-                    style={{ backgroundColor: review.avatar_color }}
-                  >
-                    {review.initials.replace(/[\.\s]/g, '')}
+        {currentReviews.length > 0 ? (
+          currentReviews.map((review) => (
+            <div 
+              key={review.id}
+              className="w-full p-enhanced bg-page-background rounded-enhanced border border-neutral-100"
+            >
+              <div className="sm:flex sm:items-center">
+                <div className="flex items-center mb-2 sm:mb-0">
+                  {/* Initials Badge */}
+                  <div className="mr-3.5">
+                    <div 
+                      className="text-white rounded-full avatar-enhanced flex items-center justify-center text-lg font-normal"
+                      style={{ backgroundColor: review.avatar_color }}
+                    >
+                      {review.initials.replace(/[\.\s]/g, '')}
+                    </div>
+                  </div>
+                  
+                  {/* Stars */}
+                  <div className="flex text-amber-400 mr-3.5">
+                    {renderStars(review.rating)}
                   </div>
                 </div>
                 
-                {/* Stars */}
-                <div className="flex text-amber-400 mr-3.5">
-                  {renderStars(review.rating)}
-                </div>
+                {/* Date and Lawyer Info */}
+                <p className="text-neutral-500 text-lg mr-3.5">
+                  von {review.initials} am {formatDate(review.review_date, review.review_time)}
+                  {review.lawyer ? (
+                    <span>
+                      {" "}für{" "}
+                      <span className="text-neutral-500">
+                        {review.lawyer.name}
+                      </span>
+                    </span>
+                  ) : (
+                    <span>
+                      {" "}für{" "}
+                      <span className="text-neutral-500">
+                        {lawFirm?.name || "Anwaltskanzlei"}
+                      </span>
+                    </span>
+                  )}
+                </p>
               </div>
               
-              {/* Date and Lawyer Info */}
-              <p className="text-neutral-500 text-lg mr-3.5">
-                von {review.initials} am {formatDate(review.review_date, review.review_time)}
-                {review.lawyer ? (
-                  <span>
-                    {" "}für{" "}
-                    <span className="text-neutral-500">
-                      {review.lawyer.name}
-                    </span>
+              {/* Review Content */}
+              <div className="lg:pl-14 mt-1">
+                <div>
+                  <span className="inline-block mr-3 text-slate-900 text-xl font-semibold leading-normal mb-1.5">
+                    {review.title}
                   </span>
-                ) : (
-                  <span>
-                    {" "}für{" "}
-                    <span className="text-neutral-500">
-                      {lawFirm?.name || "Anwaltskanzlei"}
-                    </span>
-                  </span>
-                )}
-              </p>
-            </div>
-            
-            {/* Review Content */}
-            <div className="lg:pl-14 mt-1">
-              <div>
-                <span className="inline-block mr-3 text-slate-900 text-xl font-semibold leading-normal mb-1.5">
-                  {review.title}
-                </span>
-                <div className="inline-flex mb-2">
-                  <Badge variant="secondary" className="bg-white border border-neutral-200 font-light text-base" style={{ color: 'rgb(51, 65, 85)' }}>
-                    {review.scope || review.legal_area?.name || 'Allgemein'}
-                  </Badge>
+                  <div className="inline-flex mb-2">
+                    <Badge variant="secondary" className="bg-white border border-neutral-200 font-light text-base" style={{ color: 'rgb(51, 65, 85)' }}>
+                      {review.scope || review.legal_area?.name || 'Allgemein'}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="text-slate-700 text-xl font-normal leading-normal">
+                  {review.content}
                 </div>
               </div>
-              <div className="text-slate-700 text-xl font-normal leading-normal">
-                {review.content}
-              </div>
             </div>
+          ))
+        ) : (
+          <div className="text-center py-12">
+            <div className="text-gray-500 text-lg">
+              {selectedFilters.length > 0 
+                ? "Keine Bewertungen für die ausgewählten Filter gefunden."
+                : "Keine Bewertungen verfügbar."
+              }
+            </div>
+            {selectedFilters.length > 0 && (
+              <Button 
+                variant="outline" 
+                className="mt-4"
+                onClick={() => {
+                  setSelectedFilters([]);
+                  setCurrentPage(1);
+                }}
+              >
+                Alle Filter entfernen
+              </Button>
+            )}
           </div>
-        ))}
+        )}
       </div>
 
       {/* Pagination */}
