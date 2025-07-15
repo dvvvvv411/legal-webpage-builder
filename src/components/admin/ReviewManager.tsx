@@ -8,9 +8,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star } from "@/components/ui/star";
-import { Plus, Edit, Trash2, MessageSquare } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus, Edit, Trash2, MessageSquare, Upload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { ReviewMultiUpload } from "./ReviewMultiUpload";
 
 interface Review {
   id: string;
@@ -270,242 +272,268 @@ export const ReviewManager = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Reviews</h2>
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={resetForm}>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Review
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>
-                {selectedReview ? "Edit Review" : "Add New Review"}
-              </DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="law_firm_id">Law Firm *</Label>
-                <Select
-                  value={formData.law_firm_id}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, law_firm_id: value, lawyer_id: "" }))}
-                  required
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select law firm" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {lawFirms.map((firm) => (
-                      <SelectItem key={firm.id} value={firm.id}>
-                        {firm.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="title">Title *</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="content">Content *</Label>
-                <Textarea
-                  id="content"
-                  value={formData.content}
-                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                  rows={4}
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="rating">Rating *</Label>
-                  <Select
-                    value={formData.rating}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, rating: value }))}
-                    required
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {[5, 4, 3, 2, 1].map((rating) => (
-                        <SelectItem key={rating} value={rating.toString()}>
-                          {rating} Star{rating !== 1 ? 's' : ''}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="initials">Initials</Label>
-                  <Input
-                    id="initials"
-                    value={formData.initials}
-                    onChange={(e) => setFormData(prev => ({ ...prev, initials: e.target.value }))}
-                    placeholder="Auto-generated if empty"
-                    maxLength={3}
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="review_date">Review Date</Label>
-                  <Input
-                    id="review_date"
-                    type="date"
-                    value={formData.review_date}
-                    onChange={(e) => setFormData(prev => ({ ...prev, review_date: e.target.value }))}
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="review_time">Review Time</Label>
-                  <Input
-                    id="review_time"
-                    type="time"
-                    value={formData.review_time}
-                    onChange={(e) => setFormData(prev => ({ ...prev, review_time: e.target.value }))}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="lawyer_id">Lawyer (Optional)</Label>
-                <Select
-                  value={formData.lawyer_id}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, lawyer_id: value }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select lawyer" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">No specific lawyer</SelectItem>
-                    {lawyers.map((lawyer) => (
-                      <SelectItem key={lawyer.id} value={lawyer.id}>
-                        {lawyer.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="legal_area_id">Legal Area (Optional)</Label>
-                <Select
-                  value={formData.legal_area_id}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, legal_area_id: value }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select legal area" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">No specific area</SelectItem>
-                    {legalAreas.map((area) => (
-                      <SelectItem key={area.id} value={area.id}>
-                        {area.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="flex gap-2 pt-4">
-                <Button type="submit" disabled={loading}>
-                  {loading ? "Saving..." : selectedReview ? "Update" : "Create"}
-                </Button>
-                <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <h2 className="text-2xl font-bold">Reviews Management</h2>
       </div>
 
-      <div className="grid gap-4">
-        {reviews.map((review) => (
-          <Card key={review.id}>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5" />
-                  {review.title}
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleEdit(review)}
-                  >
-                    <Edit className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => handleDelete(review.id)}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-center gap-4">
-                  <div 
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-medium"
-                    style={{ backgroundColor: review.avatar_color }}
-                  >
-                    {review.initials}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {renderStars(review.rating)}
-                    <span className="text-sm text-muted-foreground">
-                      {review.rating}/5 stars
-                    </span>
-                  </div>
-                </div>
-                
-                <p className="text-sm">{review.content}</p>
-                
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">
-                    {review.law_firm?.name}
-                  </Badge>
-                  {review.lawyer && (
-                    <Badge variant="outline">
-                      {review.lawyer.name}
-                    </Badge>
-                  )}
-                  {review.legal_area && (
-                    <Badge variant="outline">
-                      {review.legal_area.name}
-                    </Badge>
-                  )}
-                </div>
+      <Tabs defaultValue="single" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="single" className="flex items-center gap-2">
+            <Plus className="w-4 h-4" />
+            Single Review
+          </TabsTrigger>
+          <TabsTrigger value="bulk" className="flex items-center gap-2">
+            <Upload className="w-4 h-4" />
+            Bulk Upload
+          </TabsTrigger>
+        </TabsList>
 
-                {(review.review_date || review.review_time) && (
-                  <p className="text-xs text-muted-foreground">
-                    {review.review_date} {review.review_time}
-                  </p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+        <TabsContent value="single" className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold">Manage Individual Reviews</h3>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+              <DialogTrigger asChild>
+                <Button onClick={resetForm}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Review
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>
+                    {selectedReview ? "Edit Review" : "Add New Review"}
+                  </DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <Label htmlFor="law_firm_id">Law Firm *</Label>
+                    <Select
+                      value={formData.law_firm_id}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, law_firm_id: value, lawyer_id: "" }))}
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select law firm" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {lawFirms.map((firm) => (
+                          <SelectItem key={firm.id} value={firm.id}>
+                            {firm.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="title">Title *</Label>
+                    <Input
+                      id="title"
+                      value={formData.title}
+                      onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="content">Content *</Label>
+                    <Textarea
+                      id="content"
+                      value={formData.content}
+                      onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                      rows={4}
+                      required
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="rating">Rating *</Label>
+                      <Select
+                        value={formData.rating}
+                        onValueChange={(value) => setFormData(prev => ({ ...prev, rating: value }))}
+                        required
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[5, 4, 3, 2, 1].map((rating) => (
+                            <SelectItem key={rating} value={rating.toString()}>
+                              {rating} Star{rating !== 1 ? 's' : ''}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="initials">Initials</Label>
+                      <Input
+                        id="initials"
+                        value={formData.initials}
+                        onChange={(e) => setFormData(prev => ({ ...prev, initials: e.target.value }))}
+                        placeholder="Auto-generated if empty"
+                        maxLength={3}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="review_date">Review Date</Label>
+                      <Input
+                        id="review_date"
+                        type="date"
+                        value={formData.review_date}
+                        onChange={(e) => setFormData(prev => ({ ...prev, review_date: e.target.value }))}
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="review_time">Review Time</Label>
+                      <Input
+                        id="review_time"
+                        type="time"
+                        value={formData.review_time}
+                        onChange={(e) => setFormData(prev => ({ ...prev, review_time: e.target.value }))}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="lawyer_id">Lawyer (Optional)</Label>
+                    <Select
+                      value={formData.lawyer_id}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, lawyer_id: value }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select lawyer" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">No specific lawyer</SelectItem>
+                        {lawyers.map((lawyer) => (
+                          <SelectItem key={lawyer.id} value={lawyer.id}>
+                            {lawyer.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="legal_area_id">Legal Area (Optional)</Label>
+                    <Select
+                      value={formData.legal_area_id}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, legal_area_id: value }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select legal area" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">No specific area</SelectItem>
+                        {legalAreas.map((area) => (
+                          <SelectItem key={area.id} value={area.id}>
+                            {area.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="flex gap-2 pt-4">
+                    <Button type="submit" disabled={loading}>
+                      {loading ? "Saving..." : selectedReview ? "Update" : "Create"}
+                    </Button>
+                    <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
+                      Cancel
+                    </Button>
+                  </div>
+                </form>
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="grid gap-4">
+            {reviews.map((review) => (
+              <Card key={review.id}>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <MessageSquare className="w-5 h-5" />
+                      {review.title}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleEdit(review)}
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => handleDelete(review.id)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-4">
+                      <div 
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-white font-medium"
+                        style={{ backgroundColor: review.avatar_color }}
+                      >
+                        {review.initials}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {renderStars(review.rating)}
+                        <span className="text-sm text-muted-foreground">
+                          {review.rating}/5 stars
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <p className="text-sm">{review.content}</p>
+                    
+                    <div className="flex flex-wrap gap-2">
+                      <Badge variant="secondary">
+                        {review.law_firm?.name}
+                      </Badge>
+                      {review.lawyer && (
+                        <Badge variant="outline">
+                          {review.lawyer.name}
+                        </Badge>
+                      )}
+                      {review.legal_area && (
+                        <Badge variant="outline">
+                          {review.legal_area.name}
+                        </Badge>
+                      )}
+                    </div>
+
+                    {(review.review_date || review.review_time) && (
+                      <p className="text-xs text-muted-foreground">
+                        {review.review_date} {review.review_time}
+                      </p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="bulk" className="space-y-6">
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Bulk Upload Reviews</h3>
+            <ReviewMultiUpload onImportComplete={fetchReviews} />
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
