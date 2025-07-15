@@ -85,17 +85,18 @@ const CompanySidebar = ({ lawFirm, totalReviews, averageRating }: CompanySidebar
             Anliegen schildern
           </Button>
           
-          <div className="flex gap-2.5">
-            <Button variant="orange-outline" className="md:hidden flex-1">
-              <Phone className="w-4 h-4" />
-              <span className="sr-only">Anrufen</span>
-            </Button>
+          <div className="flex gap-2.5 lg:flex-col">
             <Button 
               variant="orange-outline-no-hover" 
-              className="flex-1 text-lg py-6 rounded-lg"
+              className="flex-1 text-lg py-6 rounded-lg lg:order-2"
               onClick={() => navigate(reviewLink)}
             >
-              Bewertung abgeben
+              <span className="lg:hidden">Bewerten</span>
+              <span className="hidden lg:inline">Bewertung abgeben</span>
+            </Button>
+            <Button variant="orange-outline" className="lg:hidden flex-1">
+              <Phone className="w-4 h-4" />
+              <span className="sr-only">Anrufen</span>
             </Button>
           </div>
 
@@ -115,7 +116,7 @@ const CompanySidebar = ({ lawFirm, totalReviews, averageRating }: CompanySidebar
         </div>
 
         {/* Online Consultation */}
-        <div className="border-t border-neutral-200">
+        <div className="border-t border-neutral-200 hidden lg:block">
           <button
             className="w-full flex items-center gap-2.5 p-4 text-left hover:bg-neutral-50 transition-colors"
             onClick={() => setIsOnlineConsultationOpen(!isOnlineConsultationOpen)}
