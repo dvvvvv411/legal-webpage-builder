@@ -150,7 +150,7 @@ const ReviewsList = ({ lawFirm, reviews, starFilter }: ReviewsListProps) => {
 
   // Pagination Helper Functions
   const getPaginationRange = () => {
-    const maxPagesToShow = 5;
+    const maxPagesToShow = 4; // Reduziert von 5 auf 4
     let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
     let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
     
@@ -161,25 +161,31 @@ const ReviewsList = ({ lawFirm, reviews, starFilter }: ReviewsListProps) => {
     
     const pages = [];
     
-    // Add first page if not in range
-    if (startPage > 1) {
-      pages.push(1);
-      if (startPage > 2) {
-        pages.push('...');
+    // Immer erste Seite hinzufügen
+    pages.push(1);
+    
+    // Wenn startPage > 2, dann beginnen wir direkt mit den Seiten ohne Ellipsis davor
+    if (startPage > 2) {
+      // Füge Seiten ab startPage hinzu, aber maximal bis endPage
+      for (let i = Math.max(2, startPage); i <= endPage; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Füge Seiten von 2 bis endPage hinzu
+      for (let i = 2; i <= endPage; i++) {
+        pages.push(i);
       }
     }
     
-    // Add page range
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-    
-    // Add last page if not in range
+    // Add ellipsis and last page only if needed
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
         pages.push('...');
       }
-      pages.push(totalPages);
+      // Nur letzte Seite hinzufügen wenn sie nicht bereits enthalten ist
+      if (!pages.includes(totalPages)) {
+        pages.push(totalPages);
+      }
     }
     
     return pages;
