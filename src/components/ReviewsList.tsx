@@ -128,7 +128,10 @@ const ReviewsList = ({ lawFirm, reviews, starFilter }: ReviewsListProps) => {
   
   // Anwenden des Star-Filters
   if (starFilter !== null && starFilter !== undefined) {
-    filteredReviews = filteredReviews.filter(review => parseInt(review.rating) === starFilter);
+    filteredReviews = filteredReviews.filter(review => {
+      const reviewRating = parseInt(review.rating);
+      return reviewRating === starFilter;
+    });
   }
   
   // Anwenden der Rechtsgebiets-Filter
