@@ -35,8 +35,8 @@ const CompanySidebar = ({ lawFirm, totalReviews, averageRating }: CompanySidebar
   const reviewLink = lawFirm ? `/${lawFirm.slug}/bewertung/schreiben` : "/vorlage/bewertung/schreiben";
 
   return (
-    <aside className="sticky top-16 z-20">
-      <div className="border border-neutral-100 bg-white rounded-enhanced shadow-lg overflow-hidden">
+    <aside className="lg:sticky lg:top-16 lg:z-20 fixed bottom-0 left-0 right-0 z-50 lg:relative lg:bottom-auto lg:left-auto lg:right-auto">
+      <div className="border border-neutral-100 bg-white lg:rounded-enhanced shadow-lg overflow-hidden lg:shadow-lg shadow-xl border-t-2 lg:border-t border-x-0 lg:border-x">
         {/* Company Info */}
         <div className="p-4 pb-0 flex justify-items-start">
           <div className="mb-3 flex gap-4">
