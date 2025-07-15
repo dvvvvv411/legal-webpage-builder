@@ -373,7 +373,7 @@ export const ReviewManager = () => {
                         value={formData.initials}
                         onChange={(e) => setFormData(prev => ({ ...prev, initials: e.target.value }))}
                         placeholder="Auto-generated if empty"
-                        maxLength={3}
+                        maxLength={5}
                       />
                     </div>
                   </div>
