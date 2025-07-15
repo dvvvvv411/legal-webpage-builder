@@ -35,7 +35,7 @@ const Vorlage = () => {
       <Header />
       <Breadcrumb items={breadcrumbItems} />
       
-       <main className="container mx-auto px-enhanced py-12">
+      <main className="container mx-auto px-enhanced py-12 pb-32 lg:pb-12">
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-enhanced">
            {/* Left column - 2/3 width */}
            <div className="lg:col-span-2 space-y-enhanced">
