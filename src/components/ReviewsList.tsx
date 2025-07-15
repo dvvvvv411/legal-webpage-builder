@@ -38,9 +38,10 @@ interface LawFirm {
 interface ReviewsListProps {
   lawFirm?: LawFirm;
   reviews: Review[];
+  starFilter?: number | null;
 }
 
-const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
+const ReviewsList = ({ lawFirm, reviews, starFilter }: ReviewsListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
@@ -122,10 +123,20 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
     setSelectedFilters(selectedFilters.filter(f => f !== filterName));
   };
 
-  // Filtere Reviews basierend auf ausgewählten Filtern
-  const filteredReviews = selectedFilters.length > 0 
-    ? reviews.filter(review => selectedFilters.includes(review.scope || review.legal_area?.name || ''))
-    : reviews;
+  // Filtere Reviews basierend auf ausgewählten Filtern und Star-Filter
+  let filteredReviews = reviews;
+  
+  // Anwenden des Star-Filters
+  if (starFilter !== null && starFilter !== undefined) {
+    filteredReviews = filteredReviews.filter(review => parseInt(review.rating) === starFilter);
+  }
+  
+  // Anwenden der Rechtsgebiets-Filter
+  if (selectedFilters.length > 0) {
+    filteredReviews = filteredReviews.filter(review => 
+      selectedFilters.includes(review.scope || review.legal_area?.name || '')
+    );
+  }
 
   // Paginierung
   const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
@@ -135,6 +146,43 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
+  };
+
+  // Pagination Helper Functions
+  const getPaginationRange = () => {
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+    
+    // Adjust if we're near the end
+    if (endPage - startPage < maxPagesToShow - 1) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+    
+    const pages = [];
+    
+    // Add first page if not in range
+    if (startPage > 1) {
+      pages.push(1);
+      if (startPage > 2) {
+        pages.push('...');
+      }
+    }
+    
+    // Add page range
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    
+    // Add last page if not in range
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pages.push('...');
+      }
+      pages.push(totalPages);
+    }
+    
+    return pages;
   };
 
   const renderStars = (rating: string) => {
@@ -344,18 +392,29 @@ const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-1 mt-6">
-            <Button
-              variant="ghost"
-              size="lg"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="p-3 text-pagination-active hover:bg-pagination-active/10 hover:text-pagination-active disabled:text-neutral-400"
-            >
+          <Button
+            variant="ghost"
+            size="lg"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-3 text-pagination-active hover:bg-pagination-active/10 hover:text-pagination-active disabled:text-neutral-400"
+          >
             <ChevronLeft className="icon-enhanced-lg" />
           </Button>
           
-          {[...Array(totalPages)].map((_, i) => {
-            const pageNumber = i + 1;
+          {getPaginationRange().map((page, index) => {
+            if (page === '...') {
+              return (
+                <span
+                  key={`ellipsis-${index}`}
+                  className="h-11 w-11 flex items-center justify-center text-neutral-500"
+                >
+                  ...
+                </span>
+              );
+            }
+            
+            const pageNumber = page as number;
             const isActive = currentPage === pageNumber;
             return (
               <Button

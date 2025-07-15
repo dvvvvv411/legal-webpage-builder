@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Header from "@/components/Header";
 import Breadcrumb from "@/components/Breadcrumb";
 import RatingSummary from "@/components/RatingSummary";
@@ -6,6 +7,8 @@ import CompanySidebar from "@/components/CompanySidebar";
 import Footer from "@/components/Footer";
 
 const Vorlage = () => {
+  const [selectedStarFilter, setSelectedStarFilter] = useState<number | null>(null);
+  
   const breadcrumbItems = [
     {
       label: "Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater",
@@ -39,12 +42,17 @@ const Vorlage = () => {
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-enhanced">
            {/* Left column - 2/3 width */}
            <div className="lg:col-span-2 space-y-enhanced">
-            <RatingSummary 
-              ratingData={defaultRatingData}
-              totalReviews={defaultTotalReviews}
-              averageRating={defaultAverageRating}
-            />
-            <ReviewsList reviews={defaultReviews} />
+             <RatingSummary 
+               ratingData={defaultRatingData}
+               totalReviews={defaultTotalReviews}
+               averageRating={defaultAverageRating}
+               onStarFilterChange={setSelectedStarFilter}
+               selectedStarFilter={selectedStarFilter}
+             />
+             <ReviewsList 
+               reviews={defaultReviews} 
+               starFilter={selectedStarFilter}
+             />
           </div>
           
           {/* Right column - 1/3 width */}

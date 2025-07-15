@@ -19,9 +19,11 @@ interface RatingSummaryProps {
   ratingData: Array<{ stars: number; count: number; percentage: number }>;
   totalReviews: number;
   averageRating: number;
+  onStarFilterChange?: (rating: number | null) => void;
+  selectedStarFilter?: number | null;
 }
 
-const RatingSummary = ({ lawFirm, ratingData, totalReviews, averageRating }: RatingSummaryProps) => {
+const RatingSummary = ({ lawFirm, ratingData, totalReviews, averageRating, onStarFilterChange, selectedStarFilter }: RatingSummaryProps) => {
 
   // Use lawFirm data or fallback to static data
   const displayName = lawFirm?.name || "Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater";
@@ -84,20 +86,35 @@ const RatingSummary = ({ lawFirm, ratingData, totalReviews, averageRating }: Rat
             </div>
             <div className="grid gap-y-2.5 grid-cols-[auto_1fr_auto] items-center grid-rows-5">
               {ratingData.map((rating) => (
-                <div key={rating.stars} className="contents">
+                <div 
+                  key={rating.stars} 
+                  className={`contents cursor-pointer hover:opacity-80 transition-opacity ${
+                    selectedStarFilter === rating.stars ? 'opacity-100' : ''
+                  }`}
+                  onClick={() => onStarFilterChange?.(selectedStarFilter === rating.stars ? null : rating.stars)}
+                >
                   <div>
                     <div className="flex mr-3 items-center">
-                      <span className="text-lg font-semibold mr-1">{rating.stars}</span>
-                      <Star className="icon-enhanced fill-amber-400 text-amber-400" />
+                      <span className={`text-lg font-semibold mr-1 ${
+                        selectedStarFilter === rating.stars ? 'text-primary' : ''
+                      }`}>{rating.stars}</span>
+                      <Star className={`icon-enhanced fill-amber-400 text-amber-400 ${
+                        selectedStarFilter === rating.stars ? 'scale-110' : ''
+                      } transition-transform`} />
                     </div>
                   </div>
                   <div className="w-full bg-neutral-100 rounded-full h-2.5">
                     <div 
-                      className="bg-amber-400 h-2.5 rounded-full" 
+                      className={`h-2.5 rounded-full transition-all ${
+                        selectedStarFilter === rating.stars ? 'bg-primary' : 'bg-amber-400'
+                      }`}
                       style={{ width: `${rating.percentage}%` }}
                     />
                   </div>
-                  <div className={`text-lg ml-3 ${rating.count === 0 ? 'text-neutral-400' : 'text-neutral-500'}`}>
+                  <div className={`text-lg ml-3 ${
+                    rating.count === 0 ? 'text-neutral-400' : 
+                    selectedStarFilter === rating.stars ? 'text-primary font-semibold' : 'text-neutral-500'
+                  }`}>
                     ({rating.count})
                   </div>
                 </div>
