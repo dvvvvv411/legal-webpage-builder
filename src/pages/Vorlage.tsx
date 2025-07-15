@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Header from "@/components/Header";
 import Breadcrumb from "@/components/Breadcrumb";
 import RatingSummary from "@/components/RatingSummary";
@@ -7,8 +6,6 @@ import CompanySidebar from "@/components/CompanySidebar";
 import Footer from "@/components/Footer";
 
 const Vorlage = () => {
-  const [selectedStarFilter, setSelectedStarFilter] = useState<number | null>(null);
-  
   const breadcrumbItems = [
     {
       label: "Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater",
@@ -137,12 +134,9 @@ const Vorlage = () => {
                ratingData={defaultRatingData}
                totalReviews={defaultTotalReviews}
                averageRating={defaultAverageRating}
-               onStarFilterChange={setSelectedStarFilter}
-               selectedStarFilter={selectedStarFilter}
              />
              <ReviewsList 
-               reviews={defaultReviews} 
-               starFilter={selectedStarFilter}
+               reviews={defaultReviews}
              />
           </div>
           

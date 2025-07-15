@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Filter, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Star } from "@/components/ui/star";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/integrations/supabase/client";
 
 interface Review {
   id: string;
@@ -38,10 +37,9 @@ interface LawFirm {
 interface ReviewsListProps {
   lawFirm?: LawFirm;
   reviews: Review[];
-  starFilter?: number | null;
 }
 
-const ReviewsList = ({ lawFirm, reviews, starFilter }: ReviewsListProps) => {
+const ReviewsList = ({ lawFirm, reviews }: ReviewsListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
@@ -123,16 +121,8 @@ const ReviewsList = ({ lawFirm, reviews, starFilter }: ReviewsListProps) => {
     setSelectedFilters(selectedFilters.filter(f => f !== filterName));
   };
 
-  // Filtere Reviews basierend auf ausgewählten Filtern und Star-Filter
+  // Filtere Reviews basierend auf ausgewählten Filtern
   let filteredReviews = reviews;
-  
-  // Anwenden des Star-Filters
-  if (starFilter !== null && starFilter !== undefined) {
-    filteredReviews = filteredReviews.filter(review => {
-      const reviewRating = parseInt(review.rating);
-      return reviewRating === starFilter;
-    });
-  }
   
   // Anwenden der Rechtsgebiets-Filter
   if (selectedFilters.length > 0) {
@@ -140,6 +130,13 @@ const ReviewsList = ({ lawFirm, reviews, starFilter }: ReviewsListProps) => {
       selectedFilters.includes(review.scope || review.legal_area?.name || '')
     );
   }
+
+  // Sortiere Reviews chronologisch (neuste zuerst)
+  filteredReviews = filteredReviews.sort((a, b) => {
+    const dateA = new Date(`${a.review_date}T${a.review_time || '00:00:00'}`);
+    const dateB = new Date(`${b.review_date}T${b.review_time || '00:00:00'}`);
+    return dateB.getTime() - dateA.getTime();
+  });
 
   // Paginierung
   const totalPages = Math.ceil(filteredReviews.length / reviewsPerPage);
