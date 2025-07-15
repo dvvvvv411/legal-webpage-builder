@@ -30,9 +30,9 @@ const CompanySidebar = ({ lawFirm, totalReviews, averageRating }: CompanySidebar
   const displayName = lawFirm?.name || "Steinbock & Partner Rechtsanwaltskanzlei Fachanwälte - Steuerberater";
   const displayPhone = lawFirm?.phone || "+49 931 22222";
   const displayLogo = lawFirm?.logo_url || "https://www.anwalt.de/cdn-cgi/image/fit=contain,width=80/upload/company/9b/9bde51a88bde31ae1c0ce33c48ff0b98/Logo-Quadrat_RGB-300ppi_Anwaelte_62c6ff9ca63946.09830762.jpg";
-  const profileLink = lawFirm ? `/law-firm/${lawFirm.slug}` : "/vorlage";
-  const messageLink = lawFirm ? `/law-firm/${lawFirm.slug}/nachricht` : "/vorlage/nachricht";
-  const reviewLink = lawFirm ? `/law-firm/${lawFirm.slug}/bewertung/schreiben` : "/vorlage/bewertung/schreiben";
+  const profileLink = lawFirm ? `/${lawFirm.slug}` : "/vorlage";
+  const messageLink = lawFirm ? `/${lawFirm.slug}/nachricht` : "/vorlage/nachricht";
+  const reviewLink = lawFirm ? `/${lawFirm.slug}/bewertung/schreiben` : "/vorlage/bewertung/schreiben";
 
   return (
     <aside className="sticky top-16 z-20">
