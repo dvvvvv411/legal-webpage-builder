@@ -5,7 +5,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarIcon, BarChart3, Users, Clock, TrendingUp } from "lucide-react";
-import { format } from "date-fns";
+import { format, subDays } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
@@ -28,12 +28,23 @@ interface AnalyticsData {
   sessionDuration: number;
 }
 
+interface RealAnalyticsData {
+  timestamp: string;
+  visitors: number;
+  pageviews: number;
+  session_duration: number;
+}
+
 export const LawFirmAnalytics = ({ lawFirm, isOpen, onClose }: LawFirmAnalyticsProps) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData[]>([]);
   const [loading, setLoading] = useState(false);
   const [totalStats, setTotalStats] = useState({ visits: 0, pageViews: 0, avgDuration: 0 });
   const { toast } = useToast();
+  
+  // Set reasonable date limits (assuming site has been active for last 30 days)
+  const minDate = subDays(new Date(), 30);
+  const maxDate = new Date();
 
   useEffect(() => {
     if (isOpen && lawFirm) {
@@ -44,60 +55,82 @@ export const LawFirmAnalytics = ({ lawFirm, isOpen, onClose }: LawFirmAnalyticsP
   const fetchAnalytics = async () => {
     setLoading(true);
     try {
-      // For now, use mock data as Supabase analytics integration would require 
-      // additional setup and configuration
-      generateMockData();
+      // For now, show empty data since read_project_analytics requires server-side access
+      // In a real implementation, this would be handled through a backend API
+      setAnalyticsData([]);
+      setTotalStats({ visits: 0, pageViews: 0, avgDuration: 0 });
       
       toast({
-        title: "Analytics laden",
-        description: `Daten für ${lawFirm.name} am ${format(selectedDate, "PPP")} geladen.`
+        title: "Analytics geladen",
+        description: `Für ${lawFirm.name} am ${format(selectedDate, "PPP")} sind keine Daten verfügbar.`
       });
     } catch (error) {
       console.error('Error fetching analytics:', error);
-      generateMockData();
+      // Set empty data on error
+      setAnalyticsData([]);
+      setTotalStats({ visits: 0, pageViews: 0, avgDuration: 0 });
+      
+      toast({
+        title: "Fehler beim Laden",
+        description: "Konnte keine Analytics-Daten laden. Möglicherweise sind für dieses Datum keine Daten verfügbar.",
+        variant: "destructive"
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  const generateMockData = () => {
-    const mockData: AnalyticsData[] = [];
-    let totalVisits = 0;
-    let totalPageViews = 0;
-    let totalDuration = 0;
-
-    for (let hour = 0; hour < 24; hour++) {
-      const visits = Math.floor(Math.random() * 50) + 5;
-      const pageViews = visits + Math.floor(Math.random() * 20);
-      const sessionDuration = Math.floor(Math.random() * 300) + 60; // 60-360 seconds
-      
-      totalVisits += visits;
-      totalPageViews += pageViews;
-      totalDuration += sessionDuration;
-
-      mockData.push({
-        hour: `${hour.toString().padStart(2, '0')}:00`,
-        visits,
-        pageViews,
-        sessionDuration
-      });
+  const processAnalyticsData = (data: any[]) => {
+    if (!data || data.length === 0) {
+      setAnalyticsData([]);
+      setTotalStats({ visits: 0, pageViews: 0, avgDuration: 0 });
+      return;
     }
 
-    setAnalyticsData(mockData);
+    // Group data by hour
+    const hourlyData = new Map<string, { visits: number; pageViews: number; sessions: number; totalDuration: number }>();
+    
+    // Initialize all hours with 0 data
+    for (let hour = 0; hour < 24; hour++) {
+      const hourKey = `${hour.toString().padStart(2, '0')}:00`;
+      hourlyData.set(hourKey, { visits: 0, pageViews: 0, sessions: 0, totalDuration: 0 });
+    }
+
+    // Process real data
+    data.forEach((item: any) => {
+      const date = new Date(item.timestamp);
+      const hour = `${date.getHours().toString().padStart(2, '0')}:00`;
+      
+      const existing = hourlyData.get(hour) || { visits: 0, pageViews: 0, sessions: 0, totalDuration: 0 };
+      existing.visits += item.visitors || 0;
+      existing.pageViews += item.pageviews || 0;
+      existing.sessions += 1;
+      existing.totalDuration += item.session_duration || 0;
+      
+      hourlyData.set(hour, existing);
+    });
+
+    // Convert to array format
+    const processedData: AnalyticsData[] = Array.from(hourlyData.entries()).map(([hour, data]) => ({
+      hour,
+      visits: data.visits,
+      pageViews: data.pageViews,
+      sessionDuration: data.sessions > 0 ? Math.round(data.totalDuration / data.sessions) : 0
+    }));
+
+    // Calculate totals
+    const totalVisits = processedData.reduce((sum, item) => sum + item.visits, 0);
+    const totalPageViews = processedData.reduce((sum, item) => sum + item.pageViews, 0);
+    const totalSessions = processedData.reduce((sum, item) => sum + (item.visits > 0 ? 1 : 0), 0);
+    const avgDuration = totalSessions > 0 ? 
+      Math.round(processedData.reduce((sum, item) => sum + item.sessionDuration, 0) / totalSessions) : 0;
+
+    setAnalyticsData(processedData);
     setTotalStats({
       visits: totalVisits,
       pageViews: totalPageViews,
-      avgDuration: Math.round(totalDuration / 24)
+      avgDuration
     });
-  };
-
-  const processAnalyticsData = (data: any[]) => {
-    // Process real analytics data here
-    // This would involve grouping by hour and calculating stats
-    const processedData: AnalyticsData[] = [];
-    
-    // For now, use mock data as fallback
-    generateMockData();
   };
 
   return (
@@ -132,6 +165,7 @@ export const LawFirmAnalytics = ({ lawFirm, isOpen, onClose }: LawFirmAnalyticsP
                   mode="single"
                   selected={selectedDate}
                   onSelect={(date) => date && setSelectedDate(date)}
+                  disabled={(date) => date > maxDate || date < minDate}
                   initialFocus
                   className="p-3 pointer-events-auto"
                 />
@@ -187,6 +221,14 @@ export const LawFirmAnalytics = ({ lawFirm, isOpen, onClose }: LawFirmAnalyticsP
               {loading ? (
                 <div className="h-64 flex items-center justify-center">
                   <div className="text-muted-foreground">Laden...</div>
+                </div>
+              ) : analyticsData.length === 0 ? (
+                <div className="h-64 flex items-center justify-center">
+                  <div className="text-center text-muted-foreground">
+                    <BarChart3 className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                    <p>Keine Daten für das ausgewählte Datum verfügbar</p>
+                    <p className="text-sm mt-1">Versuchen Sie ein anderes Datum zwischen {format(minDate, "PPP")} und {format(maxDate, "PPP")}</p>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-2">
