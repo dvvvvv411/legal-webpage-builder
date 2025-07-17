@@ -272,16 +272,22 @@ export const ReviewManager = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Reviews Management</h2>
+        <h2 className="text-2xl font-bold text-text-dark">Bewertungen verwalten</h2>
       </div>
 
       <Tabs defaultValue="single" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="single" className="flex items-center gap-2">
+          <TabsTrigger 
+            value="single" 
+            className="flex items-center gap-2 data-[state=active]:bg-orange-primary/10 data-[state=active]:text-orange-primary"
+          >
             <Plus className="w-4 h-4" />
-            Single Review
+            Einzelbewertung
           </TabsTrigger>
-          <TabsTrigger value="bulk" className="flex items-center gap-2">
+          <TabsTrigger 
+            value="bulk" 
+            className="flex items-center gap-2 data-[state=active]:bg-orange-primary/10 data-[state=active]:text-orange-primary"
+          >
             <Upload className="w-4 h-4" />
             Bulk Upload
           </TabsTrigger>
@@ -289,18 +295,21 @@ export const ReviewManager = () => {
 
         <TabsContent value="single" className="space-y-6">
           <div className="flex justify-between items-center">
-            <h3 className="text-lg font-semibold">Manage Individual Reviews</h3>
+            <h3 className="text-lg font-semibold text-text-dark">Einzelne Bewertungen verwalten</h3>
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
               <DialogTrigger asChild>
-                <Button onClick={resetForm}>
+                <Button 
+                  onClick={resetForm}
+                  className="bg-orange-primary hover:bg-orange-button-hover text-white"
+                >
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Review
+                  Bewertung hinzufügen
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                  <DialogTitle>
-                    {selectedReview ? "Edit Review" : "Add New Review"}
+                  <DialogTitle className="text-xl font-semibold text-text-dark">
+                    {selectedReview ? "Bewertung bearbeiten" : "Neue Bewertung hinzufügen"}
                   </DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -441,11 +450,20 @@ export const ReviewManager = () => {
                   </div>
                   
                   <div className="flex gap-2 pt-4">
-                    <Button type="submit" disabled={loading}>
-                      {loading ? "Saving..." : selectedReview ? "Update" : "Create"}
+                    <Button 
+                      type="submit" 
+                      disabled={loading}
+                      className="bg-orange-primary hover:bg-orange-button-hover text-white"
+                    >
+                      {loading ? "Speichern..." : selectedReview ? "Aktualisieren" : "Erstellen"}
                     </Button>
-                    <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
-                      Cancel
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={() => setIsOpen(false)}
+                      className="border-orange-primary text-orange-primary hover:bg-orange-primary hover:text-white"
+                    >
+                      Abbrechen
                     </Button>
                   </div>
                 </form>
@@ -467,6 +485,7 @@ export const ReviewManager = () => {
                         size="sm"
                         variant="outline"
                         onClick={() => handleEdit(review)}
+                        className="border-orange-primary text-orange-primary hover:bg-orange-primary hover:text-white"
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -474,6 +493,7 @@ export const ReviewManager = () => {
                         size="sm"
                         variant="destructive"
                         onClick={() => handleDelete(review.id)}
+                        className="bg-red-600 hover:bg-red-700 text-white"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>

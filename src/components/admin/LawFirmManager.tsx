@@ -213,18 +213,21 @@ export const LawFirmManager = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Law Firms</h2>
+        <h2 className="text-2xl font-bold text-text-dark">Kanzleien</h2>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button onClick={resetForm}>
+            <Button 
+              onClick={resetForm}
+              className="bg-orange-primary hover:bg-orange-button-hover text-white"
+            >
               <Plus className="w-4 h-4 mr-2" />
-              Add Law Firm
+              Kanzlei hinzufügen
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>
-                {selectedLawFirm ? "Edit Law Firm" : "Add New Law Firm"}
+              <DialogTitle className="text-xl font-semibold text-text-dark">
+                {selectedLawFirm ? "Kanzlei bearbeiten" : "Neue Kanzlei hinzufügen"}
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -279,11 +282,20 @@ export const LawFirmManager = () => {
               </div>
               
               <div className="flex gap-2 pt-4">
-                <Button type="submit" disabled={loading}>
-                  {loading ? "Saving..." : selectedLawFirm ? "Update" : "Create"}
+                <Button 
+                  type="submit" 
+                  disabled={loading}
+                  className="bg-orange-primary hover:bg-orange-button-hover text-white"
+                >
+                  {loading ? "Speichern..." : selectedLawFirm ? "Aktualisieren" : "Erstellen"}
                 </Button>
-                <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
-                  Cancel
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setIsOpen(false)}
+                  className="border-orange-primary text-orange-primary hover:bg-orange-primary hover:text-white"
+                >
+                  Abbrechen
                 </Button>
               </div>
             </form>
@@ -320,6 +332,7 @@ export const LawFirmManager = () => {
                     size="sm"
                     variant="outline"
                     onClick={() => handleEdit(lawFirm)}
+                    className="border-orange-primary text-orange-primary hover:bg-orange-primary hover:text-white"
                   >
                     <Edit className="w-4 h-4" />
                   </Button>
@@ -330,13 +343,15 @@ export const LawFirmManager = () => {
                       setSelectedLawFirm(lawFirm);
                       setIsLawyerManagerOpen(true);
                     }}
+                    className="border-orange-primary text-orange-primary hover:bg-orange-primary hover:text-white"
                   >
-                    Lawyers
+                    Anwälte
                   </Button>
                   <Button
                     size="sm"
                     variant="destructive"
                     onClick={() => handleDelete(lawFirm.id)}
+                    className="bg-red-600 hover:bg-red-700 text-white"
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>

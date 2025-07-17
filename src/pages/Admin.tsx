@@ -49,12 +49,16 @@ const Admin = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-4">
-                <div className="bg-orange-primary/10 rounded-enhanced p-3">
-                  <Shield className="h-8 w-8 text-orange-primary" />
+                <div className="flex items-center gap-3">
+                  <img 
+                    src="/lovable-uploads/1cc909da-d14b-4ef7-8c94-b070f34aa3a9.png" 
+                    alt="Anwalt.de Logo" 
+                    className="h-12 w-auto"
+                  />
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-text-dark">
-                    Anwalt.de Admin Panel
+                    Admin Panel
                   </h1>
                   <p className="text-text-muted">
                     Verwalten Sie Ihr Anwalt Portal
