@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          law_firm_slug: string | null
+          page_path: string
+          referrer: string | null
+          session_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          law_firm_slug?: string | null
+          page_path: string
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          law_firm_slug?: string | null
+          page_path?: string
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       law_firm_legal_areas: {
         Row: {
           created_at: string
@@ -256,7 +289,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_law_firm_analytics: {
+        Args: { firm_slug: string; start_date: string; end_date: string }
+        Returns: {
+          hour: number
+          visits: number
+          unique_sessions: number
+        }[]
+      }
     }
     Enums: {
       review_rating: "1" | "2" | "3" | "4" | "5"

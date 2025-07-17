@@ -8,6 +8,7 @@ import CompanySidebar from "@/components/CompanySidebar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { usePageView } from "@/hooks/use-analytics";
 import { Loader2 } from "lucide-react";
 
 interface LawFirm {
@@ -37,6 +38,9 @@ const LawFirm = () => {
   const [totalReviews, setTotalReviews] = useState(609);
   const [averageRating, setAverageRating] = useState(4.9);
   const [loading, setLoading] = useState(true);
+
+  // Track page views for analytics
+  usePageView(slug);
 
   useEffect(() => {
     if (!slug) {

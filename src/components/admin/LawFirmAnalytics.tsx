@@ -8,6 +8,7 @@ import { CalendarIcon, BarChart3, Users, Clock, TrendingUp } from "lucide-react"
 import { format, subDays } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LawFirm {
   id: string;
@@ -22,7 +23,7 @@ interface LawFirmAnalyticsProps {
 }
 
 interface AnalyticsData {
-  hour: string;
+  hour: number;
   visits: number;
   pageViews: number;
   sessionDuration: number;
@@ -55,24 +56,41 @@ export const LawFirmAnalytics = ({ lawFirm, isOpen, onClose }: LawFirmAnalyticsP
   const fetchAnalytics = async () => {
     setLoading(true);
     try {
-      // For now, show empty data since read_project_analytics requires server-side access
-      // In a real implementation, this would be handled through a backend API
-      setAnalyticsData([]);
-      setTotalStats({ visits: 0, pageViews: 0, avgDuration: 0 });
-      
-      toast({
-        title: "Analytics geladen",
-        description: `Für ${lawFirm.name} am ${format(selectedDate, "PPP")} sind keine Daten verfügbar.`
+      const { data, error } = await supabase.rpc('get_law_firm_analytics', {
+        firm_slug: lawFirm.slug,
+        start_date: selectedDate.toISOString().split('T')[0],
+        end_date: selectedDate.toISOString().split('T')[0],
       });
+
+      if (error) {
+        console.error('Error fetching analytics:', error);
+        setAnalyticsData([]);
+        setTotalStats({ visits: 0, pageViews: 0, avgDuration: 0 });
+        toast({
+          title: "Fehler beim Laden",
+          description: "Konnte keine Analytics-Daten laden.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Process the real analytics data
+      processAnalyticsData(data || []);
+      
+      if (!data || data.length === 0) {
+        toast({
+          title: "Keine Daten",
+          description: `Für ${lawFirm.name} am ${format(selectedDate, "PPP")} sind keine Daten verfügbar.`
+        });
+      }
     } catch (error) {
       console.error('Error fetching analytics:', error);
-      // Set empty data on error
       setAnalyticsData([]);
       setTotalStats({ visits: 0, pageViews: 0, avgDuration: 0 });
       
       toast({
         title: "Fehler beim Laden",
-        description: "Konnte keine Analytics-Daten laden. Möglicherweise sind für dieses Datum keine Daten verfügbar.",
+        description: "Konnte keine Analytics-Daten laden.",
         variant: "destructive"
       });
     } finally {
@@ -81,55 +99,34 @@ export const LawFirmAnalytics = ({ lawFirm, isOpen, onClose }: LawFirmAnalyticsP
   };
 
   const processAnalyticsData = (data: any[]) => {
-    if (!data || data.length === 0) {
-      setAnalyticsData([]);
-      setTotalStats({ visits: 0, pageViews: 0, avgDuration: 0 });
-      return;
-    }
-
-    // Group data by hour
-    const hourlyData = new Map<string, { visits: number; pageViews: number; sessions: number; totalDuration: number }>();
-    
-    // Initialize all hours with 0 data
-    for (let hour = 0; hour < 24; hour++) {
-      const hourKey = `${hour.toString().padStart(2, '0')}:00`;
-      hourlyData.set(hourKey, { visits: 0, pageViews: 0, sessions: 0, totalDuration: 0 });
-    }
-
-    // Process real data
-    data.forEach((item: any) => {
-      const date = new Date(item.timestamp);
-      const hour = `${date.getHours().toString().padStart(2, '0')}:00`;
-      
-      const existing = hourlyData.get(hour) || { visits: 0, pageViews: 0, sessions: 0, totalDuration: 0 };
-      existing.visits += item.visitors || 0;
-      existing.pageViews += item.pageviews || 0;
-      existing.sessions += 1;
-      existing.totalDuration += item.session_duration || 0;
-      
-      hourlyData.set(hour, existing);
-    });
-
-    // Convert to array format
-    const processedData: AnalyticsData[] = Array.from(hourlyData.entries()).map(([hour, data]) => ({
-      hour,
-      visits: data.visits,
-      pageViews: data.pageViews,
-      sessionDuration: data.sessions > 0 ? Math.round(data.totalDuration / data.sessions) : 0
+    // Initialize 24 hours with 0 data
+    const hourlyData: AnalyticsData[] = Array.from({ length: 24 }, (_, i) => ({
+      hour: i,
+      visits: 0,
+      pageViews: 0,
+      sessionDuration: 0,
     }));
 
-    // Calculate totals
-    const totalVisits = processedData.reduce((sum, item) => sum + item.visits, 0);
-    const totalPageViews = processedData.reduce((sum, item) => sum + item.pageViews, 0);
-    const totalSessions = processedData.reduce((sum, item) => sum + (item.visits > 0 ? 1 : 0), 0);
-    const avgDuration = totalSessions > 0 ? 
-      Math.round(processedData.reduce((sum, item) => sum + item.sessionDuration, 0) / totalSessions) : 0;
+    // Process the real analytics data from the database
+    data.forEach((entry) => {
+      const hour = entry.hour;
+      if (hourlyData[hour]) {
+        hourlyData[hour].visits = Number(entry.visits) || 0;
+        hourlyData[hour].pageViews = Number(entry.visits) || 0; // For now, treating visits as page views
+        hourlyData[hour].sessionDuration = Number(entry.unique_sessions) || 0;
+      }
+    });
 
-    setAnalyticsData(processedData);
+    // Calculate totals
+    const totalVisits = hourlyData.reduce((sum, hour) => sum + hour.visits, 0);
+    const totalPageViews = hourlyData.reduce((sum, hour) => sum + hour.pageViews, 0);
+    const totalUniqueSessions = hourlyData.reduce((sum, hour) => sum + hour.sessionDuration, 0);
+
+    setAnalyticsData(hourlyData);
     setTotalStats({
       visits: totalVisits,
       pageViews: totalPageViews,
-      avgDuration
+      avgDuration: totalUniqueSessions,
     });
   };
 
@@ -235,7 +232,7 @@ export const LawFirmAnalytics = ({ lawFirm, isOpen, onClose }: LawFirmAnalyticsP
                   <div className="grid grid-cols-6 gap-2">
                     {analyticsData.slice(0, 12).map((item, index) => (
                       <div key={index} className="text-center p-2 bg-muted/50 rounded">
-                        <div className="text-xs text-muted-foreground">{item.hour}</div>
+                        <div className="text-xs text-muted-foreground">{item.hour.toString().padStart(2, '0')}:00</div>
                         <div className="text-sm font-medium">{item.visits}</div>
                         <div className="text-xs text-muted-foreground">{item.pageViews} views</div>
                       </div>
@@ -244,7 +241,7 @@ export const LawFirmAnalytics = ({ lawFirm, isOpen, onClose }: LawFirmAnalyticsP
                   <div className="grid grid-cols-6 gap-2">
                     {analyticsData.slice(12).map((item, index) => (
                       <div key={index + 12} className="text-center p-2 bg-muted/50 rounded">
-                        <div className="text-xs text-muted-foreground">{item.hour}</div>
+                        <div className="text-xs text-muted-foreground">{item.hour.toString().padStart(2, '0')}:00</div>
                         <div className="text-sm font-medium">{item.visits}</div>
                         <div className="text-xs text-muted-foreground">{item.pageViews} views</div>
                       </div>
