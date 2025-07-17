@@ -6,10 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit, Trash2, Building2 } from "lucide-react";
+import { Plus, Edit, Trash2, Building2, BarChart3 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { LawyerManager } from "./LawyerManager";
+import { LawFirmAnalytics } from "./LawFirmAnalytics";
 
 interface LawFirm {
   id: string;
@@ -34,6 +35,7 @@ export const LawFirmManager = () => {
   const [selectedLawFirm, setSelectedLawFirm] = useState<LawFirm | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isLawyerManagerOpen, setIsLawyerManagerOpen] = useState(false);
+  const [isAnalyticsOpen, setIsAnalyticsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -349,6 +351,17 @@ export const LawFirmManager = () => {
                   </Button>
                   <Button
                     size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      setSelectedLawFirm(lawFirm);
+                      setIsAnalyticsOpen(true);
+                    }}
+                    className="border-orange-primary text-orange-primary hover:bg-orange-primary hover:text-white"
+                  >
+                    <BarChart3 className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    size="sm"
                     variant="destructive"
                     onClick={() => handleDelete(lawFirm.id)}
                     className="bg-red-600 hover:bg-red-700 text-white"
@@ -368,6 +381,17 @@ export const LawFirmManager = () => {
           isOpen={isLawyerManagerOpen}
           onClose={() => {
             setIsLawyerManagerOpen(false);
+            setSelectedLawFirm(null);
+          }}
+        />
+      )}
+      
+      {selectedLawFirm && (
+        <LawFirmAnalytics
+          lawFirm={selectedLawFirm}
+          isOpen={isAnalyticsOpen}
+          onClose={() => {
+            setIsAnalyticsOpen(false);
             setSelectedLawFirm(null);
           }}
         />
